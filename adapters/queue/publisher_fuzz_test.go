@@ -1,4 +1,4 @@
-package goqueue_test
+package outboxqueue_test
 
 import (
 	"bytes"
@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/faustbrian/golib/pkg/outbox"
-	"github.com/faustbrian/golib/pkg/outbox/adapters/goqueue"
+	"github.com/faustbrian/golib/pkg/outbox/adapters/queue"
 	"github.com/faustbrian/golib/pkg/queue/core"
 	"github.com/faustbrian/golib/pkg/queue/job"
 )
@@ -37,7 +37,7 @@ func FuzzPublisherEnvelope(f *testing.F) {
 		queueMode uint8,
 	) {
 		queue := &fuzzQueue{mode: queueMode % 3}
-		publisher, err := goqueue.New(queue)
+		publisher, err := outboxqueue.New(queue)
 		if err != nil {
 			t.Fatalf("create publisher: %v", err)
 		}
@@ -53,11 +53,11 @@ func FuzzPublisherEnvelope(f *testing.F) {
 		}
 		publishErr := publisher.Publish(context.Background(), envelope)
 		if queue.calls == 0 {
-			outcome := goqueue.OutcomeOf(publishErr)
-			if outcome.Acceptance != goqueue.AcceptanceRejected ||
-				outcome.Disposition != goqueue.DispositionPermanent ||
-				(!errors.Is(publishErr, goqueue.ErrInvalidEnvelope) &&
-					!errors.Is(publishErr, goqueue.ErrTaskTooLarge)) {
+			outcome := outboxqueue.OutcomeOf(publishErr)
+			if outcome.Acceptance != outboxqueue.AcceptanceRejected ||
+				outcome.Disposition != outboxqueue.DispositionPermanent ||
+				(!errors.Is(publishErr, outboxqueue.ErrInvalidEnvelope) &&
+					!errors.Is(publishErr, outboxqueue.ErrTaskTooLarge)) {
 				t.Fatalf("pre-queue error/outcome = %v/%#v", publishErr, outcome)
 			}
 			return
@@ -75,9 +75,9 @@ func FuzzPublisherEnvelope(f *testing.F) {
 			}
 			return
 		}
-		outcome := goqueue.OutcomeOf(publishErr)
-		if outcome.Acceptance != goqueue.AcceptanceUnknown ||
-			outcome.Disposition != goqueue.DispositionRetryable {
+		outcome := outboxqueue.OutcomeOf(publishErr)
+		if outcome.Acceptance != outboxqueue.AcceptanceUnknown ||
+			outcome.Disposition != outboxqueue.DispositionRetryable {
 			t.Fatalf("hostile queue error/outcome = %v/%#v", publishErr, outcome)
 		}
 	})
@@ -104,7 +104,7 @@ func (queue *fuzzQueue) Queue(message core.QueuedMessage, _ ...job.AllowOption) 
 
 func BenchmarkPublisherMapping(b *testing.B) {
 	b.ReportAllocs()
-	publisher, err := goqueue.New(&recordingQueue{})
+	publisher, err := outboxqueue.New(&recordingQueue{})
 	if err != nil {
 		b.Fatalf("create publisher: %v", err)
 	}

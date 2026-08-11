@@ -1,4 +1,4 @@
-package goqueue_test
+package outboxqueue_test
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/faustbrian/golib/pkg/outbox"
-	"github.com/faustbrian/golib/pkg/outbox/adapters/goqueue"
+	"github.com/faustbrian/golib/pkg/outbox/adapters/queue"
 	"github.com/faustbrian/golib/pkg/outbox/postgres"
 	"github.com/faustbrian/golib/pkg/outbox/relay"
 	"github.com/faustbrian/golib/pkg/queue/core"
@@ -15,10 +15,10 @@ import (
 
 func Example_relay() {
 	queue := &exampleQueue{}
-	publisher, _ := goqueue.New(queue)
+	publisher, _ := outboxqueue.New(queue)
 	store := &exampleStore{}
 	worker, _ := relay.New(store, publisher, relay.Config{
-		Owner: "relay-a", ClassifyError: goqueue.ClassifyError,
+		Owner: "relay-a", ClassifyError: outboxqueue.ClassifyError,
 	})
 
 	result, _ := worker.RunOnce(context.Background())

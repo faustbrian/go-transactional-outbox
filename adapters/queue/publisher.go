@@ -1,5 +1,5 @@
-// Package goqueue adapts outbox envelopes to queue producers.
-package goqueue
+// Package outboxqueue adapts outbox envelopes to queue producers.
+package outboxqueue
 
 import (
 	"context"
@@ -20,12 +20,12 @@ import (
 )
 
 var (
-	ErrQueueRequired   = errors.New("outbox/goqueue: queue is required")
-	ErrContextRequired = errors.New("outbox/goqueue: context is required")
-	ErrInvalidConfig   = errors.New("outbox/goqueue: invalid configuration")
-	ErrInvalidEnvelope = errors.New("outbox/goqueue: invalid envelope")
-	ErrTaskTooLarge    = errors.New("outbox/goqueue: encoded task is too large")
-	ErrQueuePanic      = errors.New("outbox/goqueue: queue panicked")
+	ErrQueueRequired   = errors.New("outbox/queue: queue is required")
+	ErrContextRequired = errors.New("outbox/queue: context is required")
+	ErrInvalidConfig   = errors.New("outbox/queue: invalid configuration")
+	ErrInvalidEnvelope = errors.New("outbox/queue: invalid envelope")
+	ErrTaskTooLarge    = errors.New("outbox/queue: encoded task is too large")
+	ErrQueuePanic      = errors.New("outbox/queue: queue panicked")
 )
 
 // Queue is the narrow queue producer surface used by Publisher.
@@ -81,7 +81,7 @@ type PublishError struct {
 
 // Error implements error.
 func (publishError *PublishError) Error() string {
-	return "outbox/goqueue: publication failed"
+	return "outbox/queue: publication failed"
 }
 
 // Unwrap preserves the original cause for errors.Is and errors.As.
@@ -188,7 +188,7 @@ func New(queue Queue, options ...Option) (*Publisher, error) {
 			return nil, ErrInvalidConfig
 		}
 		if err := option(publisher); err != nil {
-			return nil, fmt.Errorf("outbox/goqueue: configure publisher: %w", err)
+			return nil, fmt.Errorf("outbox/queue: configure publisher: %w", err)
 		}
 	}
 

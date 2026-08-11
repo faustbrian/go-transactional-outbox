@@ -1,4 +1,4 @@
-module github.com/faustbrian/golib/pkg/outbox/adapters/goqueue
+module github.com/faustbrian/golib/pkg/outbox/adapters/queue
 
 go 1.26.5
 

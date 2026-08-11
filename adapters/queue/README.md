@@ -1,6 +1,6 @@
 # outbox queue adapter
 
-`goqueue` is the canonical synchronous adapter from `outbox.Envelope` to the
+`outboxqueue` is the canonical synchronous adapter from `outbox.Envelope` to the
 first-party `queue` contract. It maps one persisted envelope to one owned JSON
 task and returns only after the queue reports its enqueue result. It owns no
 worker, retry loop, dead-letter policy, scheduler, transaction, or queue
@@ -9,14 +9,14 @@ lifecycle.
 ## Quick start
 
 ```go
-publisher, err := goqueue.New(queue)
+publisher, err := outboxqueue.New(queue)
 if err != nil {
     return err
 }
 
 worker, err := relay.New(store, publisher, relay.Config{
     Owner:         "outbox-relay-1",
-    ClassifyError: goqueue.ClassifyError,
+    ClassifyError: outboxqueue.ClassifyError,
 })
 ```
 

@@ -18,6 +18,8 @@ All notable changes to this module are documented here.
 
 ### Changed
 
+- Rename the unpublished module from `adapters/goqueue` to `adapters/queue`
+  and its Go package to `outboxqueue` before v1.
 - Publish the owned task payload instead of `Envelope.CanonicalJSON`, exclude
   relay attempt state from task identity, and attach only operational queue
   metadata without worker retry or scheduling policy.

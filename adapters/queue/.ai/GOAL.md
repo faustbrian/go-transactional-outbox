@@ -8,7 +8,7 @@ than merely execute lines or preserve implementation structure.
 
 ## Objective
 
-Build `outbox/adapters/goqueue` as the canonical synchronous publisher from
+Build `outbox/adapters/outboxqueue` as the canonical synchronous publisher from
 outbox envelopes to the first-party queue contract. It MUST preserve durable
 identity and at-least-once behavior without hiding backend acceptance ambiguity
 or coupling the outbox to worker policy.

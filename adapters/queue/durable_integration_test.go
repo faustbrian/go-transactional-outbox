@@ -1,6 +1,6 @@
 //go:build integration
 
-package goqueue_test
+package outboxqueue_test
 
 import (
 	"bytes"
@@ -18,7 +18,7 @@ import (
 	"time"
 
 	"github.com/faustbrian/golib/pkg/outbox"
-	"github.com/faustbrian/golib/pkg/outbox/adapters/goqueue"
+	"github.com/faustbrian/golib/pkg/outbox/adapters/queue"
 	"github.com/faustbrian/golib/pkg/outbox/postgres"
 	"github.com/faustbrian/golib/pkg/outbox/relay"
 	firstpartyqueue "github.com/faustbrian/golib/pkg/queue"
@@ -33,7 +33,7 @@ import (
 const durableStreamCapacity int64 = 16
 
 type durableProducer struct {
-	queue goqueue.Queue
+	queue outboxqueue.Queue
 	close func()
 }
 
@@ -47,7 +47,7 @@ type durableBackend struct {
 
 func TestPublisherPreservesDuplicateAndOrderingIdentityThroughDurableBackends(t *testing.T) {
 	stream := func(backend string) string {
-		return fmt.Sprintf("outbox-goqueue-%s-%d", backend, time.Now().UnixNano())
+		return fmt.Sprintf("outbox-outboxqueue-%s-%d", backend, time.Now().UnixNano())
 	}
 
 	t.Run("Redis Streams", func(t *testing.T) {
@@ -104,7 +104,7 @@ func TestPublisherPreservesDuplicateAndOrderingIdentityThroughDurableBackends(t 
 				t.Helper()
 				worker, err := valkeystream.NewWorkerE(
 					valkeystream.WithAddress(address), valkeystream.WithStreamName(name),
-					valkeystream.WithGroup("outbox-goqueue"),
+					valkeystream.WithGroup("outbox-outboxqueue"),
 					valkeystream.WithConsumer(consumer),
 					valkeystream.WithMaxLength(durableStreamCapacity),
 					valkeystream.WithRequestTimeout(5*time.Second),
@@ -129,7 +129,7 @@ func newRedisWorker(t *testing.T, address, stream string, extra ...redisstream.O
 	t.Helper()
 	options := []redisstream.Option{
 		redisstream.WithAddr(address), redisstream.WithStreamName(stream),
-		redisstream.WithGroup("outbox-goqueue"),
+		redisstream.WithGroup("outbox-outboxqueue"),
 		redisstream.WithMaxLength(durableStreamCapacity),
 		redisstream.WithRequestTimeout(5 * time.Second),
 	}
@@ -164,21 +164,21 @@ func assertDurableRestartAndOrdering(t *testing.T, backend durableBackend) {
 	publishDurably(t, secondProducer.queue, second)
 	secondProducer.close()
 
-	publisher, err := goqueue.New(secondProducer.queue)
+	publisher, err := outboxqueue.New(secondProducer.queue)
 	if err != nil {
 		t.Fatal(err)
 	}
 	closedErr := publisher.Publish(t.Context(), second)
-	closedOutcome := goqueue.OutcomeOf(closedErr)
+	closedOutcome := outboxqueue.OutcomeOf(closedErr)
 	if !errors.Is(closedErr, firstpartyqueue.ErrQueueShutdown) ||
-		closedOutcome.Acceptance != goqueue.AcceptanceRejected ||
-		closedOutcome.Disposition != goqueue.DispositionRetryable {
+		closedOutcome.Acceptance != outboxqueue.AcceptanceRejected ||
+		closedOutcome.Disposition != outboxqueue.DispositionRetryable {
 		t.Fatalf("closed producer error/outcome = %v/%#v", closedErr, closedOutcome)
 	}
 
 	consumer := backend.consumer(t, "restart-order", 30*time.Second)
 	defer shutdownConsumer(t, consumer)
-	tasks := make([]goqueue.Task, 0, 3)
+	tasks := make([]outboxqueue.Task, 0, 3)
 	payloads := make([][]byte, 0, 3)
 	for range 3 {
 		delivery, requestErr := consumer.Request()
@@ -186,7 +186,7 @@ func assertDurableRestartAndOrdering(t *testing.T, backend durableBackend) {
 			t.Fatalf("request durable task: %v", requestErr)
 		}
 		payload := append([]byte(nil), delivery.Payload()...)
-		var task goqueue.Task
+		var task outboxqueue.Task
 		if decodeErr := json.Unmarshal(payload, &task); decodeErr != nil {
 			t.Fatalf("decode durable task: %v", decodeErr)
 		}
@@ -285,7 +285,7 @@ func assertRelayProcessWindows(t *testing.T, backend durableBackend) {
 				}
 
 				producer := backend.producer(t)
-				publisher, err := goqueue.New(producer.queue)
+				publisher, err := outboxqueue.New(producer.queue)
 				if err != nil {
 					t.Fatal(err)
 				}
@@ -345,7 +345,7 @@ func TestGoqueueRelayDeathHelper(t *testing.T) {
 	if err != nil {
 		t.Fatalf("create process helper queue: %v", err)
 	}
-	publisher, err := goqueue.New(queue)
+	publisher, err := outboxqueue.New(queue)
 	if err != nil {
 		t.Fatalf("create process helper publisher: %v", err)
 	}
@@ -361,7 +361,7 @@ func TestGoqueueRelayDeathHelper(t *testing.T) {
 	worker, err := relay.New(workerStore, workerPublisher, relay.Config{
 		Owner: "doomed-relay", BatchSize: 1, Workers: 1,
 		LeaseDuration: time.Second, LeaseRenewalInterval: 250 * time.Millisecond,
-		ClassifyError: goqueue.ClassifyError,
+		ClassifyError: outboxqueue.ClassifyError,
 	})
 	if err != nil {
 		t.Fatalf("create process helper relay: %v", err)
@@ -398,12 +398,12 @@ func (store *processDeathStore) MarkDelivered(ctx context.Context, lease postgre
 	return nil
 }
 
-func processHelperQueue(kind, address, stream string) (goqueue.Queue, error) {
+func processHelperQueue(kind, address, stream string) (outboxqueue.Queue, error) {
 	switch kind {
 	case "redis":
 		worker, err := redisstream.NewWorkerE(
 			redisstream.WithAddr(address), redisstream.WithStreamName(stream),
-			redisstream.WithGroup("outbox-goqueue"),
+			redisstream.WithGroup("outbox-outboxqueue"),
 			redisstream.WithMaxLength(durableStreamCapacity),
 		)
 		if err != nil {
@@ -518,13 +518,13 @@ func assertConcurrentRelays(t *testing.T, backend durableBackend) {
 		start := make(chan struct{})
 		runContext := t.Context()
 		for index := range 2 {
-			publisher, publisherErr := goqueue.New(producers[index].queue)
+			publisher, publisherErr := outboxqueue.New(producers[index].queue)
 			if publisherErr != nil {
 				t.Fatal(publisherErr)
 			}
 			worker, relayErr := relay.New(store, publisher, relay.Config{
 				Owner: fmt.Sprintf("concurrent-relay-%d", index), BatchSize: messages / 2, Workers: 8,
-				ClassifyError: goqueue.ClassifyError,
+				ClassifyError: outboxqueue.ClassifyError,
 			})
 			if relayErr != nil {
 				t.Fatal(relayErr)
@@ -568,7 +568,7 @@ func assertConcurrentRelays(t *testing.T, backend durableBackend) {
 		payloads := consumeDurablePayloads(t, consumer, messages)
 		seen := make(map[string]struct{}, messages)
 		for _, payload := range payloads {
-			var task goqueue.Task
+			var task outboxqueue.Task
 			if err := json.Unmarshal(payload, &task); err != nil {
 				t.Fatalf("decode concurrent task: %v", err)
 			}
@@ -588,14 +588,14 @@ func assertRelayShutdownRace(t *testing.T, backend durableBackend) {
 		gate := &shutdownRaceQueue{
 			queue: producer.queue, firstAccepted: make(chan struct{}), release: make(chan struct{}),
 		}
-		publisher, err := goqueue.New(gate)
+		publisher, err := outboxqueue.New(gate)
 		if err != nil {
 			t.Fatal(err)
 		}
 		store := newRelayBatchStore(32)
 		worker, err := relay.New(store, publisher, relay.Config{
 			Owner: "shutdown-race", BatchSize: 32, Workers: 8,
-			ClassifyError: goqueue.ClassifyError,
+			ClassifyError: outboxqueue.ClassifyError,
 		})
 		if err != nil {
 			t.Fatal(err)
@@ -627,7 +627,7 @@ func assertRelayShutdownRace(t *testing.T, backend durableBackend) {
 			t.Fatal("shutdown race accepted no durable task")
 		}
 		for _, payload := range payloads {
-			var task goqueue.Task
+			var task outboxqueue.Task
 			if err := json.Unmarshal(payload, &task); err != nil || task.TaskID == "" {
 				t.Fatalf("shutdown race task = %#v, error = %v", task, err)
 			}
@@ -639,7 +639,7 @@ func newWindowRelay(t *testing.T, store relay.Store, publisher relay.Publisher) 
 	t.Helper()
 	worker, err := relay.New(store, publisher, relay.Config{
 		Owner: "process-window", BatchSize: 1, Workers: 1,
-		ClassifyError: goqueue.ClassifyError,
+		ClassifyError: outboxqueue.ClassifyError,
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -679,7 +679,7 @@ func shutdownConsumer(t *testing.T, consumer core.Worker) {
 func assertTaskIDs(t *testing.T, payloads [][]byte, ids ...string) {
 	t.Helper()
 	for index, payload := range payloads {
-		var task goqueue.Task
+		var task outboxqueue.Task
 		if err := json.Unmarshal(payload, &task); err != nil || task.TaskID != ids[index] {
 			t.Fatalf("durable task %d = %#v, error = %v", index, task, err)
 		}
@@ -724,7 +724,7 @@ func (*relayBatchStore) DeadLetter(context.Context, postgres.LeaseRef, error) er
 func (*relayBatchStore) ReleaseLease(context.Context, postgres.LeaseRef) error { return nil }
 
 type shutdownRaceQueue struct {
-	queue         goqueue.Queue
+	queue         outboxqueue.Queue
 	firstAccepted chan struct{}
 	release       chan struct{}
 	calls         atomic.Int64
@@ -760,9 +760,9 @@ func (queue *shutdownRaceQueue) acceptedPayloads() [][]byte {
 	return payloads
 }
 
-func publishDurably(t *testing.T, queue goqueue.Queue, envelope outbox.Envelope) {
+func publishDurably(t *testing.T, queue outboxqueue.Queue, envelope outbox.Envelope) {
 	t.Helper()
-	publisher, err := goqueue.New(queue)
+	publisher, err := outboxqueue.New(queue)
 	if err != nil {
 		t.Fatal(err)
 	}
