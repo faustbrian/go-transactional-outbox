@@ -8,6 +8,8 @@ publisher contracts are public compatibility surfaces.
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-08-25
+
 ### Changed
 
 - Upgrade archive and cryptography dependencies across the root, queue, and
@@ -32,8 +34,6 @@ publisher contracts are public compatibility surfaces.
 
 - Correct stale package, standalone, and authoritative-source links in public
   documentation.
-
-## [1.0.0] - 2026-08-25
 
 ### Documentation
 
