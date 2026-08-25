@@ -31,11 +31,11 @@ github.com/docker/go-units v0.5.0 h1:69rxXcBk27SvSaaxTtLh/8llcHD8vYHT7WSdRZ/jvr4
 github.com/docker/go-units v0.5.0/go.mod h1:fgPhTUdO+D/Jk86RDLlptpiXQzgHJF7gydDDbaIK4Dk=
 github.com/ebitengine/purego v0.10.0 h1:QIw4xfpWT6GWTzaW5XEKy3HXoqrJGx1ijYHzTF0/ISU=
 github.com/ebitengine/purego v0.10.0/go.mod h1:iIjxzd6CiRiOG0UyXP+V1+jWqUXVjPKLAI0mRfJZTmQ=
-github.com/faustbrian/go-rabbitmq-streams v1.0.0 h1:O5lKWv6PCdAB1SZ7D63fB+XdHmROJCSEpBhuKvdZ448=
+github.com/faustbrian/go-rabbitmq-streams v1.0.0 h1:KH4X8As8FVM7wPp4pz35frVMs4tW8F26sB8CAnFUqOU=
 github.com/faustbrian/go-rabbitmq-streams v1.0.0/go.mod h1:G+Eu/VdiBUxsFTeUNC0YK6867jIUwao0DJODi5ABN54=
-github.com/faustbrian/go-rabbitmq-streams/rabbitmq v1.0.0 h1:Rmj5VJQIsrl3Kcl05FNMXx+Jtpe93+3J4DNznnTN1QA=
+github.com/faustbrian/go-rabbitmq-streams/rabbitmq v1.0.0 h1:Ym8iuRmNEtZFADb87vcklH8+yYWdAryZhr4YAo93v58=
 github.com/faustbrian/go-rabbitmq-streams/rabbitmq v1.0.0/go.mod h1:PGMya4ZWkteMlmmKyxit78c+15h9fGb+hIsR4udUofU=
-github.com/faustbrian/go-transactional-outbox v1.0.0 h1:kWuoR51qmruZeNc6ar+IzjWAzA6PpcSa4w4qepFAX08=
+github.com/faustbrian/go-transactional-outbox v1.0.0 h1:El9GWkYbAo/fW+5rZQePtmMZWpmo8ffgywHXi2RvJgE=
 github.com/faustbrian/go-transactional-outbox v1.0.0/go.mod h1:YIAjTAfyavHB7jvGFh/zfQjHixSeiTg75ES4Kab5W20=
 github.com/felixge/httpsnoop v1.0.4 h1:NFTV2Zj1bL4mc9sqWACXbQFVBBg2W3GPvqp8/ESS2Wg=
 github.com/felixge/httpsnoop v1.0.4/go.mod h1:m8KPJKqk1gH5J9DgRY2ASl2lWCfGKXixSwevea8zH2U=
