@@ -4,6 +4,8 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+## 1.0.0 - 2026-08-25
+
 ### Security
 
 - Exclude envelope identities, destinations, contents, arbitrary metadata,
@@ -12,6 +14,7 @@ All notable changes to this module are documented here.
 
 ### Changed
 
+- Publish the module from its standalone `github.com/faustbrian/go-transactional-outbox/adapters/otel` identity while preserving its documented API and behavior.
 - Replace the obsolete owned-module pseudo-version pin with the monorepo's
   local `v0.0.0` source-proxy coordinate and align indirect `x/sync` and
   `x/text` versions with the current Outbox graph; release tooling continues

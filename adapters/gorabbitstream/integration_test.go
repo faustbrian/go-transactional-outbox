@@ -10,10 +10,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/faustbrian/golib/pkg/outbox"
-	"github.com/faustbrian/golib/pkg/outbox/adapters/gorabbitstream"
-	"github.com/faustbrian/golib/pkg/rabbitstream"
-	rabbitmqadapter "github.com/faustbrian/golib/pkg/rabbitstream/rabbitmq"
+	"github.com/faustbrian/go-transactional-outbox"
+	"github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream"
+	"github.com/faustbrian/go-rabbitmq-streams"
+	rabbitmqadapter "github.com/faustbrian/go-rabbitmq-streams/rabbitmq"
 	"github.com/rabbitmq/rabbitmq-stream-go-client/pkg/stream"
 )
 

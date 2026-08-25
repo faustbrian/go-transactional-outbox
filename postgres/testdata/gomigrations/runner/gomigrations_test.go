@@ -8,9 +8,9 @@ import (
 	"testing"
 	"time"
 
-	migrations "github.com/faustbrian/golib/pkg/migrations"
-	migrationpostgres "github.com/faustbrian/golib/pkg/migrations/postgres"
-	outboxpostgres "github.com/faustbrian/golib/pkg/outbox/postgres"
+	migrations "github.com/faustbrian/go-migrations"
+	migrationpostgres "github.com/faustbrian/go-migrations/postgres"
+	outboxpostgres "github.com/faustbrian/go-transactional-outbox/postgres"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	tcpostgres "github.com/testcontainers/testcontainers-go/modules/postgres"
 )

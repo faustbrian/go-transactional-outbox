@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/faustbrian/golib/pkg/outbox"
+	"github.com/faustbrian/go-transactional-outbox"
 )
 
 func TestObserverFuncForwardsEvent(t *testing.T) {

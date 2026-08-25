@@ -6,10 +6,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/faustbrian/golib/pkg/outbox"
-	"github.com/faustbrian/golib/pkg/outbox/adapters/gorabbitstream"
-	"github.com/faustbrian/golib/pkg/outbox/relay"
-	"github.com/faustbrian/golib/pkg/rabbitstream"
+	"github.com/faustbrian/go-transactional-outbox"
+	"github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream"
+	"github.com/faustbrian/go-transactional-outbox/relay"
+	"github.com/faustbrian/go-rabbitmq-streams"
 )
 
 func FuzzPublisherEnvelopeOwnershipAndFailureClassification(f *testing.F) {

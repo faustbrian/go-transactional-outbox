@@ -3,7 +3,7 @@
 ## Supported versions
 
 No version has been published yet. Until v1, security fixes land on the default
-branch and remain part of the unreleased candidate. After v1 is published, the
+branch. The
 latest v1 release receives fixes through supported patch releases.
 
 ## Reporting

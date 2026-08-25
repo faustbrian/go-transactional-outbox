@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/faustbrian/golib/pkg/outbox"
+	"github.com/faustbrian/go-transactional-outbox"
 )
 
 func FuzzEnvelopeBuilder(f *testing.F) {

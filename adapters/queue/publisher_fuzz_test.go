@@ -8,10 +8,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/faustbrian/golib/pkg/outbox"
-	"github.com/faustbrian/golib/pkg/outbox/adapters/queue"
-	"github.com/faustbrian/golib/pkg/queue/core"
-	"github.com/faustbrian/golib/pkg/queue/job"
+	"github.com/faustbrian/go-transactional-outbox"
+	"github.com/faustbrian/go-transactional-outbox/adapters/queue"
+	"github.com/faustbrian/go-queue/core"
+	"github.com/faustbrian/go-queue/job"
 )
 
 func FuzzPublisherEnvelope(f *testing.F) {

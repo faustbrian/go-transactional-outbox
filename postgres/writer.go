@@ -11,7 +11,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/faustbrian/golib/pkg/outbox"
+	"github.com/faustbrian/go-transactional-outbox"
 	"github.com/jackc/pgx/v5"
 )
 

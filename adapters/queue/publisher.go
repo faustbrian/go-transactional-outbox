@@ -11,12 +11,12 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/faustbrian/golib/pkg/outbox"
-	"github.com/faustbrian/golib/pkg/outbox/relay"
-	firstpartyqueue "github.com/faustbrian/golib/pkg/queue"
-	"github.com/faustbrian/golib/pkg/queue/core"
-	"github.com/faustbrian/golib/pkg/queue/job"
-	"github.com/faustbrian/golib/pkg/queue/management"
+	"github.com/faustbrian/go-transactional-outbox"
+	"github.com/faustbrian/go-transactional-outbox/relay"
+	firstpartyqueue "github.com/faustbrian/go-queue"
+	"github.com/faustbrian/go-queue/core"
+	"github.com/faustbrian/go-queue/job"
+	"github.com/faustbrian/go-queue/management"
 )
 
 var (

@@ -4,8 +4,11 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+## 1.0.0 - 2026-08-25
+
 ### Changed
 
+- Publish the module from its standalone `github.com/faustbrian/go-transactional-outbox/adapters/gokafka` identity while preserving its documented API and behavior.
 - expose `ClassifyError` for relay wiring so malformed envelopes and definite
   record-permanent or oversized failures dead-letter without exhausting
   transient retries; authorization, fencing, producer-fatal, ambiguous, and

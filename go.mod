@@ -1,4 +1,4 @@
-module github.com/faustbrian/golib/pkg/outbox
+module github.com/faustbrian/go-transactional-outbox
 
 go 1.26.6
 

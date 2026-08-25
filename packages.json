@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "repository": "github.com/faustbrian/go-transactional-outbox",
+  "packages": [
+    {
+      "module_directory": ".",
+      "directory": ".",
+      "name": "outbox",
+      "import_path": "github.com/faustbrian/go-transactional-outbox",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": "adapters/gokafka",
+      "directory": ".",
+      "name": "gokafka",
+      "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/gokafka",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": "adapters/gorabbitstream",
+      "directory": ".",
+      "name": "gorabbitstream",
+      "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": "adapters/otel",
+      "directory": ".",
+      "name": "outboxotel",
+      "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/otel",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": "adapters/queue",
+      "directory": ".",
+      "name": "outboxqueue",
+      "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/queue",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": ".",
+      "directory": "postgres",
+      "name": "postgres",
+      "import_path": "github.com/faustbrian/go-transactional-outbox/postgres",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": ".",
+      "directory": "relay",
+      "name": "relay",
+      "import_path": "github.com/faustbrian/go-transactional-outbox/relay",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    }
+  ]
+}

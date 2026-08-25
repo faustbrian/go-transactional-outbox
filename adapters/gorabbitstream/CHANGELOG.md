@@ -4,6 +4,12 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+## 1.0.0 - 2026-08-25
+
+### Changed
+
+- Publish the module from its standalone `github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream` identity while preserving its documented API and behavior.
+
 ### Fixed
 
 - Link the module README to the repository documentation portal.
@@ -19,4 +25,4 @@ All notable changes to this module are documented here.
 
 ### Compatibility
 
-- The initial API is pre-v1 and independently versioned.
+- The stable v1 API is independently versioned.

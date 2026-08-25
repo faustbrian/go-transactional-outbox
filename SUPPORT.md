@@ -1,25 +1,13 @@
 # Support
 
-## Community support
+Use GitHub issues for reproducible defects, documentation gaps, and bounded
+feature proposals. Include the module path and version, Go version, platform,
+minimal reproduction, expected behavior, actual behavior, and relevant
+non-secret logs.
 
-Use GitHub issues for reproducible defects and focused feature proposals.
-Include the `outbox` version, Go and PostgreSQL versions, relevant
-configuration without credentials, a minimal reproducer, expected behavior,
-actual behavior, and complete error chains. Use GitHub Discussions for usage
-questions when discussions are enabled.
+Use GitHub Discussions for adoption questions and design exploration. Use the
+private process in [`SECURITY.md`](SECURITY.md) for vulnerabilities.
 
-This open source project provides no response-time or resolution-time SLA.
-Operational incidents remain the deployer's responsibility; the runbooks in
-`docs/runbooks.md` are guidance, not a managed service.
-
-## Security and sensitive data
-
-Follow `SECURITY.md` for vulnerabilities. Never put credentials, payloads,
-tenant data, private broker details, or exploit instructions in a public issue.
-Redact diagnostic output while preserving error types and causal chains.
-
-## Supported versions
-
-The latest v1 patch release is the supported line. Reproduce an issue on that
-release before reporting it when practical. Older releases may receive a fix
-only when the maintainer explicitly announces extended support.
+Support covers released module versions according to
+[`COMPATIBILITY.md`](COMPATIBILITY.md). Unreleased main-branch behavior may
+change while remediation gates are incomplete.

@@ -8,6 +8,8 @@ publisher contracts are public compatibility surfaces.
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-08-25
+
 ### Documentation
 
 - Replace obsolete standalone-repository links and workflow claims with
@@ -83,6 +85,7 @@ publisher contracts are public compatibility surfaces.
 
 ### Changed
 
+- Publish the module from its standalone `github.com/faustbrian/go-transactional-outbox` identity while preserving its documented API and behavior.
 - OpenTelemetry guidance now documents the adapter's fixed privacy-safe
   dimensions and bounded, application-owned exporter shutdown contract.
 - Readiness now requires a writable PostgreSQL primary.
@@ -108,3 +111,6 @@ publisher contracts are public compatibility surfaces.
 - Replay schedules outside years 0000–9999 fail before authorization or SQL.
 - Relay and store diagnostic clock panics degrade to zero-time metrics without
   interrupting durable operations.
+
+[Unreleased]: https://github.com/faustbrian/go-transactional-outbox/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/faustbrian/go-transactional-outbox/releases/tag/v1.0.0

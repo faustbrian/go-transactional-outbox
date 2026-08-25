@@ -7,9 +7,9 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/faustbrian/golib/pkg/kafka"
-	"github.com/faustbrian/golib/pkg/outbox"
-	"github.com/faustbrian/golib/pkg/outbox/adapters/gokafka"
+	"github.com/faustbrian/go-kafka"
+	"github.com/faustbrian/go-transactional-outbox"
+	"github.com/faustbrian/go-transactional-outbox/adapters/gokafka"
 )
 
 func TestPublisherRacesSharedCallsWithClientShutdown(t *testing.T) {

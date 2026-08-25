@@ -9,9 +9,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/faustbrian/golib/pkg/kafka"
-	"github.com/faustbrian/golib/pkg/outbox"
-	"github.com/faustbrian/golib/pkg/outbox/relay"
+	"github.com/faustbrian/go-kafka"
+	"github.com/faustbrian/go-transactional-outbox"
+	"github.com/faustbrian/go-transactional-outbox/relay"
 )
 
 var (

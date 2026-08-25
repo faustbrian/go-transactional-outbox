@@ -11,9 +11,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/faustbrian/golib/pkg/outbox"
-	outboxpostgres "github.com/faustbrian/golib/pkg/outbox/postgres"
-	outboxrelay "github.com/faustbrian/golib/pkg/outbox/relay"
+	"github.com/faustbrian/go-transactional-outbox"
+	outboxpostgres "github.com/faustbrian/go-transactional-outbox/postgres"
+	outboxrelay "github.com/faustbrian/go-transactional-outbox/relay"
 	"github.com/jackc/pgx/v5/pgxpool"
 	tcpostgres "github.com/testcontainers/testcontainers-go/modules/postgres"
 )

@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	outboxpostgres "github.com/faustbrian/golib/pkg/outbox/postgres"
+	outboxpostgres "github.com/faustbrian/go-transactional-outbox/postgres"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 	tcpostgres "github.com/testcontainers/testcontainers-go/modules/postgres"

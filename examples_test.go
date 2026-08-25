@@ -3,7 +3,7 @@ package outbox_test
 import (
 	"fmt"
 
-	"github.com/faustbrian/golib/pkg/outbox"
+	"github.com/faustbrian/go-transactional-outbox"
 )
 
 func Example_duplicateDeliveryRequiresIdempotentConsumer() {

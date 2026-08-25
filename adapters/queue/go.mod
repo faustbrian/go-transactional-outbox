@@ -1,10 +1,10 @@
-module github.com/faustbrian/golib/pkg/outbox/adapters/queue
+module github.com/faustbrian/go-transactional-outbox/adapters/queue
 
 go 1.26.6
 
 require (
-	github.com/faustbrian/golib/pkg/outbox v0.0.0
-	github.com/faustbrian/golib/pkg/queue v0.0.0
+	github.com/faustbrian/go-queue v1.0.0
+	github.com/faustbrian/go-transactional-outbox v1.0.0
 	github.com/jackc/pgx/v5 v5.10.0
 	github.com/testcontainers/testcontainers-go/modules/postgres v0.43.0
 )

@@ -12,10 +12,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/faustbrian/golib/pkg/outbox"
+	"github.com/faustbrian/go-transactional-outbox"
 )
 
-const outboxImportPath = "github.com/faustbrian/golib/pkg/outbox"
+const outboxImportPath = "github.com/faustbrian/go-transactional-outbox"
 
 func declaredOutboxConventions(t *testing.T) ([]outbox.Operation, []outbox.Outcome) {
 	t.Helper()

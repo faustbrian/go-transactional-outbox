@@ -1,7 +1,7 @@
 # Outbox OpenTelemetry adapter
 
 `outboxotel` adds optional OpenTelemetry spans and metrics to
-[`github.com/faustbrian/golib/pkg/outbox`](../..). The core outbox module stays
+[`github.com/faustbrian/go-transactional-outbox`](../..). The core outbox module stays
 independent of OpenTelemetry, and exporter lifecycle remains caller-owned.
 
 ## Quick start
@@ -32,7 +32,7 @@ observer to emit operation metrics. Call `RecordBacklog` after collecting
 ## Instruments and attributes
 
 The instrumentation scope name is
-`github.com/faustbrian/golib/pkg/outbox`; its schema version is the exported
+`github.com/faustbrian/go-transactional-outbox`; its schema version is the exported
 `InstrumentationVersion` constant.
 
 | Signal | Name | Unit | Attributes |
@@ -103,7 +103,7 @@ validate required providers and synchronously create instruments.
 
 ## Compatibility and migration
 
-This independently versioned pre-v1 module supports the Go and OpenTelemetry
+This independently versioned stable v1 module supports the Go and OpenTelemetry
 versions pinned in [`go.mod`](go.mod). The wrapped `Publisher` matches the
 outbox relay contract, and the optional health method is retained when present.
 Instrumentation names, attribute sets, and retry buckets are versioned schema;
@@ -156,7 +156,7 @@ returns its exact result; defensive containment also handles provider panics.
 From the repository root, run:
 
 ```sh
-make check MODULES=pkg/outbox/adapters/otel
+make check MODULES=adapters/otel
 ```
 
 The module contract includes tests, race detection, exact statement coverage,

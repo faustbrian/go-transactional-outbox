@@ -1,5 +1,15 @@
 # outbox
 
+[![CI](https://github.com/faustbrian/go-transactional-outbox/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/faustbrian/go-transactional-outbox/actions/workflows/ci.yml)
+[![CodeQL](https://img.shields.io/badge/CodeQL-required-blue)](https://github.com/faustbrian/go-transactional-outbox/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/badge/coverage-100%25_required-blue)](CONTRIBUTING.md#verification)
+[![Mutation](https://img.shields.io/badge/mutation-100%25_required-blue)](CONTRIBUTING.md#verification)
+[![Documentation](https://img.shields.io/badge/docs-checked_in_CI-blue)](docs/)
+[![Go Reference](https://pkg.go.dev/badge/github.com/faustbrian/go-transactional-outbox.svg)](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox)
+[![Release](https://img.shields.io/github/v/release/faustbrian/go-transactional-outbox?sort=semver)](https://github.com/faustbrian/go-transactional-outbox/releases)
+[![Go](https://img.shields.io/badge/go-1.26.6-00ADD8?logo=go)](https://go.dev/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 `outbox` is a PostgreSQL-first Go implementation of the transactional
 outbox pattern. It writes application state and publishable envelopes in the
 same caller-owned `pgx` transaction, then relays committed envelopes to a
@@ -28,13 +38,13 @@ transactions or exactly-once delivery.
 
 ## Packages
 
-- `github.com/faustbrian/golib/pkg/outbox`: envelope construction and validation.
-- `github.com/faustbrian/golib/pkg/outbox/postgres`: migrations, transactional writer,
+- `github.com/faustbrian/go-transactional-outbox`: envelope construction and validation.
+- `github.com/faustbrian/go-transactional-outbox/postgres`: migrations, transactional writer,
   claims, leases, retries, dead letters, replay, and retention.
-- `github.com/faustbrian/golib/pkg/outbox/relay`: bounded embedded relay.
-- `github.com/faustbrian/golib/pkg/outbox/adapters/queue`: separately versioned
+- `github.com/faustbrian/go-transactional-outbox/relay`: bounded embedded relay.
+- `github.com/faustbrian/go-transactional-outbox/adapters/queue`: separately versioned
   `queue` publisher adapter; importing core does not add `queue`.
-- `github.com/faustbrian/golib/pkg/outbox/adapters/otel`: separately versioned
+- `github.com/faustbrian/go-transactional-outbox/adapters/otel`: separately versioned
   metrics and trace-linkage integration compatible with `telemetry`.
 
 ## Quick start
@@ -101,8 +111,8 @@ The version 1 release candidate includes the core state machine, concurrency
 tests, payload-safe lifecycle events, health diagnostics, PostgreSQL backlog
 statistics, `queue` and telemetry adapters, CI matrices, fuzzing,
 benchmarks, and archive-before-delete retention. The hardening verdict and
-release gates are green; the project remains unreleased until maintainers
-publish a version.
+release gates are green; the project starts its public release history at
+`v1.0.0`.
 
 ## License
 

@@ -3,7 +3,7 @@
 ## Install the core module
 
 ```sh
-go get github.com/faustbrian/golib/pkg/outbox@vX.Y.Z
+go get github.com/faustbrian/go-transactional-outbox@vX.Y.Z
 ```
 
 The current version 1 candidate is not released. When a release exists, pin

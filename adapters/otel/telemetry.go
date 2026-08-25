@@ -1,5 +1,5 @@
 // Package outboxotel links outbox publications and operations to the
-// standard providers exposed by github.com/faustbrian/golib/pkg/telemetry.
+// standard providers exposed by github.com/faustbrian/go-telemetry.
 package outboxotel
 
 import (
@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/faustbrian/golib/pkg/outbox"
+	"github.com/faustbrian/go-transactional-outbox"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/metric"
@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	instrumentationName = "github.com/faustbrian/golib/pkg/outbox"
+	instrumentationName = "github.com/faustbrian/go-transactional-outbox"
 
 	// InstrumentationVersion versions this adapter's span and metric schema.
 	InstrumentationVersion = "1.0.0"

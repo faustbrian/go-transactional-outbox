@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	migrations "github.com/faustbrian/golib/pkg/migrations"
-	outboxpostgres "github.com/faustbrian/golib/pkg/outbox/postgres"
+	migrations "github.com/faustbrian/go-migrations"
+	outboxpostgres "github.com/faustbrian/go-transactional-outbox/postgres"
 )
 
 func TestGoMigrationsLoadsOutboxSource(t *testing.T) {

@@ -1,7 +1,6 @@
 # Compatibility Policy
 
-Before v1, exported APIs and schema may change and every change belongs in
-`CHANGELOG.md`. After v1, SemVer applies independently to core, `outboxqueue`, and
+SemVer applies independently to core, `outboxqueue`, and
 `outboxotel`. Compatibility surfaces include canonical encoding, migrations,
 delivery semantics, errors, metrics, observer events, and publisher behavior.
 

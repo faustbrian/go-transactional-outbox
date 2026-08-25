@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/faustbrian/golib/pkg/outbox/postgres"
+	"github.com/faustbrian/go-transactional-outbox/postgres"
 )
 
 func TestMigrationsExposeReversibleSchema(t *testing.T) {

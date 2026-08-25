@@ -163,7 +163,7 @@ and wants the first-party Kafka producer boundary. Keep topic creation in
 deployment automation, keep the database transaction in the outbox writer,
 and keep relay claiming/marking in `outbox/relay`.
 
-The module is pre-v1 and independently versioned. The initial hardened API is
+The stable v1 module is independently versioned. The initial hardened API is
 source-compatible with the earlier `New(client)` call because configuration is
 optional. Existing callers gain validation, defensive ownership, redacted
 publish diagnostics, and panic containment. Metadata using a fixed header name

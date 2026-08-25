@@ -1,0 +1,650 @@
+{
+  "schema_version": 1,
+  "repository": "github.com/faustbrian/go-transactional-outbox",
+  "go_version": "1.26.6",
+  "modules": [
+    {
+      "directory": ".",
+      "module_path": "github.com/faustbrian/go-transactional-outbox",
+      "go_version": "1.26.6",
+      "packages": [
+        {
+          "module_directory": ".",
+          "directory": ".",
+          "name": "outbox",
+          "import_path": "github.com/faustbrian/go-transactional-outbox",
+          "kind": "public",
+          "production": true,
+          "executable": true,
+          "coverage_required": true,
+          "build_required": true,
+          "build_tags": []
+        },
+        {
+          "module_directory": ".",
+          "directory": "postgres",
+          "name": "postgres",
+          "import_path": "github.com/faustbrian/go-transactional-outbox/postgres",
+          "kind": "public",
+          "production": true,
+          "executable": true,
+          "coverage_required": true,
+          "build_required": true,
+          "build_tags": []
+        },
+        {
+          "module_directory": ".",
+          "directory": "relay",
+          "name": "relay",
+          "import_path": "github.com/faustbrian/go-transactional-outbox/relay",
+          "kind": "public",
+          "production": true,
+          "executable": true,
+          "coverage_required": true,
+          "build_required": true,
+          "build_tags": []
+        }
+      ],
+      "purpose": "`outbox` is a PostgreSQL-first Go implementation of the transactional outbox pattern. It writes application state and publishable envelopes in the same caller-owned `pgx` transaction, then relays committed envelopes to a small publisher contract with at-least-once delivery.",
+      "lifecycle": "stable",
+      "kind": "public library",
+      "releasable": true,
+      "family": "persistence-and-durability",
+      "family_label": "Persistence And Durability",
+      "family_description": "Durable state, delivery, coordination, recovery, and operational lifecycle.",
+      "family_order": 4,
+      "version": "v1.0.0",
+      "tag_prefix": "v",
+      "owned_dependencies": [],
+      "reverse_owned_dependencies": [
+        "github.com/faustbrian/go-cloudevents/adapters/golib",
+        "github.com/faustbrian/go-event-sourcing/adapters/outbox",
+        "github.com/faustbrian/go-idempotency/compatibility/ecosystem",
+        "github.com/faustbrian/go-transactional-outbox/adapters/gokafka",
+        "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream",
+        "github.com/faustbrian/go-transactional-outbox/adapters/otel",
+        "github.com/faustbrian/go-transactional-outbox/adapters/queue",
+        "github.com/faustbrian/go-service/integration/reference-durability",
+        "github.com/faustbrian/go-webhook"
+      ],
+      "external_runtime_dependencies": [
+        "github.com/jackc/pgx/v5",
+        "github.com/testcontainers/testcontainers-go/modules/postgres",
+        "go.uber.org/goleak"
+      ],
+      "required_services": [
+        "postgresql"
+      ],
+      "build_tags": [],
+      "test_tags": [
+        "integration"
+      ],
+      "interoperability_tools": [],
+      "specifications": [],
+      "conformance_corpora": [],
+      "provenance": [],
+      "goal_files": [
+        ".ai/GOAL.md",
+        ".ai/GOAL_HARDEN.md"
+      ],
+      "goal_status": "implementation-evidence-inventoried",
+      "goal_evidence": [
+        {
+          "file": ".ai/GOAL.md",
+          "requirements_sha256": "28c62271afde600e946ddf55af2fa94ec24fdd8339727440e6771784e53006ed",
+          "implementation_evidence": [
+            "CHANGELOG.md",
+            "README.md",
+            "docs/README.md",
+            "docs/api.md",
+            "docs/architecture.md",
+            "docs/compatibility.md"
+          ],
+          "verification_gates": [
+            "format-check",
+            "tidy-check",
+            "safety",
+            "vet",
+            "test",
+            "race",
+            "coverage",
+            "lint",
+            "staticcheck",
+            "vulnerability",
+            "secrets",
+            "licenses",
+            "sbom",
+            "fuzz",
+            "mutation",
+            "nilaway",
+            "docs",
+            "api",
+            "conformance",
+            "interoperability",
+            "benchmark"
+          ],
+          "implementation_status": "implemented-requires-fresh-verification"
+        },
+        {
+          "file": ".ai/GOAL_HARDEN.md",
+          "requirements_sha256": "f32d697c85e3b175215c618db5bcee6c91694c2090bb9bc7a33e03321d74f416",
+          "implementation_evidence": [
+            "CHANGELOG.md",
+            "README.md",
+            "docs/README.md",
+            "docs/api.md",
+            "docs/architecture.md",
+            "docs/compatibility.md"
+          ],
+          "verification_gates": [
+            "format-check",
+            "tidy-check",
+            "safety",
+            "vet",
+            "test",
+            "race",
+            "coverage",
+            "lint",
+            "staticcheck",
+            "vulnerability",
+            "secrets",
+            "licenses",
+            "sbom",
+            "fuzz",
+            "mutation",
+            "nilaway",
+            "docs",
+            "api",
+            "conformance",
+            "interoperability",
+            "benchmark"
+          ],
+          "implementation_status": "implemented-requires-fresh-verification"
+        }
+      ],
+      "gates": {
+        "api_compatibility": true,
+        "benchmarks": true,
+        "conformance": false,
+        "coverage": true,
+        "documentation": true,
+        "fuzz": true,
+        "lint": true,
+        "mutation": true,
+        "race": true,
+        "security": true,
+        "tests": true
+      }
+    },
+    {
+      "directory": "adapters/gokafka",
+      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/gokafka",
+      "go_version": "1.26.6",
+      "packages": [
+        {
+          "module_directory": "adapters/gokafka",
+          "directory": ".",
+          "name": "gokafka",
+          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/gokafka",
+          "kind": "public",
+          "production": true,
+          "executable": true,
+          "coverage_required": true,
+          "build_required": true,
+          "build_tags": []
+        }
+      ],
+      "purpose": "`gokafka` is the canonical synchronous adapter from `outbox.Envelope` to the first-party `kafka.Producer`. It maps one persisted envelope to one Kafka record and returns only after the producer reports the broker delivery result. It owns no worker, retry loop, transaction, topic, or producer lifecycle.",
+      "lifecycle": "stable",
+      "kind": "adapter",
+      "releasable": true,
+      "family": "persistence-and-durability",
+      "family_label": "Persistence And Durability",
+      "family_description": "Durable state, delivery, coordination, recovery, and operational lifecycle.",
+      "family_order": 4,
+      "version": "v1.0.0",
+      "tag_prefix": "adapters/gokafka/v",
+      "owned_dependencies": [
+        "github.com/faustbrian/go-kafka",
+        "github.com/faustbrian/go-transactional-outbox"
+      ],
+      "reverse_owned_dependencies": [],
+      "external_runtime_dependencies": [
+        "github.com/jackc/pgx/v5",
+        "github.com/testcontainers/testcontainers-go/modules/kafka",
+        "github.com/testcontainers/testcontainers-go/modules/postgres",
+        "github.com/twmb/franz-go",
+        "github.com/twmb/franz-go/pkg/kadm"
+      ],
+      "required_services": [
+        "postgresql"
+      ],
+      "build_tags": [],
+      "test_tags": [
+        "integration"
+      ],
+      "interoperability_tools": [],
+      "specifications": [],
+      "conformance_corpora": [],
+      "provenance": [],
+      "goal_files": [
+        "adapters/gokafka/.ai/GOAL.md",
+        "adapters/gokafka/.ai/GOAL_HARDEN.md"
+      ],
+      "goal_status": "implementation-evidence-inventoried",
+      "goal_evidence": [
+        {
+          "file": "adapters/gokafka/.ai/GOAL.md",
+          "requirements_sha256": "0d859bdfb27f242b55db0b5d40634e5b0ed4f039926dd7d1304914206e9a268f",
+          "implementation_evidence": [
+            "adapters/gokafka/CHANGELOG.md",
+            "adapters/gokafka/README.md"
+          ],
+          "verification_gates": [
+            "format-check",
+            "tidy-check",
+            "safety",
+            "vet",
+            "test",
+            "race",
+            "coverage",
+            "lint",
+            "staticcheck",
+            "vulnerability",
+            "secrets",
+            "licenses",
+            "sbom",
+            "fuzz",
+            "mutation",
+            "nilaway",
+            "docs",
+            "api",
+            "conformance",
+            "interoperability",
+            "benchmark"
+          ],
+          "implementation_status": "implemented-requires-fresh-verification"
+        },
+        {
+          "file": "adapters/gokafka/.ai/GOAL_HARDEN.md",
+          "requirements_sha256": "429d85feeaed50c4a37bc054fd331a242ea9b8a7db50c0f775b477134c42fbaa",
+          "implementation_evidence": [
+            "adapters/gokafka/CHANGELOG.md",
+            "adapters/gokafka/README.md"
+          ],
+          "verification_gates": [
+            "format-check",
+            "tidy-check",
+            "safety",
+            "vet",
+            "test",
+            "race",
+            "coverage",
+            "lint",
+            "staticcheck",
+            "vulnerability",
+            "secrets",
+            "licenses",
+            "sbom",
+            "fuzz",
+            "mutation",
+            "nilaway",
+            "docs",
+            "api",
+            "conformance",
+            "interoperability",
+            "benchmark"
+          ],
+          "implementation_status": "implemented-requires-fresh-verification"
+        }
+      ],
+      "gates": {
+        "api_compatibility": true,
+        "benchmarks": true,
+        "conformance": false,
+        "coverage": true,
+        "documentation": true,
+        "fuzz": true,
+        "lint": true,
+        "mutation": true,
+        "race": true,
+        "security": true,
+        "tests": true
+      }
+    },
+    {
+      "directory": "adapters/gorabbitstream",
+      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream",
+      "go_version": "1.26.6",
+      "packages": [
+        {
+          "module_directory": "adapters/gorabbitstream",
+          "directory": ".",
+          "name": "gorabbitstream",
+          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream",
+          "kind": "public",
+          "production": true,
+          "executable": true,
+          "coverage_required": true,
+          "build_required": true,
+          "build_tags": []
+        }
+      ],
+      "purpose": "`gorabbitstream` maps one persisted `outbox.Envelope` to one confirmed `rabbitstream.Message`. It owns no producer, topology, relay, retry loop, database transaction, or outbox state transition.",
+      "lifecycle": "stable",
+      "kind": "adapter",
+      "releasable": true,
+      "family": "persistence-and-durability",
+      "family_label": "Persistence And Durability",
+      "family_description": "Durable state, delivery, coordination, recovery, and operational lifecycle.",
+      "family_order": 4,
+      "version": "v1.0.0",
+      "tag_prefix": "adapters/gorabbitstream/v",
+      "owned_dependencies": [
+        "github.com/faustbrian/go-transactional-outbox",
+        "github.com/faustbrian/go-rabbitmq-streams",
+        "github.com/faustbrian/go-rabbitmq-streams/rabbitmq"
+      ],
+      "reverse_owned_dependencies": [],
+      "external_runtime_dependencies": [
+        "github.com/rabbitmq/rabbitmq-stream-go-client"
+      ],
+      "required_services": [
+        "rabbitstream-standalone"
+      ],
+      "build_tags": [],
+      "test_tags": [
+        "integration"
+      ],
+      "interoperability_tools": [],
+      "specifications": [],
+      "conformance_corpora": [],
+      "provenance": [],
+      "goal_files": [],
+      "goal_status": "not-applicable",
+      "goal_evidence": [],
+      "gates": {
+        "api_compatibility": true,
+        "benchmarks": true,
+        "conformance": false,
+        "coverage": true,
+        "documentation": true,
+        "fuzz": true,
+        "lint": true,
+        "mutation": true,
+        "race": true,
+        "security": true,
+        "tests": true
+      }
+    },
+    {
+      "directory": "adapters/otel",
+      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/otel",
+      "go_version": "1.26.6",
+      "packages": [
+        {
+          "module_directory": "adapters/otel",
+          "directory": ".",
+          "name": "outboxotel",
+          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/otel",
+          "kind": "public",
+          "production": true,
+          "executable": true,
+          "coverage_required": true,
+          "build_required": true,
+          "build_tags": []
+        }
+      ],
+      "purpose": "`outboxotel` adds optional OpenTelemetry spans and metrics to [`github.com/faustbrian/go-transactional-outbox`](../..). The core outbox module stays independent of OpenTelemetry, and exporter lifecycle remains caller-owned.",
+      "lifecycle": "stable",
+      "kind": "adapter",
+      "releasable": true,
+      "family": "persistence-and-durability",
+      "family_label": "Persistence And Durability",
+      "family_description": "Durable state, delivery, coordination, recovery, and operational lifecycle.",
+      "family_order": 4,
+      "version": "v1.0.0",
+      "tag_prefix": "adapters/otel/v",
+      "owned_dependencies": [
+        "github.com/faustbrian/go-transactional-outbox"
+      ],
+      "reverse_owned_dependencies": [],
+      "external_runtime_dependencies": [
+        "go.opentelemetry.io/otel",
+        "go.opentelemetry.io/otel/metric",
+        "go.opentelemetry.io/otel/sdk",
+        "go.opentelemetry.io/otel/sdk/metric",
+        "go.opentelemetry.io/otel/trace"
+      ],
+      "required_services": [
+        "postgresql"
+      ],
+      "build_tags": [],
+      "test_tags": [],
+      "interoperability_tools": [],
+      "specifications": [],
+      "conformance_corpora": [],
+      "provenance": [],
+      "goal_files": [
+        "adapters/otel/.ai/GOAL.md",
+        "adapters/otel/.ai/GOAL_HARDEN.md"
+      ],
+      "goal_status": "implementation-evidence-inventoried",
+      "goal_evidence": [
+        {
+          "file": "adapters/otel/.ai/GOAL.md",
+          "requirements_sha256": "8eb9a5c82bff1be4287f8da231019859c016025192dc8c802893501aa53fd190",
+          "implementation_evidence": [
+            "adapters/otel/CHANGELOG.md",
+            "adapters/otel/README.md"
+          ],
+          "verification_gates": [
+            "format-check",
+            "tidy-check",
+            "safety",
+            "vet",
+            "test",
+            "race",
+            "coverage",
+            "lint",
+            "staticcheck",
+            "vulnerability",
+            "secrets",
+            "licenses",
+            "sbom",
+            "fuzz",
+            "mutation",
+            "nilaway",
+            "docs",
+            "api",
+            "conformance",
+            "interoperability",
+            "benchmark"
+          ],
+          "implementation_status": "implemented-requires-fresh-verification"
+        },
+        {
+          "file": "adapters/otel/.ai/GOAL_HARDEN.md",
+          "requirements_sha256": "b7bb6f51a4882f9523aacc5d1f618f079ea4b5d250ae6292728fa04c60cc7fff",
+          "implementation_evidence": [
+            "adapters/otel/CHANGELOG.md",
+            "adapters/otel/README.md"
+          ],
+          "verification_gates": [
+            "format-check",
+            "tidy-check",
+            "safety",
+            "vet",
+            "test",
+            "race",
+            "coverage",
+            "lint",
+            "staticcheck",
+            "vulnerability",
+            "secrets",
+            "licenses",
+            "sbom",
+            "fuzz",
+            "mutation",
+            "nilaway",
+            "docs",
+            "api",
+            "conformance",
+            "interoperability",
+            "benchmark"
+          ],
+          "implementation_status": "implemented-requires-fresh-verification"
+        }
+      ],
+      "gates": {
+        "api_compatibility": true,
+        "benchmarks": true,
+        "conformance": false,
+        "coverage": true,
+        "documentation": true,
+        "fuzz": true,
+        "lint": true,
+        "mutation": true,
+        "race": true,
+        "security": true,
+        "tests": true
+      }
+    },
+    {
+      "directory": "adapters/queue",
+      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/queue",
+      "go_version": "1.26.6",
+      "packages": [
+        {
+          "module_directory": "adapters/queue",
+          "directory": ".",
+          "name": "outboxqueue",
+          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/queue",
+          "kind": "public",
+          "production": true,
+          "executable": true,
+          "coverage_required": true,
+          "build_required": true,
+          "build_tags": []
+        }
+      ],
+      "purpose": "`outboxqueue` is the canonical synchronous adapter from `outbox.Envelope` to the first-party `queue` contract. It maps one persisted envelope to one owned JSON task and returns only after the queue reports its enqueue result. It owns no worker, retry loop, dead-letter policy, scheduler, transaction, or queue lifecycle.",
+      "lifecycle": "stable",
+      "kind": "adapter",
+      "releasable": true,
+      "family": "persistence-and-durability",
+      "family_label": "Persistence And Durability",
+      "family_description": "Durable state, delivery, coordination, recovery, and operational lifecycle.",
+      "family_order": 4,
+      "version": "v1.0.0",
+      "tag_prefix": "adapters/queue/v",
+      "owned_dependencies": [
+        "github.com/faustbrian/go-transactional-outbox",
+        "github.com/faustbrian/go-queue"
+      ],
+      "reverse_owned_dependencies": [
+        "github.com/faustbrian/go-service/integration/reference-durability"
+      ],
+      "external_runtime_dependencies": [
+        "github.com/jackc/pgx/v5",
+        "github.com/testcontainers/testcontainers-go/modules/postgres"
+      ],
+      "required_services": [
+        "redis",
+        "valkey"
+      ],
+      "build_tags": [],
+      "test_tags": [
+        "integration"
+      ],
+      "interoperability_tools": [],
+      "specifications": [],
+      "conformance_corpora": [],
+      "provenance": [],
+      "goal_files": [
+        "adapters/queue/.ai/GOAL.md",
+        "adapters/queue/.ai/GOAL_HARDEN.md"
+      ],
+      "goal_status": "implementation-evidence-inventoried",
+      "goal_evidence": [
+        {
+          "file": "adapters/queue/.ai/GOAL.md",
+          "requirements_sha256": "7a7c173e6db6425f6788d0fbb66f2e8489d80075e1d11e22fbc8f140725091bd",
+          "implementation_evidence": [
+            "adapters/queue/CHANGELOG.md",
+            "adapters/queue/README.md"
+          ],
+          "verification_gates": [
+            "format-check",
+            "tidy-check",
+            "safety",
+            "vet",
+            "test",
+            "race",
+            "coverage",
+            "lint",
+            "staticcheck",
+            "vulnerability",
+            "secrets",
+            "licenses",
+            "sbom",
+            "fuzz",
+            "mutation",
+            "nilaway",
+            "docs",
+            "api",
+            "conformance",
+            "interoperability",
+            "benchmark"
+          ],
+          "implementation_status": "implemented-requires-fresh-verification"
+        },
+        {
+          "file": "adapters/queue/.ai/GOAL_HARDEN.md",
+          "requirements_sha256": "307ff602816ecf36bc739474ca2e69f132f0647cecc9299da50cf1ed57eaa996",
+          "implementation_evidence": [
+            "adapters/queue/CHANGELOG.md",
+            "adapters/queue/README.md"
+          ],
+          "verification_gates": [
+            "format-check",
+            "tidy-check",
+            "safety",
+            "vet",
+            "test",
+            "race",
+            "coverage",
+            "lint",
+            "staticcheck",
+            "vulnerability",
+            "secrets",
+            "licenses",
+            "sbom",
+            "fuzz",
+            "mutation",
+            "nilaway",
+            "docs",
+            "api",
+            "conformance",
+            "interoperability",
+            "benchmark"
+          ],
+          "implementation_status": "implemented-requires-fresh-verification"
+        }
+      ],
+      "gates": {
+        "api_compatibility": true,
+        "benchmarks": true,
+        "conformance": false,
+        "coverage": true,
+        "documentation": true,
+        "fuzz": true,
+        "lint": true,
+        "mutation": true,
+        "race": true,
+        "security": true,
+        "tests": true
+      }
+    }
+  ]
+}
