@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/faustbrian/go-rabbitmq-streams"
 	"github.com/faustbrian/go-transactional-outbox"
 	"github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream"
-	"github.com/faustbrian/go-rabbitmq-streams"
 )
 
 func ExamplePublisher() {

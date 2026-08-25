@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/faustbrian/go-queue/core"
+	"github.com/faustbrian/go-queue/job"
 	"github.com/faustbrian/go-transactional-outbox"
 	"github.com/faustbrian/go-transactional-outbox/adapters/queue"
 	"github.com/faustbrian/go-transactional-outbox/postgres"
 	"github.com/faustbrian/go-transactional-outbox/relay"
-	"github.com/faustbrian/go-queue/core"
-	"github.com/faustbrian/go-queue/job"
 )
 
 func Example_relay() {

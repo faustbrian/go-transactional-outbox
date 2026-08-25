@@ -10,13 +10,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/faustbrian/go-transactional-outbox"
-	"github.com/faustbrian/go-transactional-outbox/adapters/queue"
-	"github.com/faustbrian/go-transactional-outbox/relay"
 	firstpartyqueue "github.com/faustbrian/go-queue"
 	"github.com/faustbrian/go-queue/core"
 	"github.com/faustbrian/go-queue/job"
 	"github.com/faustbrian/go-queue/management"
+	"github.com/faustbrian/go-transactional-outbox"
+	"github.com/faustbrian/go-transactional-outbox/adapters/queue"
+	"github.com/faustbrian/go-transactional-outbox/relay"
 )
 
 func TestPublisherQueuesCanonicalEnvelope(t *testing.T) {
