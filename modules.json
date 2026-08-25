@@ -53,7 +53,7 @@
       "family_label": "Persistence And Durability",
       "family_description": "Durable state, delivery, coordination, recovery, and operational lifecycle.",
       "family_order": 4,
-      "version": "v1.0.0",
+      "version": "1.0.0",
       "tag_prefix": "v",
       "owned_dependencies": [],
       "reverse_owned_dependencies": [
@@ -202,7 +202,7 @@
       "family_label": "Persistence And Durability",
       "family_description": "Durable state, delivery, coordination, recovery, and operational lifecycle.",
       "family_order": 4,
-      "version": "v1.0.0",
+      "version": "1.0.0",
       "tag_prefix": "adapters/gokafka/v",
       "owned_dependencies": [
         "github.com/faustbrian/go-kafka",
@@ -338,7 +338,7 @@
       "family_label": "Persistence And Durability",
       "family_description": "Durable state, delivery, coordination, recovery, and operational lifecycle.",
       "family_order": 4,
-      "version": "v1.0.0",
+      "version": "1.0.0",
       "tag_prefix": "adapters/gorabbitstream/v",
       "owned_dependencies": [
         "github.com/faustbrian/go-transactional-outbox",
@@ -403,7 +403,7 @@
       "family_label": "Persistence And Durability",
       "family_description": "Durable state, delivery, coordination, recovery, and operational lifecycle.",
       "family_order": 4,
-      "version": "v1.0.0",
+      "version": "1.0.0",
       "tag_prefix": "adapters/otel/v",
       "owned_dependencies": [
         "github.com/faustbrian/go-transactional-outbox"
@@ -536,7 +536,7 @@
       "family_label": "Persistence And Durability",
       "family_description": "Durable state, delivery, coordination, recovery, and operational lifecycle.",
       "family_order": 4,
-      "version": "v1.0.0",
+      "version": "1.0.0",
       "tag_prefix": "adapters/queue/v",
       "owned_dependencies": [
         "github.com/faustbrian/go-transactional-outbox",
