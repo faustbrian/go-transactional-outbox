@@ -10,6 +10,9 @@ publisher contracts are public compatibility surfaces.
 
 ### Changed
 
+- Upgrade archive and cryptography dependencies across the root, queue, and
+  Kafka adapter modules to current security-fixed releases.
+
 - Exclude intentional nested modules from root local-proxy archives so local,
   bootstrap, CI, and public module checksums describe the same source
   boundary.
