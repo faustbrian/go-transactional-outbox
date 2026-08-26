@@ -15,8 +15,8 @@ outbox pattern. It writes application state and publishable envelopes in the
 same caller-owned `pgx` transaction, then relays committed envelopes to a
 small publisher contract with at-least-once delivery.
 
-The version 1 release candidate targets the compatibility surfaces described
-in [the compatibility policy](docs/compatibility.md). Delivery remains at
+The stable v1 API follows the compatibility surfaces described in
+[the compatibility policy](docs/compatibility.md). Delivery remains at
 least once; upgrading the library does not remove the consumer's idempotency
 duty.
 
@@ -104,15 +104,6 @@ Integration tests use ephemeral Testcontainers PostgreSQL instances. They do
 not use an existing application or production database. The migration gate
 uses `GO_MIGRATIONS_DIR` when the sibling checkout is not at
 `../migrations`.
-
-## Status
-
-The version 1 release candidate includes the core state machine, concurrency
-tests, payload-safe lifecycle events, health diagnostics, PostgreSQL backlog
-statistics, `queue` and telemetry adapters, CI matrices, fuzzing,
-benchmarks, and archive-before-delete retention. The hardening verdict and
-release gates are green; the project starts its public release history at
-`v1.0.0`.
 
 ## License
 
