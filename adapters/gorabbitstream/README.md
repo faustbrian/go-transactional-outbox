@@ -82,7 +82,7 @@ selected backing stream; topology changes can change routing and there is no
 global partition order. Concurrent callers must preserve their own submission
 order for one aggregate.
 
-## Adoption and tradeoffs
+## When to use this adapter
 
 Use this adapter for retained event distribution from a transactional outbox.
 Use the existing queue adapter for executable jobs, delayed work, or competing
@@ -117,5 +117,5 @@ No. One publisher accepts one exact configured Stream or Super Stream target.
 
 See [CHANGELOG.md](CHANGELOG.md) and [LICENSE](LICENSE).
 
-Use the [Golib documentation portal](https://github.com/faustbrian/golib/blob/main/docs/index.md)
-to choose packages, compose services, and review repository-wide guarantees.
+See the [root package documentation](../../README.md) for delivery semantics,
+adapter boundaries, and related packages.

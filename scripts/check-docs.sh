@@ -10,7 +10,6 @@ required=(
   SECURITY.md
   SUPPORT.md
   docs/api.md
-  docs/audit.md
   docs/architecture.md
   docs/compatibility.md
   docs/examples.md

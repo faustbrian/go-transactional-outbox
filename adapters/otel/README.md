@@ -85,7 +85,7 @@ The adapter starts no goroutines, owns no exporter, and never flushes or shuts
 down a provider. The application must flush and shut down its providers after
 the relay has stopped.
 
-## Adoption and API
+## Using the adapter
 
 1. Construct the application-owned OpenTelemetry SDK and exporters.
 2. Call `New` once and retain the returned concurrency-safe `Telemetry`.
@@ -162,7 +162,6 @@ make check MODULES=adapters/otel
 The module contract includes tests, race detection, exact statement coverage,
 fuzzing, mutation, security, API, documentation, and benchmark gates.
 
-## Ecosystem
+## Documentation
 
-Use the [Golib documentation portal](https://github.com/faustbrian/golib/blob/main/docs/index.md)
-to choose companion packages, supported stacks, recipes, and operations guidance.
+See the [root package documentation](../../README.md) for delivery semantics, adapter boundaries, and related packages.

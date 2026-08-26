@@ -156,7 +156,7 @@ identity.
 the supplied `Client` is safe. The first-party producer is the intended client.
 The caller owns the producer, context deadlines, relay lifecycle, and shutdown.
 
-## Adoption and compatibility
+## Compatibility
 
 Use this adapter when an application already persists `outbox.Envelope` values
 and wants the first-party Kafka producer boundary. Keep topic creation in
@@ -175,7 +175,7 @@ franz-go-backed synchronous producer semantics. It intentionally does not
 offer generic Kafka clients, transactions, asynchronous callbacks, topic
 administration, consumers, or exactly-once processing.
 
-## Security and tradeoffs
+## Security and limitations
 
 Topic, key, payload, metadata count, individual headers, and aggregate header
 bytes are bounded before producer admission. Payloads and identities are not

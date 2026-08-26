@@ -200,7 +200,6 @@ appropriate payload schema version.
 See [CHANGELOG.md](CHANGELOG.md) for release notes and [LICENSE](LICENSE) for
 the MIT license.
 
-## Ecosystem
+## Documentation
 
-Use the [Golib documentation portal](https://github.com/faustbrian/golib/blob/main/docs/index.md)
-to choose companion packages, supported stacks, recipes, and operations guidance.
+See the [root package documentation](../../README.md) for delivery semantics, adapter boundaries, and related packages.
