@@ -41,7 +41,7 @@ github.com/docker/go-units v0.5.0 h1:69rxXcBk27SvSaaxTtLh/8llcHD8vYHT7WSdRZ/jvr4
 github.com/docker/go-units v0.5.0/go.mod h1:fgPhTUdO+D/Jk86RDLlptpiXQzgHJF7gydDDbaIK4Dk=
 github.com/ebitengine/purego v0.10.0 h1:QIw4xfpWT6GWTzaW5XEKy3HXoqrJGx1ijYHzTF0/ISU=
 github.com/ebitengine/purego v0.10.0/go.mod h1:iIjxzd6CiRiOG0UyXP+V1+jWqUXVjPKLAI0mRfJZTmQ=
-github.com/faustbrian/go-queue v1.0.0 h1:rwB9yEK6QhGAHN03/7oAf2vOmnwnqzLvtTmQTVvJjik=
+github.com/faustbrian/go-queue v1.0.0 h1:aHvkX1W1nxEXiDryaQY3R6SfI28YFcCbNhYiMAo+OoI=
 github.com/faustbrian/go-queue v1.0.0/go.mod h1:XQY6QpHS87WeYYt1Xs3lWiak1v099mZlC+TPPU7kB1M=
 github.com/faustbrian/go-transactional-outbox v1.0.0 h1:FEsWt38eewedxXNzDCjFTiJp6nIn6MqyKltbxPc5NmA=
 github.com/faustbrian/go-transactional-outbox v1.0.0/go.mod h1:xfUyb0Wxg9+fN2RttzFgoAHZdHhG64WJRfpoDrKIJ58=
