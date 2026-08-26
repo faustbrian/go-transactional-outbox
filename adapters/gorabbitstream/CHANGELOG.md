@@ -4,6 +4,9 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+### Documentation
+
+- Add a module documentation index for direct navigation.
 ## 1.0.0 - 2026-08-25
 
 ### Changed
