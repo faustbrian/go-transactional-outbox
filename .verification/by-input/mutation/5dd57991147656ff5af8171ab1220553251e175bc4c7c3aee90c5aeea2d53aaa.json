@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "repository": "github.com/faustbrian/go-transactional-outbox",
+  "module": "adapters/otel",
+  "package": ".",
+  "gate": "mutation",
+  "input_digest": "sha256:5dd57991147656ff5af8171ab1220553251e175bc4c7c3aee90c5aeea2d53aaa",
+  "verifier_digest": "sha256:9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+  "result": "passed",
+  "report_digest": "sha256:c9c6cb4ce11aa3477602c99237e83e434d763ebcf8058a45fae184c76c3f306d",
+  "environment": {
+    "CGO_ENABLED": "1",
+    "GOARCH": "amd64",
+    "GOOS": "linux",
+    "GOVERSION": "go1.26.6",
+    "gremlins_binary_sha256": "sha256:79258e3649095fef7f2fe9359acaea7989ef11f88e63dce6acd7d86dcc347cbb"
+  },
+  "completed_at": "2026-08-28T14:22:19.565500415Z"
+}

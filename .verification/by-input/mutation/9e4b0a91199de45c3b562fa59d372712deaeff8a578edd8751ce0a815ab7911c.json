@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "repository": "github.com/faustbrian/go-transactional-outbox",
+  "module": "adapters/gorabbitstream",
+  "package": ".",
+  "gate": "mutation",
+  "input_digest": "sha256:9e4b0a91199de45c3b562fa59d372712deaeff8a578edd8751ce0a815ab7911c",
+  "verifier_digest": "sha256:9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+  "result": "passed",
+  "report_digest": "sha256:319af733e3d979503b4d4c2f7d22be2cd8eaad8c470f9cc1e09be53c08643080",
+  "environment": {
+    "CGO_ENABLED": "1",
+    "GOARCH": "amd64",
+    "GOOS": "linux",
+    "GOVERSION": "go1.26.6",
+    "gremlins_binary_sha256": "sha256:79258e3649095fef7f2fe9359acaea7989ef11f88e63dce6acd7d86dcc347cbb"
+  },
+  "completed_at": "2026-08-28T14:21:23.423289213Z"
+}

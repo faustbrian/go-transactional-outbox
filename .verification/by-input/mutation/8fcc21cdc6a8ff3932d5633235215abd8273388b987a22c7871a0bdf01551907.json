@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "repository": "github.com/faustbrian/go-transactional-outbox",
+  "module": ".",
+  "package": "postgres",
+  "gate": "mutation",
+  "input_digest": "sha256:8fcc21cdc6a8ff3932d5633235215abd8273388b987a22c7871a0bdf01551907",
+  "verifier_digest": "sha256:9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+  "result": "passed",
+  "report_digest": "sha256:93abb6efa5eda2b0a7ebba9709efe0ce5702c6ffe590f681b05fbe7b6816488d",
+  "environment": {
+    "CGO_ENABLED": "1",
+    "GOARCH": "amd64",
+    "GOOS": "linux",
+    "GOVERSION": "go1.26.6",
+    "gremlins_binary_sha256": "sha256:79258e3649095fef7f2fe9359acaea7989ef11f88e63dce6acd7d86dcc347cbb"
+  },
+  "completed_at": "2026-08-28T14:25:46.160272194Z"
+}
