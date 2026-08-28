@@ -1,0 +1,158 @@
+schema_version: 1
+tool_version: v1.0.1
+tool_checksums_sha256: 709cfe295e6cea6b596f0294ca4374da037bbccf643a0d6c2ce40b55a699f14a
+manifest:
+  modules: modules.json
+  packages: packages.json
+evidence:
+  root: ".verification"
+mutation:
+  root: ".verification/mutation"
+  imports:
+  - module: "."
+    archive: ".verification/mutation/bootstrap/root.zip"
+    ledger: ".verification/mutation/migration-ledger.json"
+  - module: adapters/gokafka
+    archive: ".verification/mutation/bootstrap/adapters-gokafka.zip"
+    ledger: ".verification/mutation/migration-ledger.json"
+  - module: adapters/gorabbitstream
+    archive: ".verification/mutation/bootstrap/adapters-gorabbitstream.zip"
+    ledger: ".verification/mutation/migration-ledger.json"
+  - module: adapters/otel
+    archive: ".verification/mutation/bootstrap/adapters-otel.zip"
+    ledger: ".verification/mutation/migration-ledger.json"
+  - module: adapters/queue
+    archive: ".verification/mutation/bootstrap/adapters-queue.zip"
+    ledger: ".verification/mutation/migration-ledger.json"
+api:
+  baselines:
+  - module: "."
+    mode: apidiff
+    path: api/baseline.txt
+  - module: adapters/gokafka
+    mode: apidiff
+    path: adapters/gokafka/api/baseline.txt
+  - module: adapters/gorabbitstream
+    mode: apidiff
+    path: adapters/gorabbitstream/api/baseline.txt
+  - module: adapters/otel
+    mode: apidiff
+    path: adapters/otel/api/baseline.txt
+  - module: adapters/queue
+    mode: apidiff
+    path: adapters/queue/api/baseline.txt
+operations:
+- module: "."
+  gate: fuzz
+  steps:
+  - type: go-test
+    packages:
+    - "."
+    fuzz: '^FuzzEnvelopeBuilder$'
+    budget: 100x
+    timeout: 2m
+  - type: go-test
+    packages:
+    - "./postgres"
+    fuzz: '^FuzzWriterIdentifiers$'
+    budget: 100x
+    timeout: 2m
+  - type: go-test
+    packages:
+    - "./relay"
+    fuzz: '^FuzzRelayOptions$'
+    budget: 100x
+    timeout: 2m
+  - type: go-test
+    packages:
+    - "./relay"
+    fuzz: '^FuzzPublisherFailures$'
+    budget: 100x
+    timeout: 2m
+- module: "."
+  gate: benchmark
+  steps:
+  - type: go-test
+    packages:
+    - "./..."
+    benchmark: "."
+    budget: 100ms
+    timeout: 20m
+- module: adapters/gokafka
+  gate: fuzz
+  steps:
+  - type: go-test
+    packages:
+    - "."
+    fuzz: '^FuzzPublisherEnvelopeMapping$'
+    budget: 100x
+    timeout: 2m
+- module: adapters/gokafka
+  gate: benchmark
+  steps:
+  - type: go-test
+    packages:
+    - "./..."
+    benchmark: "."
+    budget: 100ms
+    timeout: 20m
+- module: adapters/gorabbitstream
+  gate: fuzz
+  steps:
+  - type: go-test
+    packages:
+    - "."
+    fuzz: '^FuzzPublisherEnvelopeOwnershipAndFailureClassification$'
+    budget: 100x
+    timeout: 2m
+- module: adapters/gorabbitstream
+  gate: benchmark
+  steps:
+  - type: go-test
+    packages:
+    - "./..."
+    benchmark: "."
+    budget: 100ms
+    timeout: 20m
+- module: adapters/otel
+  gate: fuzz
+  steps:
+  - type: go-test
+    packages:
+    - "."
+    fuzz: '^FuzzTelemetryLifecycle$'
+    budget: 100x
+    timeout: 2m
+  - type: go-test
+    packages:
+    - "."
+    fuzz: '^FuzzWrappedPublicationIsolation$'
+    budget: 100x
+    timeout: 2m
+- module: adapters/otel
+  gate: benchmark
+  steps:
+  - type: go-test
+    packages:
+    - "./..."
+    benchmark: "."
+    budget: 100ms
+    timeout: 20m
+- module: adapters/queue
+  gate: fuzz
+  steps:
+  - type: go-test
+    packages:
+    - "."
+    fuzz: '^FuzzPublisherEnvelope$'
+    budget: 100x
+    timeout: 2m
+- module: adapters/queue
+  gate: benchmark
+  steps:
+  - type: go-test
+    packages:
+    - "./..."
+    benchmark: "."
+    budget: 100ms
+    timeout: 20m

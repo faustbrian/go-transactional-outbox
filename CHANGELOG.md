@@ -8,6 +8,14 @@ publisher contracts are public compatibility surfaces.
 
 ## [Unreleased]
 
+### Changed
+
+- Replace the repository-local verification implementation and service
+  fixtures with the pinned `go-library-tools` v1.0.1 CLI and reusable workflow
+  while preserving module policy and content-addressed evidence.
+- Use canonical public module checksums for nested adapters instead of
+  bootstrap-only archives.
+
 ### Documentation
 
 - Align maintained documentation with the stable v1 release contract and
