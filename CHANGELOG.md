@@ -24,6 +24,11 @@ publisher contracts are public compatibility surfaces.
 - Replace archived monorepo links and completed execution artifacts with a
   standalone, human-oriented documentation structure.
 
+### Fixed
+
+- Preserve all application metadata when transport metadata is present during
+  RabbitMQ Streams publication.
+
 ## [1.0.0] - 2026-08-25
 
 ### Changed
