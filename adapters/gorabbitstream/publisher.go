@@ -160,10 +160,9 @@ func (publisher *Publisher) message(envelope outbox.Envelope) (rabbitstream.Mess
 	}
 	keys := make([]string, 0, len(envelope.Metadata))
 	for key := range envelope.Metadata {
-		if key == "correlation-id" || key == "traceparent" || key == "tracestate" {
-			continue
+		if key != "correlation-id" && key != "traceparent" && key != "tracestate" {
+			keys = append(keys, key)
 		}
-		keys = append(keys, key)
 	}
 	sort.Strings(keys)
 	for _, key := range keys {
