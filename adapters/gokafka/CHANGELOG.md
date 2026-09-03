@@ -11,6 +11,8 @@ All notable changes to this module are documented here.
 
 ### Documentation
 
+- Link directly to the immutable v1.4.0 persistence-and-durability family
+  guidance.
 - Publish schema-v2 cohesion metadata and versioned Golib ecosystem
   navigation for the Kafka adapter.
 - Move detailed module guidance behind a concise README and documentation index.
