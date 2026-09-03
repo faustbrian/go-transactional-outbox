@@ -10,6 +10,13 @@ publisher contracts are public compatibility surfaces.
 
 ### Changed
 
+- Publish complete schema-v2 cohesion metadata and versioned Golib ecosystem
+  navigation for the outbox module and its four independently released
+  adapters.
+- Adopt the checksum-verified `go-library-tools` v1.3.0 CLI, add the local
+  `make cohesion` validation entry point, and pin reusable-workflow cohesion
+  enforcement to its immutable revision.
+
 - Replace the repository-local verification implementation and service
   fixtures with the pinned `go-library-tools` v1.0.13 CLI and reusable workflow
   while preserving module policy and content-addressed evidence.

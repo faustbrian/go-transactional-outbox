@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "repository": "github.com/faustbrian/go-transactional-outbox",
   "go_version": "1.26.6",
   "modules": [
@@ -53,6 +53,86 @@
       "family_label": "Persistence And Durability",
       "family_description": "Durable state, delivery, coordination, recovery, and operational lifecycle.",
       "family_order": 4,
+      "cohesion": {
+        "family": "persistence-and-durability",
+        "secondary_capabilities": [
+          "eventing-and-messaging",
+          "observability"
+        ],
+        "responsibility": "Own PostgreSQL transactional outbox persistence, durable claims and state transitions, and caller-bounded at-least-once relay execution.",
+        "non_goals": [
+          "Provide broker transactions or cross-system exactly-once delivery.",
+          "Own consumer deduplication, broker topology, or publisher lifecycle.",
+          "Hide retry, cancellation, transaction, or unknown-outcome policy from callers."
+        ],
+        "public_package_identifier": "outbox",
+        "primary_entry_packages": [
+          "github.com/faustbrian/go-transactional-outbox"
+        ],
+        "package_selection": {},
+        "lifecycle_status": "active",
+        "maturity": "stable",
+        "construction_styles": [
+          "builder-build",
+          "functional-options",
+          "new-config"
+        ],
+        "lifecycle_styles": [
+          "run",
+          "stateless"
+        ],
+        "ownership": {
+          "configuration": "caller",
+          "mutable_inputs": [
+            "borrow",
+            "copy"
+          ],
+          "runtime_resources": "shared",
+          "background_work": "package"
+        },
+        "optional_owned_dependencies": [],
+        "adapters": [
+          "github.com/faustbrian/go-transactional-outbox/adapters/gokafka",
+          "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream",
+          "github.com/faustbrian/go-transactional-outbox/adapters/otel",
+          "github.com/faustbrian/go-transactional-outbox/adapters/queue"
+        ],
+        "companions": [
+          "github.com/faustbrian/go-idempotency"
+        ],
+        "supported_go": {
+          "minimum": "1.26.6",
+          "tested": [
+            "1.26.6"
+          ]
+        },
+        "supported_platforms": [
+          "portable-go"
+        ],
+        "supported_backends": [
+          "postgresql"
+        ],
+        "supported_protocols": [],
+        "documentation": {
+          "readme": "README.md",
+          "api": "docs/api.md",
+          "adoption": "docs/quickstart.md",
+          "security": "SECURITY.md",
+          "compatibility": "docs/compatibility.md",
+          "performance": "docs/operations.md",
+          "examples": "docs/examples.md",
+          "faq": "docs/troubleshooting.md",
+          "changelog": "CHANGELOG.md",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox",
+          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.3.0/docs/ecosystem/README.md"
+        },
+        "known_good_compatibility_sets": [],
+        "delivery": {
+          "implementation": "not-started",
+          "hardening": "not-started",
+          "release": "not-started"
+        }
+      },
       "version": "1.0.0",
       "tag_prefix": "v",
       "owned_dependencies": [],
@@ -126,6 +206,77 @@
       "family_label": "Persistence And Durability",
       "family_description": "Durable state, delivery, coordination, recovery, and operational lifecycle.",
       "family_order": 4,
+      "cohesion": {
+        "family": "persistence-and-durability",
+        "secondary_capabilities": [
+          "eventing-and-messaging"
+        ],
+        "responsibility": "Map one durable outbox envelope to one confirmed first-party Kafka record without acquiring or owning the producer.",
+        "non_goals": [
+          "Own Kafka producer, topic, topology, worker, retry, transaction, or relay lifecycle.",
+          "Provide cross-system exactly-once delivery or hide ambiguous broker outcomes.",
+          "Retain caller-mutable aliases or accept unbounded payloads, metadata, or keys."
+        ],
+        "public_package_identifier": "gokafka",
+        "primary_entry_packages": [
+          "github.com/faustbrian/go-transactional-outbox/adapters/gokafka"
+        ],
+        "package_selection": {},
+        "lifecycle_status": "active",
+        "maturity": "stable",
+        "construction_styles": [
+          "functional-options"
+        ],
+        "lifecycle_styles": [
+          "stateless"
+        ],
+        "ownership": {
+          "configuration": "caller",
+          "mutable_inputs": [
+            "borrow",
+            "copy"
+          ],
+          "runtime_resources": "caller",
+          "background_work": "none"
+        },
+        "optional_owned_dependencies": [],
+        "adapters": [],
+        "companions": [],
+        "supported_go": {
+          "minimum": "1.26.6",
+          "tested": [
+            "1.26.6"
+          ]
+        },
+        "supported_platforms": [
+          "portable-go"
+        ],
+        "supported_backends": [
+          "kafka"
+        ],
+        "supported_protocols": [
+          "kafka"
+        ],
+        "documentation": {
+          "readme": "adapters/gokafka/README.md",
+          "api": "adapters/gokafka/docs/reference.md",
+          "adoption": "adapters/gokafka/docs/reference.md",
+          "security": "adapters/gokafka/docs/reference.md",
+          "compatibility": "adapters/gokafka/docs/reference.md",
+          "performance": "adapters/gokafka/docs/reference.md",
+          "examples": "adapters/gokafka/example_test.go",
+          "faq": "adapters/gokafka/docs/reference.md",
+          "changelog": "adapters/gokafka/CHANGELOG.md",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/gokafka",
+          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.3.0/docs/ecosystem/README.md"
+        },
+        "known_good_compatibility_sets": [],
+        "delivery": {
+          "implementation": "not-started",
+          "hardening": "not-started",
+          "release": "not-started"
+        }
+      },
       "version": "1.0.0",
       "tag_prefix": "adapters/gokafka/v",
       "owned_dependencies": [
@@ -194,6 +345,79 @@
       "family_label": "Persistence And Durability",
       "family_description": "Durable state, delivery, coordination, recovery, and operational lifecycle.",
       "family_order": 4,
+      "cohesion": {
+        "family": "persistence-and-durability",
+        "secondary_capabilities": [
+          "eventing-and-messaging"
+        ],
+        "responsibility": "Map one durable outbox envelope to one confirmed RabbitMQ Stream or Super Stream message without owning transport lifecycle.",
+        "non_goals": [
+          "Own the producer, topology, relay, retry loop, database transaction, or outbox state transition.",
+          "Provide global ordering or cross-system exactly-once delivery.",
+          "Expose caller payloads, metadata, routing keys, credentials, or panic values in diagnostics."
+        ],
+        "public_package_identifier": "gorabbitstream",
+        "primary_entry_packages": [
+          "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream"
+        ],
+        "package_selection": {},
+        "lifecycle_status": "active",
+        "maturity": "stable",
+        "construction_styles": [
+          "new-config"
+        ],
+        "lifecycle_styles": [
+          "stateless"
+        ],
+        "ownership": {
+          "configuration": "caller",
+          "mutable_inputs": [
+            "borrow",
+            "copy"
+          ],
+          "runtime_resources": "caller",
+          "background_work": "none"
+        },
+        "optional_owned_dependencies": [],
+        "adapters": [],
+        "companions": [],
+        "supported_go": {
+          "minimum": "1.26.6",
+          "tested": [
+            "1.26.6"
+          ]
+        },
+        "supported_platforms": [
+          "portable-go"
+        ],
+        "supported_backends": [
+          "rabbitmq-streams"
+        ],
+        "supported_protocols": [
+          "amqp-1-0",
+          "rabbitmq-stream-protocol",
+          "w3c-trace-context"
+        ],
+        "documentation": {
+          "readme": "adapters/gorabbitstream/README.md",
+          "api": "adapters/gorabbitstream/README.md",
+          "adoption": "adapters/gorabbitstream/README.md",
+          "security": "adapters/gorabbitstream/README.md",
+          "compatibility": "adapters/gorabbitstream/README.md",
+          "performance": null,
+          "examples": "adapters/gorabbitstream/example_test.go",
+          "faq": "adapters/gorabbitstream/README.md",
+          "changelog": "adapters/gorabbitstream/CHANGELOG.md",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream",
+          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.3.0/docs/ecosystem/README.md"
+        },
+        "known_good_compatibility_sets": [],
+        "delivery": {
+          "implementation": "not-started",
+          "hardening": "not-started",
+          "release": "not-started"
+        }
+      },
       "version": "1.0.0",
       "tag_prefix": "adapters/gorabbitstream/v",
       "owned_dependencies": [
@@ -259,6 +483,78 @@
       "family_label": "Persistence And Durability",
       "family_description": "Durable state, delivery, coordination, recovery, and operational lifecycle.",
       "family_order": 4,
+      "cohesion": {
+        "family": "persistence-and-durability",
+        "secondary_capabilities": [
+          "observability"
+        ],
+        "responsibility": "Add bounded outbox semantic spans, metrics, propagation, observations, and publisher instrumentation without owning telemetry infrastructure.",
+        "non_goals": [
+          "Own tracer or meter providers, exporters, SDK queues, or their shutdown lifecycle.",
+          "Change relay retry classification, publisher delivery outcomes, or caller cancellation.",
+          "Record payloads, metadata, destinations, identifiers, errors, panic values, or credentials."
+        ],
+        "public_package_identifier": "outboxotel",
+        "primary_entry_packages": [
+          "github.com/faustbrian/go-transactional-outbox/adapters/otel"
+        ],
+        "package_selection": {},
+        "lifecycle_status": "active",
+        "maturity": "stable",
+        "construction_styles": [
+          "new-config"
+        ],
+        "lifecycle_styles": [
+          "stateless"
+        ],
+        "ownership": {
+          "configuration": "caller",
+          "mutable_inputs": [
+            "borrow",
+            "copy"
+          ],
+          "runtime_resources": "caller",
+          "background_work": "none"
+        },
+        "optional_owned_dependencies": [],
+        "adapters": [],
+        "companions": [
+          "github.com/faustbrian/go-telemetry"
+        ],
+        "supported_go": {
+          "minimum": "1.26.6",
+          "tested": [
+            "1.26.6"
+          ]
+        },
+        "supported_platforms": [
+          "portable-go"
+        ],
+        "supported_backends": [],
+        "supported_protocols": [
+          "opentelemetry",
+          "w3c-trace-context"
+        ],
+        "documentation": {
+          "readme": "adapters/otel/README.md",
+          "api": "adapters/otel/docs/reference.md",
+          "adoption": "adapters/otel/docs/reference.md",
+          "security": "adapters/otel/docs/reference.md",
+          "compatibility": "adapters/otel/docs/reference.md",
+          "performance": null,
+          "examples": "adapters/otel/example_test.go",
+          "faq": "adapters/otel/docs/reference.md",
+          "changelog": "adapters/otel/CHANGELOG.md",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/otel",
+          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.3.0/docs/ecosystem/README.md"
+        },
+        "known_good_compatibility_sets": [],
+        "delivery": {
+          "implementation": "not-started",
+          "hardening": "not-started",
+          "release": "not-started"
+        }
+      },
       "version": "1.0.0",
       "tag_prefix": "adapters/otel/v",
       "owned_dependencies": [
@@ -324,6 +620,76 @@
       "family_label": "Persistence And Durability",
       "family_description": "Durable state, delivery, coordination, recovery, and operational lifecycle.",
       "family_order": 4,
+      "cohesion": {
+        "family": "persistence-and-durability",
+        "secondary_capabilities": [
+          "eventing-and-messaging"
+        ],
+        "responsibility": "Map one durable outbox envelope to one bounded deterministic first-party queue task while preserving acceptance ambiguity.",
+        "non_goals": [
+          "Own workers, retries, dead letters, scheduling, transactions, deduplication, or queue lifecycle.",
+          "Hide unknown queue acceptance or promise cross-system exactly-once delivery.",
+          "Retain caller-owned mutable payload or metadata aliases."
+        ],
+        "public_package_identifier": "outboxqueue",
+        "primary_entry_packages": [
+          "github.com/faustbrian/go-transactional-outbox/adapters/queue"
+        ],
+        "package_selection": {},
+        "lifecycle_status": "active",
+        "maturity": "stable",
+        "construction_styles": [
+          "functional-options"
+        ],
+        "lifecycle_styles": [
+          "stateless"
+        ],
+        "ownership": {
+          "configuration": "caller",
+          "mutable_inputs": [
+            "borrow",
+            "copy"
+          ],
+          "runtime_resources": "caller",
+          "background_work": "none"
+        },
+        "optional_owned_dependencies": [],
+        "adapters": [],
+        "companions": [],
+        "supported_go": {
+          "minimum": "1.26.6",
+          "tested": [
+            "1.26.6"
+          ]
+        },
+        "supported_platforms": [
+          "portable-go"
+        ],
+        "supported_backends": [
+          "redis",
+          "valkey"
+        ],
+        "supported_protocols": [],
+        "documentation": {
+          "readme": "adapters/queue/README.md",
+          "api": "adapters/queue/docs/reference.md",
+          "adoption": "adapters/queue/docs/reference.md",
+          "security": "adapters/queue/docs/reference.md",
+          "compatibility": "adapters/queue/docs/reference.md",
+          "performance": null,
+          "examples": "adapters/queue/example_test.go",
+          "faq": "adapters/queue/docs/reference.md",
+          "changelog": "adapters/queue/CHANGELOG.md",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/queue",
+          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.3.0/docs/ecosystem/README.md"
+        },
+        "known_good_compatibility_sets": [],
+        "delivery": {
+          "implementation": "not-started",
+          "hardening": "not-started",
+          "release": "not-started"
+        }
+      },
       "version": "1.0.0",
       "tag_prefix": "adapters/queue/v",
       "owned_dependencies": [

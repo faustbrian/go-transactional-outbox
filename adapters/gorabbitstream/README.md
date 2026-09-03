@@ -119,3 +119,6 @@ See [CHANGELOG.md](CHANGELOG.md) and [LICENSE](LICENSE).
 
 See the [root package documentation](../../README.md) for delivery semantics,
 adapter boundaries, and related packages.
+
+Shared adapter, ownership, and lifecycle expectations are in the versioned
+[Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.3.0/docs/ecosystem/README.md).

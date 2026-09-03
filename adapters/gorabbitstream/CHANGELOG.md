@@ -6,6 +6,8 @@ All notable changes to this module are documented here.
 
 ### Documentation
 
+- Publish schema-v2 cohesion metadata and versioned Golib ecosystem
+  navigation for the RabbitMQ Streams adapter.
 - Add a module documentation index for direct navigation.
 ## 1.0.0 - 2026-08-25
 

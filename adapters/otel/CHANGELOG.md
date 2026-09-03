@@ -6,6 +6,8 @@ All notable changes to this module are documented here.
 
 ### Documentation
 
+- Publish schema-v2 cohesion metadata and versioned Golib ecosystem
+  navigation for the OpenTelemetry adapter.
 - Move detailed module guidance behind a concise README and documentation index.
 ## 1.0.0 - 2026-08-25
 
