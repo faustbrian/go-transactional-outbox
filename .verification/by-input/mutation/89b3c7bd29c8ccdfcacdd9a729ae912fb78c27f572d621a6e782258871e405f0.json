@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "repository": "github.com/faustbrian/go-transactional-outbox",
+  "module": "adapters/gokafka",
+  "package": ".",
+  "gate": "mutation",
+  "input_digest": "sha256:89b3c7bd29c8ccdfcacdd9a729ae912fb78c27f572d621a6e782258871e405f0",
+  "verifier_digest": "sha256:9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+  "result": "passed",
+  "report_digest": "sha256:a5d3f530b8f98f2e019766a26fb2a9871a2c31058bbd58629ccf74c7f4b93cfe",
+  "environment": {
+    "CGO_ENABLED": "1",
+    "GOARCH": "arm64",
+    "GOOS": "darwin",
+    "GOVERSION": "go1.27.0",
+    "gremlins_binary_sha256": "sha256:6a2beddc477eb410f8a670b6c9049558563d3c4327498fe31604d31c773a959e"
+  },
+  "completed_at": "2026-09-03T12:45:38.382142Z"
+}

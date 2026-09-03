@@ -4,8 +4,16 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+### Changed
+
+- Adopt checksum-verified `go-library-tools` v1.4.0 W14 enforcement and resolve
+  the RabbitMQ Streams and outbox dependencies against their immutable public
+  releases.
+
 ### Documentation
 
+- Publish schema-v2 cohesion metadata and versioned Golib ecosystem
+  navigation for the RabbitMQ Streams adapter.
 - Add a module documentation index for direct navigation.
 ## 1.0.0 - 2026-08-25
 

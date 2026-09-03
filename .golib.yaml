@@ -1,6 +1,6 @@
 schema_version: 1
-tool_version: v1.0.14
-tool_checksums_sha256: 88341d2f2904925b22ec8de084fec68c5229669f1119f066ed5fccd76aee2f82
+tool_version: v1.4.0
+tool_checksums_sha256: ba1b71d41dc9b58d5bfb411bc89ae2d45b6f3f778152714bfd1afeab0bef2f33
 manifest:
   modules: modules.json
   packages: packages.json
@@ -56,7 +56,7 @@ operations:
     - "./postgres"
     fuzz: '^FuzzWriterIdentifiers$'
     budget: 100x
-    timeout: 2m
+    timeout: 5m
   - type: go-test
     packages:
     - "./relay"
@@ -86,7 +86,7 @@ operations:
     - "."
     fuzz: '^FuzzPublisherEnvelopeMapping$'
     budget: 100x
-    timeout: 2m
+    timeout: 5m
 - module: adapters/gokafka
   gate: benchmark
   steps:
