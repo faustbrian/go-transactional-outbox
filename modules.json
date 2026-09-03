@@ -124,7 +124,7 @@
           "faq": "docs/troubleshooting.md",
           "changelog": "CHANGELOG.md",
           "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox",
-          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.3.0/docs/ecosystem/README.md"
+          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md"
         },
         "known_good_compatibility_sets": [],
         "delivery": {
@@ -268,7 +268,7 @@
           "faq": "adapters/gokafka/docs/reference.md",
           "changelog": "adapters/gokafka/CHANGELOG.md",
           "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/gokafka",
-          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.3.0/docs/ecosystem/README.md"
+          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md"
         },
         "known_good_compatibility_sets": [],
         "delivery": {
@@ -409,7 +409,7 @@
           "faq": "adapters/gorabbitstream/README.md",
           "changelog": "adapters/gorabbitstream/CHANGELOG.md",
           "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream",
-          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.3.0/docs/ecosystem/README.md"
+          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md"
         },
         "known_good_compatibility_sets": [],
         "delivery": {
@@ -546,7 +546,7 @@
           "faq": "adapters/otel/docs/reference.md",
           "changelog": "adapters/otel/CHANGELOG.md",
           "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/otel",
-          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.3.0/docs/ecosystem/README.md"
+          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md"
         },
         "known_good_compatibility_sets": [],
         "delivery": {
@@ -681,7 +681,7 @@
           "faq": "adapters/queue/docs/reference.md",
           "changelog": "adapters/queue/CHANGELOG.md",
           "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/queue",
-          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.3.0/docs/ecosystem/README.md"
+          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md"
         },
         "known_good_compatibility_sets": [],
         "delivery": {

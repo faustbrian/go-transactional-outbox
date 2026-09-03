@@ -4,6 +4,11 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+### Changed
+
+- Adopt checksum-verified `go-library-tools` v1.4.0 W14 enforcement and resolve
+  the queue and outbox dependencies against their immutable public releases.
+
 ### Documentation
 
 - Publish schema-v2 cohesion metadata and versioned Golib ecosystem

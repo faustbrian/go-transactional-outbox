@@ -13,9 +13,11 @@ publisher contracts are public compatibility surfaces.
 - Publish complete schema-v2 cohesion metadata and versioned Golib ecosystem
   navigation for the outbox module and its four independently released
   adapters.
-- Adopt the checksum-verified `go-library-tools` v1.3.0 CLI, add the local
-  `make cohesion` validation entry point, and pin reusable-workflow cohesion
+- Adopt the checksum-verified `go-library-tools` v1.4.0 CLI, add the local
+  `make cohesion` validation entry point, and pin reusable-workflow W14
   enforcement to its immutable revision.
+- Give the PostgreSQL identifier and Kafka adapter fuzz gates enough time for
+  cold-cache builds and managed service setup.
 
 - Replace the repository-local verification implementation and service
   fixtures with the pinned `go-library-tools` v1.0.4 CLI and reusable workflow

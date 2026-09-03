@@ -53,4 +53,4 @@ This module follows Semantic Versioning. Report vulnerabilities through the
 MIT. See [LICENSE](LICENSE).
 
 Shared adapter, ownership, and lifecycle expectations are in the versioned
-[Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.3.0/docs/ecosystem/README.md).
+[Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md).
