@@ -27,6 +27,8 @@ publisher contracts are public compatibility surfaces.
 
 ### Documentation
 
+- Link the outbox README directly to the immutable v1.4.0
+  persistence-and-durability family guidance.
 - Align maintained documentation with the stable v1 release contract and
   remove obsolete candidate or verdict wording.
 

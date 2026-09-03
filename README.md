@@ -120,4 +120,5 @@ Use the [documentation index](docs/README.md) for package-owned guides,
 operational contracts, examples, and maintainer references.
 
 Shared construction, ownership, lifecycle, and composition expectations are in
-the versioned [Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md).
+the versioned [Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md)
+and its [Persistence and durability family](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/design-language.md#package-families-and-selection).

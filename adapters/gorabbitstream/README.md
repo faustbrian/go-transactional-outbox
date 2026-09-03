@@ -121,4 +121,5 @@ See the [root package documentation](../../README.md) for delivery semantics,
 adapter boundaries, and related packages.
 
 Shared adapter, ownership, and lifecycle expectations are in the versioned
-[Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md).
+[Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md)
+and its [Persistence and durability family](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/design-language.md#package-families-and-selection).
