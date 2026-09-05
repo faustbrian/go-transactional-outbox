@@ -4,6 +4,14 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+### Deprecated
+
+- Deprecate this legacy module path in favor of the target-oriented
+  `github.com/faustbrian/go-transactional-outbox/adapters/kafka` successor.
+  Migration changes the import path; an explicit `gokafka` import alias can
+  preserve selectors. The modules intentionally retain distinct exported
+  sentinel and concrete-type identities during the compatibility interval.
+
 ### Changed
 
 - Adopt checksum-verified `go-library-tools` v1.4.0 W14 enforcement and resolve

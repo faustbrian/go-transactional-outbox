@@ -85,6 +85,30 @@
       "coverage_required": true,
       "build_required": true,
       "build_tags": []
+    },
+    {
+      "module_directory": "adapters/kafka",
+      "directory": ".",
+      "name": "outboxkafka",
+      "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/kafka",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": "adapters/rabbitstream",
+      "directory": ".",
+      "name": "outboxrabbitstream",
+      "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
     }
   ]
 }

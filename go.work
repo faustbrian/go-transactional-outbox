@@ -4,6 +4,8 @@ use (
 	.
 	./adapters/gokafka
 	./adapters/gorabbitstream
+	./adapters/kafka
 	./adapters/otel
 	./adapters/queue
+	./adapters/rabbitstream
 )

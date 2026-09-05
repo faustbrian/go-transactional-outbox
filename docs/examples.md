@@ -19,6 +19,15 @@ consumer completion; a later delivered-state failure can publish it again.
 The compiled adapter example wires this publisher into a relay and runs in the
 adapter test suite.
 
+## Kafka and RabbitMQ Streams
+
+Use [`adapters/kafka`](../adapters/kafka/README.md) for synchronous confirmed
+Kafka records and [`adapters/rabbitstream`](../adapters/rabbitstream/README.md)
+for synchronous confirmed Stream or Super Stream messages. Both adapters
+preserve the envelope's stable delivery identity, add no retry loop, and leave
+producer lifecycle and topology with the caller. Their compiled examples are
+in the independently versioned adapter modules.
+
 ## idempotency consumers
 
 Use envelope ID or a stable application key as delivery identity and

@@ -3,12 +3,11 @@
 ## Install the core module
 
 ```sh
-go get github.com/faustbrian/go-transactional-outbox@vX.Y.Z
+go get github.com/faustbrian/go-transactional-outbox@v1.0.0
 ```
 
-The current version 1 candidate is not released. When a release exists, pin
-its exact version and review the compatibility, migration, and changelog
-contracts before upgrading.
+Pin an exact released version and review the compatibility, migration, and
+changelog contracts before upgrading.
 
 ## Apply migrations
 

@@ -1,13 +1,9 @@
 # Outbox Kafka adapter technical guide
 
-This compatibility module is deprecated. New adoption should use
-`github.com/faustbrian/go-transactional-outbox/adapters/kafka`; see the
-[migration guide](../../../docs/adapter-migration.md).
-
 This guide contains the complete behavioral and operational reference. Start
 with the [package overview](../README.md).
 
-`gokafka` is the released compatibility adapter from `outbox.Envelope` to the
+`outboxkafka` is the canonical synchronous adapter from `outbox.Envelope` to the
 first-party `kafka.Producer`. It maps one persisted envelope to one Kafka
 record and returns only after the producer reports the broker delivery result.
 It owns no worker, retry loop, transaction, topic, or producer lifecycle.
@@ -19,7 +15,7 @@ producer, err := kafka.NewProducer(kafka.ProducerConfig{
 	Brokers:       brokers,
 	ClientID:      "billing-outbox",
 	AllowedTopics: []string{"billing.events.v1"},
-	Limits:        gokafka.DefaultLimits().Kafka,
+	Limits:        outboxkafka.DefaultLimits().Kafka,
 	Security:      kafka.DevelopmentPlaintextSecurity(), // development only
 })
 if err != nil {
@@ -27,11 +23,11 @@ if err != nil {
 }
 defer producer.Close()
 
-publisher, err := gokafka.New(producer)
+publisher, err := outboxkafka.New(producer)
 if err != nil {
 	return err
 }
-relayConfig.ClassifyError = gokafka.ClassifyError
+relayConfig.ClassifyError = outboxkafka.ClassifyError
 relay, err := outboxrelay.New(store, publisher, relayConfig)
 ```
 
@@ -60,14 +56,14 @@ and the normalized content type are both available.
 The adapter copies payload, key, and every header value before it calls the
 client. It validates both persisted-envelope limits and Kafka record limits
 before publication. Configure the producer with the same
-`gokafka.Limits.Kafka` value:
+`outboxkafka.Limits.Kafka` value:
 
 ```go
-limits := gokafka.DefaultLimits()
+limits := outboxkafka.DefaultLimits()
 limits.Envelope.MaxPayloadBytes = 512 << 10
 limits.Kafka.MaxValueBytes = 512 << 10
 
-publisher, err := gokafka.New(producer, gokafka.WithLimits(limits))
+publisher, err := outboxkafka.New(producer, outboxkafka.WithLimits(limits))
 ```
 
 Broker `message.max.bytes`, topic `max.message.bytes`, and producer batch
@@ -102,7 +98,7 @@ backoff, request timeout, and delivery timeout on `kafka.ProducerConfig`, and
 configure durable retry/backoff on the outbox relay. Do not let both layers
 perform unbounded retries.
 
-Set `relay.Config.ClassifyError` to `gokafka.ClassifyError`. Locally rejected
+Set `relay.Config.ClassifyError` to `outboxkafka.ClassifyError`. Locally rejected
 malformed envelopes and record-permanent or oversized-record categories are
 sent directly to the relay's dead-letter transition. Authorization, fencing,
 producer-fatal, retryable, timeout, cancellation, shutdown, unknown, and
@@ -170,12 +166,11 @@ and wants the first-party Kafka producer boundary. Keep topic creation in
 deployment automation, keep the database transaction in the outbox writer,
 and keep relay claiming/marking in `outbox/relay`.
 
-The stable v1 module is independently versioned. The initial hardened API is
-source-compatible with the earlier `New(client)` call because configuration is
-optional. Existing callers gain validation, defensive ownership, redacted
-publish diagnostics, and panic containment. Metadata using a fixed header name
-is now rejected instead of producing an ambiguous duplicate header; rename
-such metadata before adoption.
+The module will be independently versioned from its initial v1.0.0 release.
+The initial API is source-compatible with the earlier `New(client)` call
+because configuration is optional. It preserves the legacy adapter's
+validation, defensive ownership, redacted publish diagnostics, panic
+containment, and rejection of metadata that uses a fixed header name.
 
 The adapter targets the current first-party `outbox` and `kafka` modules and
 franz-go-backed synchronous producer semantics. It intentionally does not

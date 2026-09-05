@@ -1,22 +1,26 @@
 # Compatibility Policy
 
-SemVer applies independently to core, `outboxqueue`, and
-`outboxotel`. Compatibility surfaces include canonical encoding, migrations,
-delivery semantics, errors, metrics, observer events, and publisher behavior.
+SemVer applies independently to core and every adapter module. Compatibility
+surfaces include canonical encoding, migrations, delivery semantics, errors,
+metrics, observer events, and publisher behavior.
 
 | Surface | Versions | Evidence and boundary |
 |---|---|---|
 | Go | 1.26.6 minimum and stable | Linux, macOS, and Windows unit jobs |
 | PostgreSQL | 14, 15, 16, 17, 18 | Full migration, crash, isolation, multi-process, retention, and plan integration per major |
 | pgx | v5.10.0 | Caller transaction, pool, errors, cancellation, and connection loss |
-| queue | `5036902eed67` | Standalone adapter race, coverage, fuzz, acceptance, error, and cancellation tests |
-| telemetry | adapter-pinned | Runtime standard providers and propagator |
+| Kafka | successor release target v1.0.0 | First-party producer contract, confirmed synchronous publication, bounded mapping, and error categories; not installable until its tag is published |
+| RabbitMQ Streams | successor release target v1.0.0 | First-party producer contract, broker confirmation, bounded mapping, and error categories; not installable until its tag is published |
+| queue | adapter-pinned v1 | Standalone adapter race, coverage, fuzz, acceptance, error, and cancellation tests |
+| telemetry | adapter-pinned v1 | Runtime standard providers and propagator |
 
 ## Publisher matrix
 
 | Publisher | Acceptance result | Context behavior | Retry interaction |
 |---|---|---|---|
 | Application implementation | `Publish` returns `nil` | Must honor cancellation according to its transport contract | Outbox classifies returned errors and caps its retry delay at one minute |
+| `outboxkafka.Publisher` | synchronous producer returns `nil` after broker acknowledgement | Passes the relay context through; cancellation after admission can be ambiguous | Adds no retry; `ClassifyError` keeps ambiguous and recoverable outcomes transient |
+| `outboxrabbitstream.Publisher` | first-party client returns `DeliveryConfirmed` | Passes the relay context through; interruption can leave confirmation unknown | Adds no retry; definite invalid input/rejection is permanent and ambiguity is transient |
 | `outboxqueue.Publisher` | synchronous `Queue` returns `nil` | Rejects an already-canceled context; pinned `queue` has no context parameter, so an in-flight call cannot be interrupted | A queue error uses outbox retry policy; retries performed by a job worker after queue acceptance are downstream and do not cause outbox republish |
 | `outboxotel` wrapper | delegates the wrapped publisher result unchanged | Extracts context and passes the relay context through | Adds no retry; generic span failure status does not classify the error |
 

@@ -23,7 +23,7 @@ an application deployment failed.
 |---|---|---|---|---|---|
 | Empty database | `000001` | Apply the canonical up section once | Writers and relays must start only after the install commits; no pre-schema compatibility is claimed | Development down removes both managed tables; production restores or rolls forward | Clean up/down/reapply on PostgreSQL 14–18 and real `migrations` clean install |
 | `000001` already recorded | `000001` | Migration runner no-op | Existing writers and relays may continue because no DDL is applied | None required | Two concurrent real runners produce one owned-ledger record |
-| Any published predecessor | `000001` | Not applicable: no schema version has been published before this unreleased candidate | No mixed-version compatibility claim exists yet | Not applicable | `CHANGELOG.md` remains `Unreleased` |
+| Any published predecessor | `000001` | Not applicable: v1.0.0 introduced the first published schema | No mixed-schema predecessor exists | Not applicable | v1.0.0 release manifest and clean-install evidence |
 | Future predecessor | Future migration | Must use a new reversible expand/migrate/contract file | Old and new code must be exercised concurrently for every phase where compatibility is claimed | Roll forward by default; destructive down requires an explicit recovery plan | A fixture and integration case are required for every published predecessor |
 
 Concurrent migration runners are proven today; concurrent application or

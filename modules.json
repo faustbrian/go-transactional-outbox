@@ -94,8 +94,10 @@
         "adapters": [
           "github.com/faustbrian/go-transactional-outbox/adapters/gokafka",
           "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream",
+          "github.com/faustbrian/go-transactional-outbox/adapters/kafka",
           "github.com/faustbrian/go-transactional-outbox/adapters/otel",
-          "github.com/faustbrian/go-transactional-outbox/adapters/queue"
+          "github.com/faustbrian/go-transactional-outbox/adapters/queue",
+          "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream"
         ],
         "companions": [
           "github.com/faustbrian/go-idempotency"
@@ -128,9 +130,9 @@
         },
         "known_good_compatibility_sets": [],
         "delivery": {
-          "implementation": "not-started",
-          "hardening": "not-started",
-          "release": "not-started"
+          "implementation": "in-progress",
+          "hardening": "in-progress",
+          "release": "in-progress"
         }
       },
       "version": "1.0.0",
@@ -142,8 +144,10 @@
         "github.com/faustbrian/go-idempotency/compatibility/ecosystem",
         "github.com/faustbrian/go-transactional-outbox/adapters/gokafka",
         "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream",
+        "github.com/faustbrian/go-transactional-outbox/adapters/kafka",
         "github.com/faustbrian/go-transactional-outbox/adapters/otel",
         "github.com/faustbrian/go-transactional-outbox/adapters/queue",
+        "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream",
         "github.com/faustbrian/go-service/integration/reference-durability",
         "github.com/faustbrian/go-webhook"
       ],
@@ -198,8 +202,8 @@
           "build_tags": []
         }
       ],
-      "purpose": "`gokafka` is the canonical synchronous adapter from `outbox.Envelope` to the first-party `kafka.Producer`. It maps one persisted envelope to one Kafka record and returns only after the producer reports the broker delivery result. It owns no worker, retry loop, transaction, topic, or producer lifecycle.",
-      "lifecycle": "stable",
+      "purpose": "gokafka is the released compatibility adapter from outbox.Envelope to the first-party kafka.Producer while consumers migrate to adapters/kafka. It owns no worker, retry loop, transaction, topic, or producer lifecycle.",
+      "lifecycle": "deprecated",
       "kind": "adapter",
       "releasable": true,
       "family": "persistence-and-durability",
@@ -211,7 +215,7 @@
         "secondary_capabilities": [
           "eventing-and-messaging"
         ],
-        "responsibility": "Map one durable outbox envelope to one confirmed first-party Kafka record without acquiring or owning the producer.",
+        "responsibility": "Preserve the released Kafka adapter contract while consumers migrate to the target-oriented adapters/kafka module.",
         "non_goals": [
           "Own Kafka producer, topic, topology, worker, retry, transaction, or relay lifecycle.",
           "Provide cross-system exactly-once delivery or hide ambiguous broker outcomes.",
@@ -221,8 +225,10 @@
         "primary_entry_packages": [
           "github.com/faustbrian/go-transactional-outbox/adapters/gokafka"
         ],
-        "package_selection": {},
-        "lifecycle_status": "active",
+        "package_selection": {
+          "github.com/faustbrian/go-transactional-outbox/adapters/gokafka": "Use only to preserve the released v1 import path while migrating to adapters/kafka."
+        },
+        "lifecycle_status": "deprecated",
         "maturity": "stable",
         "construction_styles": [
           "functional-options"
@@ -241,7 +247,9 @@
         },
         "optional_owned_dependencies": [],
         "adapters": [],
-        "companions": [],
+        "companions": [
+          "github.com/faustbrian/go-transactional-outbox/adapters/kafka"
+        ],
         "supported_go": {
           "minimum": "1.26.6",
           "tested": [
@@ -272,9 +280,9 @@
         },
         "known_good_compatibility_sets": [],
         "delivery": {
-          "implementation": "not-started",
-          "hardening": "not-started",
-          "release": "not-started"
+          "implementation": "in-progress",
+          "hardening": "in-progress",
+          "release": "in-progress"
         }
       },
       "version": "1.0.0",
@@ -283,7 +291,9 @@
         "github.com/faustbrian/go-kafka",
         "github.com/faustbrian/go-transactional-outbox"
       ],
-      "reverse_owned_dependencies": [],
+      "reverse_owned_dependencies": [
+        "github.com/faustbrian/go-workflow"
+      ],
       "external_runtime_dependencies": [
         "github.com/jackc/pgx/v5",
         "github.com/testcontainers/testcontainers-go/modules/kafka",
@@ -291,9 +301,7 @@
         "github.com/twmb/franz-go",
         "github.com/twmb/franz-go/pkg/kadm"
       ],
-      "required_services": [
-        "postgresql"
-      ],
+      "required_services": [],
       "build_tags": [],
       "test_tags": [
         "integration"
@@ -338,7 +346,7 @@
         }
       ],
       "purpose": "`gorabbitstream` maps one persisted `outbox.Envelope` to one confirmed `rabbitstream.Message`. It owns no producer, topology, relay, retry loop, database transaction, or outbox state transition.",
-      "lifecycle": "stable",
+      "lifecycle": "deprecated",
       "kind": "adapter",
       "releasable": true,
       "family": "persistence-and-durability",
@@ -350,7 +358,7 @@
         "secondary_capabilities": [
           "eventing-and-messaging"
         ],
-        "responsibility": "Map one durable outbox envelope to one confirmed RabbitMQ Stream or Super Stream message without owning transport lifecycle.",
+        "responsibility": "Preserve the released RabbitMQ Streams adapter contract while consumers migrate to the target-oriented adapters/rabbitstream module.",
         "non_goals": [
           "Own the producer, topology, relay, retry loop, database transaction, or outbox state transition.",
           "Provide global ordering or cross-system exactly-once delivery.",
@@ -360,8 +368,10 @@
         "primary_entry_packages": [
           "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream"
         ],
-        "package_selection": {},
-        "lifecycle_status": "active",
+        "package_selection": {
+          "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream": "Use only to preserve the released v1 import path while migrating to adapters/rabbitstream."
+        },
+        "lifecycle_status": "deprecated",
         "maturity": "stable",
         "construction_styles": [
           "new-config"
@@ -380,7 +390,9 @@
         },
         "optional_owned_dependencies": [],
         "adapters": [],
-        "companions": [],
+        "companions": [
+          "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream"
+        ],
         "supported_go": {
           "minimum": "1.26.6",
           "tested": [
@@ -404,7 +416,7 @@
           "adoption": "adapters/gorabbitstream/README.md",
           "security": "adapters/gorabbitstream/README.md",
           "compatibility": "adapters/gorabbitstream/README.md",
-          "performance": null,
+          "performance": "adapters/gorabbitstream/README.md",
           "examples": "adapters/gorabbitstream/example_test.go",
           "faq": "adapters/gorabbitstream/README.md",
           "changelog": "adapters/gorabbitstream/CHANGELOG.md",
@@ -413,9 +425,9 @@
         },
         "known_good_compatibility_sets": [],
         "delivery": {
-          "implementation": "not-started",
-          "hardening": "not-started",
-          "release": "not-started"
+          "implementation": "in-progress",
+          "hardening": "in-progress",
+          "release": "in-progress"
         }
       },
       "version": "1.0.0",
@@ -706,6 +718,285 @@
       "required_services": [
         "redis",
         "valkey"
+      ],
+      "build_tags": [],
+      "test_tags": [
+        "integration"
+      ],
+      "interoperability_tools": [],
+      "specifications": [],
+      "conformance_corpora": [],
+      "provenance": [],
+      "goal_files": [],
+      "goal_status": "not-applicable",
+      "goal_evidence": [],
+      "gates": {
+        "api_compatibility": true,
+        "benchmarks": true,
+        "conformance": false,
+        "coverage": true,
+        "documentation": true,
+        "fuzz": true,
+        "lint": true,
+        "mutation": true,
+        "race": true,
+        "security": true,
+        "tests": true
+      }
+    },
+    {
+      "directory": "adapters/kafka",
+      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/kafka",
+      "go_version": "1.26.6",
+      "packages": [
+        {
+          "module_directory": "adapters/kafka",
+          "directory": ".",
+          "name": "outboxkafka",
+          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/kafka",
+          "kind": "public",
+          "production": true,
+          "executable": true,
+          "coverage_required": true,
+          "build_required": true,
+          "build_tags": []
+        }
+      ],
+      "purpose": "outboxkafka is the canonical synchronous adapter from outbox.Envelope to the first-party kafka.Producer. It maps one persisted envelope to one Kafka record and returns only after the producer reports the broker delivery result. It owns no worker, retry loop, transaction, topic, or producer lifecycle.",
+      "lifecycle": "preview",
+      "kind": "adapter",
+      "releasable": true,
+      "family": "persistence-and-durability",
+      "family_label": "Persistence And Durability",
+      "family_description": "Durable state, delivery, coordination, recovery, and operational lifecycle.",
+      "family_order": 4,
+      "cohesion": {
+        "family": "persistence-and-durability",
+        "secondary_capabilities": [
+          "eventing-and-messaging"
+        ],
+        "responsibility": "Map one durable outbox envelope to one confirmed first-party Kafka record without acquiring or owning the producer.",
+        "non_goals": [
+          "Own Kafka producer, topic, topology, worker, retry, transaction, or relay lifecycle.",
+          "Provide cross-system exactly-once delivery or hide ambiguous broker outcomes.",
+          "Retain caller-mutable aliases or accept unbounded payloads, metadata, or keys."
+        ],
+        "public_package_identifier": "outboxkafka",
+        "primary_entry_packages": [
+          "github.com/faustbrian/go-transactional-outbox/adapters/kafka"
+        ],
+        "package_selection": {},
+        "lifecycle_status": "active",
+        "maturity": "preview",
+        "construction_styles": [
+          "functional-options"
+        ],
+        "lifecycle_styles": [
+          "stateless"
+        ],
+        "ownership": {
+          "configuration": "caller",
+          "mutable_inputs": [
+            "borrow",
+            "copy"
+          ],
+          "runtime_resources": "caller",
+          "background_work": "none"
+        },
+        "optional_owned_dependencies": [],
+        "adapters": [],
+        "companions": [
+          "github.com/faustbrian/go-transactional-outbox/adapters/gokafka"
+        ],
+        "supported_go": {
+          "minimum": "1.26.6",
+          "tested": [
+            "1.26.6"
+          ]
+        },
+        "supported_platforms": [
+          "portable-go"
+        ],
+        "supported_backends": [
+          "kafka"
+        ],
+        "supported_protocols": [
+          "kafka"
+        ],
+        "documentation": {
+          "readme": "adapters/kafka/README.md",
+          "api": "adapters/kafka/docs/reference.md",
+          "adoption": "adapters/kafka/docs/reference.md",
+          "security": "adapters/kafka/docs/reference.md",
+          "compatibility": "adapters/kafka/docs/reference.md",
+          "performance": "adapters/kafka/docs/reference.md",
+          "examples": "adapters/kafka/example_test.go",
+          "faq": "adapters/kafka/docs/reference.md",
+          "changelog": "adapters/kafka/CHANGELOG.md",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/kafka",
+          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md"
+        },
+        "known_good_compatibility_sets": [],
+        "delivery": {
+          "implementation": "in-progress",
+          "hardening": "in-progress",
+          "release": "in-progress"
+        }
+      },
+      "version": "1.0.0",
+      "tag_prefix": "adapters/kafka/v",
+      "owned_dependencies": [
+        "github.com/faustbrian/go-kafka",
+        "github.com/faustbrian/go-transactional-outbox"
+      ],
+      "reverse_owned_dependencies": [],
+      "external_runtime_dependencies": [
+        "github.com/jackc/pgx/v5",
+        "github.com/testcontainers/testcontainers-go/modules/kafka",
+        "github.com/testcontainers/testcontainers-go/modules/postgres",
+        "github.com/twmb/franz-go",
+        "github.com/twmb/franz-go/pkg/kadm"
+      ],
+      "required_services": [],
+      "build_tags": [],
+      "test_tags": [
+        "integration"
+      ],
+      "interoperability_tools": [],
+      "specifications": [],
+      "conformance_corpora": [],
+      "provenance": [],
+      "goal_files": [],
+      "goal_status": "not-applicable",
+      "goal_evidence": [],
+      "gates": {
+        "api_compatibility": true,
+        "benchmarks": true,
+        "conformance": false,
+        "coverage": true,
+        "documentation": true,
+        "fuzz": true,
+        "lint": true,
+        "mutation": true,
+        "race": true,
+        "security": true,
+        "tests": true
+      }
+    },
+    {
+      "directory": "adapters/rabbitstream",
+      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream",
+      "go_version": "1.26.6",
+      "packages": [
+        {
+          "module_directory": "adapters/rabbitstream",
+          "directory": ".",
+          "name": "outboxrabbitstream",
+          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream",
+          "kind": "public",
+          "production": true,
+          "executable": true,
+          "coverage_required": true,
+          "build_required": true,
+          "build_tags": []
+        }
+      ],
+      "purpose": "outboxrabbitstream maps one persisted outbox.Envelope to one confirmed rabbitstream.Message. It owns no producer, topology, relay, retry loop, database transaction, or outbox state transition.",
+      "lifecycle": "preview",
+      "kind": "adapter",
+      "releasable": true,
+      "family": "persistence-and-durability",
+      "family_label": "Persistence And Durability",
+      "family_description": "Durable state, delivery, coordination, recovery, and operational lifecycle.",
+      "family_order": 4,
+      "cohesion": {
+        "family": "persistence-and-durability",
+        "secondary_capabilities": [
+          "eventing-and-messaging"
+        ],
+        "responsibility": "Map one durable outbox envelope to one confirmed RabbitMQ Stream or Super Stream message without owning transport lifecycle.",
+        "non_goals": [
+          "Own the producer, topology, relay, retry loop, database transaction, or outbox state transition.",
+          "Provide global ordering or cross-system exactly-once delivery.",
+          "Expose caller payloads, metadata, routing keys, credentials, or panic values in diagnostics."
+        ],
+        "public_package_identifier": "outboxrabbitstream",
+        "primary_entry_packages": [
+          "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream"
+        ],
+        "package_selection": {},
+        "lifecycle_status": "active",
+        "maturity": "preview",
+        "construction_styles": [
+          "new-config"
+        ],
+        "lifecycle_styles": [
+          "stateless"
+        ],
+        "ownership": {
+          "configuration": "caller",
+          "mutable_inputs": [
+            "borrow",
+            "copy"
+          ],
+          "runtime_resources": "caller",
+          "background_work": "none"
+        },
+        "optional_owned_dependencies": [],
+        "adapters": [],
+        "companions": [
+          "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream"
+        ],
+        "supported_go": {
+          "minimum": "1.26.6",
+          "tested": [
+            "1.26.6"
+          ]
+        },
+        "supported_platforms": [
+          "portable-go"
+        ],
+        "supported_backends": [
+          "rabbitmq-streams"
+        ],
+        "supported_protocols": [
+          "amqp-1-0",
+          "rabbitmq-stream-protocol",
+          "w3c-trace-context"
+        ],
+        "documentation": {
+          "readme": "adapters/rabbitstream/README.md",
+          "api": "adapters/rabbitstream/README.md",
+          "adoption": "adapters/rabbitstream/README.md",
+          "security": "adapters/rabbitstream/README.md",
+          "compatibility": "adapters/rabbitstream/README.md",
+          "performance": "adapters/rabbitstream/README.md",
+          "examples": "adapters/rabbitstream/example_test.go",
+          "faq": "adapters/rabbitstream/README.md",
+          "changelog": "adapters/rabbitstream/CHANGELOG.md",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream",
+          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md"
+        },
+        "known_good_compatibility_sets": [],
+        "delivery": {
+          "implementation": "in-progress",
+          "hardening": "in-progress",
+          "release": "in-progress"
+        }
+      },
+      "version": "1.0.0",
+      "tag_prefix": "adapters/rabbitstream/v",
+      "owned_dependencies": [
+        "github.com/faustbrian/go-transactional-outbox",
+        "github.com/faustbrian/go-rabbitmq-streams",
+        "github.com/faustbrian/go-rabbitmq-streams/rabbitmq"
+      ],
+      "reverse_owned_dependencies": [],
+      "external_runtime_dependencies": [
+        "github.com/rabbitmq/rabbitmq-stream-go-client"
+      ],
+      "required_services": [
+        "rabbitstream-standalone"
       ],
       "build_tags": [],
       "test_tags": [
