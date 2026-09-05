@@ -1,0 +1,30 @@
+package outboxkafka_test
+
+import (
+	"context"
+	"testing"
+
+	"github.com/faustbrian/go-transactional-outbox"
+	"github.com/faustbrian/go-transactional-outbox/adapters/kafka"
+)
+
+// BenchmarkPublisherMappingOnly uses an in-memory client so broker latency,
+// producer batching, and network backpressure are outside the measurement.
+func BenchmarkPublisherMappingOnly(b *testing.B) {
+	publisher, err := outboxkafka.New(&recordingClient{})
+	if err != nil {
+		b.Fatal(err)
+	}
+	envelope := outbox.Envelope{
+		ID: "event-1", Topic: "track.tracking-event.v1",
+		OrderingKey: "tracked-item-1", IdempotencyKey: "event-1",
+		PayloadVersion: 1, Payload: []byte(`{"event_id":"event-1"}`),
+	}
+
+	b.ReportAllocs()
+	for b.Loop() {
+		if err := publisher.Publish(context.Background(), envelope); err != nil {
+			b.Fatal(err)
+		}
+	}
+}

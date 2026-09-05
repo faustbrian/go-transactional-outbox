@@ -1,5 +1,9 @@
 # Documentation
 
+This module is deprecated in favor of
+[`adapters/rabbitstream`](../../rabbitstream/docs/README.md). See the
+[repository migration guide](../../../docs/adapter-migration.md).
+
 ## Getting started
 
 - [Package overview](../README.md)

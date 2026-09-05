@@ -11,7 +11,7 @@ publisher contracts are public compatibility surfaces.
 ### Changed
 
 - Publish complete schema-v2 cohesion metadata and versioned Golib ecosystem
-  navigation for the outbox module and its four independently released
+  navigation for the outbox module and its six independently releasable
   adapters.
 - Adopt the checksum-verified `go-library-tools` v1.4.0 CLI, add the local
   `make cohesion` validation entry point, and pin reusable-workflow W14
@@ -27,6 +27,8 @@ publisher contracts are public compatibility surfaces.
 
 ### Documentation
 
+- Add target-oriented Kafka and RabbitMQ Streams adapter entry points and a
+  migration guide for the retained deprecated module paths.
 - Link the outbox README directly to the immutable v1.4.0
   persistence-and-durability family guidance.
 - Align maintained documentation with the stable v1 release contract and

@@ -1,6 +1,6 @@
 # Hardening Inventory
 
-This inventory is the release-candidate surface audited by the hardening
+This inventory is the stable v1 surface audited by the hardening
 matrix. `go doc -all` remains the symbol-level source of truth; this document
 groups every exported contract with its persistent or operational effect.
 
@@ -77,8 +77,12 @@ zero time and never changes a relay transition.
 
 | Module | Exported surface |
 |---|---|
+| `adapters/kafka` | `Client`; `Publisher`; `Limits`; `Option`; `New`; `Publish`; `Health`; `DefaultLimits`; `WithLimits`; `ClassifyError`; bounded validation and publication sentinels |
+| `adapters/rabbitstream` | `Client`; `Config`; `Publisher`; `New`; `Publish`; `ClassifyError`; bounded validation and confirmation sentinels |
 | `adapters/queue` | `Queue`; `Publisher`; `New`; `Publish`; `ErrQueueRequired` |
 | `adapters/otel` | `Runtime`; `Publisher`; `Telemetry`; `New`; `Inject`; `Observe`; `RecordBacklog`; `WrapPublisher`; `ErrRuntimeRequired`; `ErrPublisherRequired` |
+| `adapters/gokafka` | Deprecated compatibility copy of the Kafka surface; identities remain path-specific |
+| `adapters/gorabbitstream` | Deprecated compatibility copy of the RabbitMQ Streams surface; identities remain path-specific |
 
 Telemetry instruments `outbox.operations`, `outbox.operation.duration`,
 `outbox.backlog.depth`, and `outbox.backlog.oldest_pending_age`. Metric

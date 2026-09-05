@@ -42,10 +42,17 @@ transactions or exactly-once delivery.
 - `github.com/faustbrian/go-transactional-outbox/postgres`: migrations, transactional writer,
   claims, leases, retries, dead letters, replay, and retention.
 - `github.com/faustbrian/go-transactional-outbox/relay`: bounded embedded relay.
+- `github.com/faustbrian/go-transactional-outbox/adapters/kafka`: preferred,
+  separately versioned Kafka publisher adapter.
+- `github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream`: preferred,
+  separately versioned RabbitMQ Streams publisher adapter.
 - `github.com/faustbrian/go-transactional-outbox/adapters/queue`: separately versioned
   `queue` publisher adapter; importing core does not add `queue`.
 - `github.com/faustbrian/go-transactional-outbox/adapters/otel`: separately versioned
   metrics and trace-linkage integration compatible with `telemetry`.
+
+The released `adapters/gokafka` and `adapters/gorabbitstream` paths remain as
+deprecated compatibility modules. See the [adapter migration guide](docs/adapter-migration.md).
 
 ## Quick start
 

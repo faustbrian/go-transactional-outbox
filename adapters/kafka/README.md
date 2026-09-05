@@ -1,21 +1,17 @@
 # Outbox Kafka adapter
 
-> **Deprecated:** use
-> `github.com/faustbrian/go-transactional-outbox/adapters/kafka`. The
-> target-oriented path removes the redundant `go` prefix. This compatibility
-> module remains available for the longer of 180 days and two stable minor
-> releases, and may be removed only in an authorized v2 after owned consumers
-> and clean public-consumer checks have migrated.
-
-`gokafka` is the released compatibility adapter from `outbox.Envelope` to the
+`outboxkafka` is the canonical synchronous adapter from `outbox.Envelope` to the
 first-party `kafka.Producer`. It maps one persisted envelope to one Kafka
 record and returns only after the producer reports the broker delivery result.
 It owns no worker, retry loop, transaction, topic, or producer lifecycle.
 
 ## Install
 
+This successor is implemented but not yet published. After
+`adapters/kafka/v1.0.0` is released, install the exact version:
+
 ```sh
-go get github.com/faustbrian/go-transactional-outbox/adapters/gokafka@v1
+go get github.com/faustbrian/go-transactional-outbox/adapters/kafka@v1.0.0
 ```
 
 ## Quick start
@@ -25,7 +21,7 @@ producer, err := kafka.NewProducer(kafka.ProducerConfig{
 	Brokers:       brokers,
 	ClientID:      "billing-outbox",
 	AllowedTopics: []string{"billing.events.v1"},
-	Limits:        gokafka.DefaultLimits().Kafka,
+	Limits:        outboxkafka.DefaultLimits().Kafka,
 	Security:      kafka.DevelopmentPlaintextSecurity(), // development only
 })
 if err != nil {
@@ -33,11 +29,11 @@ if err != nil {
 }
 defer producer.Close()
 
-publisher, err := gokafka.New(producer)
+publisher, err := outboxkafka.New(producer)
 if err != nil {
 	return err
 }
-relayConfig.ClassifyError = gokafka.ClassifyError
+relayConfig.ClassifyError = outboxkafka.ClassifyError
 relay, err := outboxrelay.New(store, publisher, relayConfig)
 ```
 
@@ -53,7 +49,7 @@ additional guarantees beyond the documented module boundary.
 
 - [Documentation index](docs/README.md)
 - [Complete technical guide](docs/reference.md)
-- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/gokafka)
+- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/kafka)
 - [Compiled example](example_test.go)
 - [Troubleshooting](../../docs/troubleshooting.md)
 - [Parent package documentation](../../docs/README.md)
@@ -62,14 +58,16 @@ additional guarantees beyond the documented module boundary.
 
 ## Compatibility and support
 
-This module requires Go 1.26.6 and follows Semantic Versioning. Report
-vulnerabilities through the [parent security policy](../../SECURITY.md).
+This release-candidate module requires Go 1.26.6 and will follow Semantic
+Versioning after publication. It is
+the target-oriented successor to `adapters/gokafka`. Existing callers can
+change only the import path and either use the default `outboxkafka` qualifier
+or preserve the old qualifier with an explicit import alias. The modules are
+independent copies: exported sentinels and concrete/reflection identities do
+not compare equal across the two paths. See the
+[migration guide](../../docs/adapter-migration.md).
 
-Migration changes the import path only. Callers may use the successor's
-default `outboxkafka` qualifier or alias it as `gokafka`. The legacy and
-successor modules contain independent implementations: their exported
-sentinels and concrete/reflection identities are distinct and must not be
-compared across paths. See the [migration guide](../../docs/adapter-migration.md).
+Report vulnerabilities through the [parent security policy](../../SECURITY.md).
 
 ## License
 

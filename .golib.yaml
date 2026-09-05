@@ -35,12 +35,18 @@ api:
   - module: adapters/gorabbitstream
     mode: apidiff
     path: adapters/gorabbitstream/api/baseline.txt
+  - module: adapters/kafka
+    mode: apidiff
+    path: adapters/kafka/api/baseline.txt
   - module: adapters/otel
     mode: apidiff
     path: adapters/otel/api/baseline.txt
   - module: adapters/queue
     mode: apidiff
     path: adapters/queue/api/baseline.txt
+  - module: adapters/rabbitstream
+    mode: apidiff
+    path: adapters/rabbitstream/api/baseline.txt
 operations:
 - module: "."
   gate: fuzz
@@ -96,6 +102,24 @@ operations:
     benchmark: "."
     budget: 100ms
     timeout: 20m
+- module: adapters/kafka
+  gate: fuzz
+  steps:
+  - type: go-test
+    packages:
+    - "."
+    fuzz: '^FuzzPublisherEnvelopeMapping$'
+    budget: 100x
+    timeout: 5m
+- module: adapters/kafka
+  gate: benchmark
+  steps:
+  - type: go-test
+    packages:
+    - "./..."
+    benchmark: "."
+    budget: 100ms
+    timeout: 20m
 - module: adapters/gorabbitstream
   gate: fuzz
   steps:
@@ -106,6 +130,24 @@ operations:
     budget: 100x
     timeout: 2m
 - module: adapters/gorabbitstream
+  gate: benchmark
+  steps:
+  - type: go-test
+    packages:
+    - "./..."
+    benchmark: "."
+    budget: 100ms
+    timeout: 20m
+- module: adapters/rabbitstream
+  gate: fuzz
+  steps:
+  - type: go-test
+    packages:
+    - "."
+    fuzz: '^FuzzPublisherEnvelopeOwnershipAndFailureClassification$'
+    budget: 100x
+    timeout: 2m
+- module: adapters/rabbitstream
   gate: benchmark
   steps:
   - type: go-test

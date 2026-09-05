@@ -1,20 +1,17 @@
 # Outbox RabbitMQ Streams adapter
 
-> **Deprecated:** use
-> `github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream`. The
-> target-oriented path removes the redundant `go` prefix. This compatibility
-> module remains available for the longer of 180 days and two stable minor
-> releases, and may be removed only in an authorized v2 after owned consumers
-> and clean public-consumer checks have migrated.
-
-`gorabbitstream` maps one persisted `outbox.Envelope` to one confirmed
+`outboxrabbitstream` maps one persisted `outbox.Envelope` to one confirmed
 `rabbitstream.Message`. It owns no producer, topology, relay, retry loop,
 database transaction, or outbox state transition.
 
+This release-candidate module requires Go 1.26.6 and is not yet published.
+
 ## Install
 
+After `adapters/rabbitstream/v1.0.0` is released, install the exact version:
+
 ```sh
-go get github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream@v1
+go get github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream@v1.0.0
 ```
 
 ## Quick start
@@ -27,7 +24,7 @@ if err != nil {
     return err
 }
 
-publisher, err := gorabbitstream.New(producer, gorabbitstream.Config{
+publisher, err := outboxrabbitstream.New(producer, outboxrabbitstream.Config{
     Stream: "billing.events",
 })
 if err != nil {
@@ -36,14 +33,12 @@ if err != nil {
 
 worker, err := relay.New(store, publisher, relay.Config{
     Owner: "billing-outbox-1",
-    ClassifyError: gorabbitstream.ClassifyError,
+    ClassifyError: outboxrabbitstream.ClassifyError,
 })
 ```
 
 The caller creates and closes the producer. Production topology remains
 operator-owned.
-
-This module requires Go 1.26.6 and follows Semantic Versioning.
 
 ## Construction, ownership, and concurrency
 
@@ -152,7 +147,7 @@ No. One publisher accepts one exact configured Stream or Super Stream target.
 ## Documentation and support
 
 - [Documentation index](docs/README.md)
-- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream)
+- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream)
 - [Compiled example](example_test.go)
 - [Troubleshooting](../../docs/troubleshooting.md)
 - [Parent package documentation](../../docs/README.md)
@@ -168,9 +163,9 @@ Shared adapter, ownership, and lifecycle expectations are in the versioned
 [Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md)
 and its [Persistence and durability family](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/design-language.md#package-families-and-selection).
 
-Migration changes the import path only. Callers may use the successor's
-default `outboxrabbitstream` qualifier or alias it as `gorabbitstream`. The
-legacy and successor modules contain independent implementations: their
-exported sentinels and concrete/reflection identities are distinct and must
-not be compared across paths. See the
-[migration guide](../../docs/adapter-migration.md).
+This module is the target-oriented successor to `adapters/gorabbitstream`.
+Existing callers can change only the import path and either use the default
+`outboxrabbitstream` qualifier or preserve the old qualifier with an explicit
+import alias. The modules are independent copies: exported sentinels and
+concrete/reflection identities do not compare equal across the two paths. See
+the [migration guide](../../docs/adapter-migration.md).
