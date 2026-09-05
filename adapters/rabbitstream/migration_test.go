@@ -15,6 +15,8 @@ var (
 	_                       = gorabbitstream.New
 	_                       = gorabbitstream.ClassifyError
 	_                       = gorabbitstream.ErrInvalidEnvelope
+	_                       = migrationRabbitStreamPublisher
+	_                       = migrationRabbitStreamPublish
 )
 
 type migrationRabbitStreamClient struct{}

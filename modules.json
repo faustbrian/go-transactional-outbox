@@ -301,10 +301,7 @@
         "github.com/twmb/franz-go",
         "github.com/twmb/franz-go/pkg/kadm"
       ],
-      "required_services": [
-        "kafka",
-        "postgresql"
-      ],
+      "required_services": [],
       "build_tags": [],
       "test_tags": [
         "integration"
@@ -860,10 +857,7 @@
         "github.com/twmb/franz-go",
         "github.com/twmb/franz-go/pkg/kadm"
       ],
-      "required_services": [
-        "kafka",
-        "postgresql"
-      ],
+      "required_services": [],
       "build_tags": [],
       "test_tags": [
         "integration"

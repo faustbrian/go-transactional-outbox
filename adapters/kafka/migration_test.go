@@ -17,6 +17,8 @@ var (
 	_                = gokafka.WithLimits
 	_                = gokafka.ClassifyError
 	_                = gokafka.ErrInvalidEnvelope
+	_                = migrationKafkaPublisher
+	_                = migrationKafkaPublish
 )
 
 type migrationKafkaClient struct{}
