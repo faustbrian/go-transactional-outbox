@@ -10,7 +10,6 @@ publisher contracts are public compatibility surfaces.
 
 ### Changed
 
-- Adopt the proportional `go-library-tools` v1.6.1 repository and CI checks.
 - Move RabbitMQ Streams integration coverage to the target-oriented transport
   adapter.
 
