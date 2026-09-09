@@ -902,7 +902,7 @@
         }
       ],
       "purpose": "outboxrabbitstream maps one persisted outbox.Envelope to one confirmed rabbitstream.Message. It owns no producer, topology, relay, retry loop, database transaction, or outbox state transition.",
-      "lifecycle": "preview",
+      "lifecycle": "stable",
       "kind": "adapter",
       "releasable": true,
       "family": "persistence-and-durability",
@@ -926,7 +926,7 @@
         ],
         "package_selection": {},
         "lifecycle_status": "active",
-        "maturity": "preview",
+        "maturity": "stable",
         "construction_styles": [
           "new-config"
         ],
@@ -984,12 +984,12 @@
           "release": "in-progress"
         }
       },
-      "version": "1.0.0",
+      "version": "1.0.1",
       "tag_prefix": "adapters/rabbitstream/v",
       "owned_dependencies": [
         "github.com/faustbrian/go-transactional-outbox",
         "github.com/faustbrian/go-rabbitmq-streams",
-        "github.com/faustbrian/go-rabbitmq-streams/rabbitmq"
+        "github.com/faustbrian/go-rabbitmq-streams/adapters/rabbitmq"
       ],
       "reverse_owned_dependencies": [],
       "external_runtime_dependencies": [

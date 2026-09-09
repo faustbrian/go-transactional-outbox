@@ -4,14 +4,12 @@
 `rabbitstream.Message`. It owns no producer, topology, relay, retry loop,
 database transaction, or outbox state transition.
 
-This release-candidate module requires Go 1.26.6 and is not yet published.
+This stable, independently versioned module requires Go 1.26.6.
 
 ## Install
 
-After `adapters/rabbitstream/v1.0.0` is released, install the exact version:
-
 ```sh
-go get github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream@v1.0.0
+go get github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream@v1
 ```
 
 ## Quick start

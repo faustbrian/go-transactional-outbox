@@ -9,8 +9,8 @@ metrics, observer events, and publisher behavior.
 | Go | 1.26.6 minimum and stable | Linux, macOS, and Windows unit jobs |
 | PostgreSQL | 14, 15, 16, 17, 18 | Full migration, crash, isolation, multi-process, retention, and plan integration per major |
 | pgx | v5.10.0 | Caller transaction, pool, errors, cancellation, and connection loss |
-| Kafka | successor release target v1.0.0 | First-party producer contract, confirmed synchronous publication, bounded mapping, and error categories; not installable until its tag is published |
-| RabbitMQ Streams | successor release target v1.0.0 | First-party producer contract, broker confirmation, bounded mapping, and error categories; not installable until its tag is published |
+| Kafka | `adapters/kafka` v1 | First-party producer contract, confirmed synchronous publication, bounded mapping, and error categories |
+| RabbitMQ Streams | `adapters/rabbitstream` v1 with `go-rabbitmq-streams` v1.1 | First-party producer contract, broker confirmation, bounded mapping, error categories, and the target-oriented RabbitMQ transport adapter |
 | queue | adapter-pinned v1 | Standalone adapter race, coverage, fuzz, acceptance, error, and cancellation tests |
 | telemetry | adapter-pinned v1 | Runtime standard providers and propagator |
 
