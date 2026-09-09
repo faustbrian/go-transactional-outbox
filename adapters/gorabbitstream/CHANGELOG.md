@@ -4,6 +4,16 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+### Changed
+
+- Delegate mapping, confirmation, retry, and ownership behavior to the
+  target-oriented `adapters/rabbitstream` successor while preserving the
+  deprecated module's distinct public types and sentinel errors.
+- Use the canonical `go-rabbitmq-streams/adapters/rabbitmq` transport adapter
+  for broker integration coverage.
+
+## 1.0.1 - 2026-09-05
+
 ### Deprecated
 
 - Deprecate this legacy module path in favor of the target-oriented
@@ -26,6 +36,7 @@ All notable changes to this module are documented here.
 - Publish schema-v2 cohesion metadata and versioned Golib ecosystem
   navigation for the RabbitMQ Streams adapter.
 - Add a module documentation index for direct navigation.
+
 ## 1.0.0 - 2026-08-25
 
 ### Changed

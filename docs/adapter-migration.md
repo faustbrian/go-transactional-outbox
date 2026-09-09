@@ -25,18 +25,20 @@ The successor modules also preserve the established `outbox/gokafka` and
 `outbox/gorabbitstream` diagnostic strings so dashboards and alert routing do
 not change merely because an import path changes.
 
-The module paths are independent implementations, not Go aliases. Exported
-sentinel errors and concrete or reflection-visible types have path-specific
-identity. Do not mix values or compare sentinels across old and new paths;
-migrate each application boundary as one coherent dependency change.
+The RabbitMQ Streams legacy module is a compatibility facade over the
+target-oriented successor. It retains distinct public types and sentinel
+errors so applications may import both paths during migration, while runtime
+mapping and publication delegate to the successor. The Kafka modules remain
+independent implementations with path-specific sentinel and concrete-type
+identities. Migrate each application boundary as one coherent dependency
+change.
 
 ## Compatibility and release order
 
-Publish `adapters/kafka/v1.0.0` and `adapters/rabbitstream/v1.0.0` first. Owned
-consumers then change imports and run their complete applicable gates. Publish
-the legacy deprecation patches as `adapters/gokafka/v1.0.1` and
-`adapters/gorabbitstream/v1.0.1` only after both successor releases resolve
-through the public proxy and checksum database.
+The preferred adapter releases are public. The RabbitMQ Streams compatibility
+facade depends on the public successor release and the canonical
+`go-rabbitmq-streams/adapters/rabbitmq` transport adapter. Release it only after
+those dependencies resolve through the public proxy and checksum database.
 
 Legacy modules remain supported for the longer of 180 days and two stable
 minor releases. Removal requires an explicitly authorized v2 and evidence that
