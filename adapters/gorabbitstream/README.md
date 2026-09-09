@@ -170,6 +170,7 @@ and its [Persistence and durability family](https://github.com/faustbrian/go-lib
 
 Migration changes the import path only. Callers may use the successor's
 default `outboxrabbitstream` qualifier or alias it as `gorabbitstream`. This
-legacy module delegates to the successor: public type aliases and sentinel
-errors share the successor's identity, and construction and classification
-preserve the same behavior. See the [migration guide](../../docs/adapter-migration.md).
+legacy module delegates to the successor: public types and sentinel errors
+retain their released identity, while construction, publication, and
+classification preserve the same behavior. See the
+[migration guide](../../docs/adapter-migration.md).

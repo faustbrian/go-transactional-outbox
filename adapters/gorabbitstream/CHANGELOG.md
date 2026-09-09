@@ -6,9 +6,9 @@ All notable changes to this module are documented here.
 
 ### Changed
 
-- Delegate the deprecated module to the target-oriented `adapters/rabbitstream`
-  successor so public types, sentinel errors, mapping, confirmation,
-  classification, retry, and ownership behavior have one implementation.
+- Delegate mapping, confirmation, retry, and ownership behavior to the
+  target-oriented `adapters/rabbitstream` successor while preserving the
+  deprecated module's distinct public types and sentinel errors.
 - Use the canonical `go-rabbitmq-streams/adapters/rabbitmq` transport adapter
   for broker integration coverage.
 

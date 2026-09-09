@@ -26,11 +26,12 @@ The successor modules also preserve the established `outbox/gokafka` and
 not change merely because an import path changes.
 
 The RabbitMQ Streams legacy module is a compatibility facade over the
-target-oriented successor. Its public types and sentinel errors therefore keep
-the successor's identity, while `New` and `ClassifyError` delegate directly.
-The Kafka modules remain independent implementations with path-specific
-sentinel and concrete-type identities. Migrate each application boundary as
-one coherent dependency change.
+target-oriented successor. It retains distinct public types and sentinel
+errors so applications may import both paths during migration, while runtime
+mapping and publication delegate to the successor. The Kafka modules remain
+independent implementations with path-specific sentinel and concrete-type
+identities. Migrate each application boundary as one coherent dependency
+change.
 
 ## Compatibility and release order
 
