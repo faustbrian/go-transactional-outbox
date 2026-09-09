@@ -4,6 +4,14 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+### Changed
+
+- Verify broker interoperability through the target-oriented
+  `go-rabbitmq-streams/adapters/rabbitmq` transport adapter while preserving
+  the outbox publisher contract.
+
+## 1.0.0 - 2026-09-05
+
 ### Added
 
 - Add the target-oriented RabbitMQ Streams adapter module with the complete

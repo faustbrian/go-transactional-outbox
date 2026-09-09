@@ -3,8 +3,8 @@ module github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream
 go 1.26.6
 
 require (
-	github.com/faustbrian/go-rabbitmq-streams v1.0.0
-	github.com/faustbrian/go-rabbitmq-streams/rabbitmq v1.0.0
+	github.com/faustbrian/go-rabbitmq-streams v1.1.0
+	github.com/faustbrian/go-rabbitmq-streams/adapters/rabbitmq v1.0.0
 	github.com/faustbrian/go-transactional-outbox v1.0.0
 	github.com/rabbitmq/rabbitmq-stream-go-client v1.8.3
 )
