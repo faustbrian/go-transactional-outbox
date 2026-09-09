@@ -390,9 +390,7 @@
         },
         "optional_owned_dependencies": [],
         "adapters": [],
-        "companions": [
-          "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream"
-        ],
+        "companions": [],
         "supported_go": {
           "minimum": "1.26.6",
           "tested": [
@@ -430,12 +428,13 @@
           "release": "in-progress"
         }
       },
-      "version": "1.0.0",
+      "version": "1.0.2",
       "tag_prefix": "adapters/gorabbitstream/v",
       "owned_dependencies": [
         "github.com/faustbrian/go-transactional-outbox",
         "github.com/faustbrian/go-rabbitmq-streams",
-        "github.com/faustbrian/go-rabbitmq-streams/rabbitmq"
+        "github.com/faustbrian/go-rabbitmq-streams/adapters/rabbitmq",
+        "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream"
       ],
       "reverse_owned_dependencies": [],
       "external_runtime_dependencies": [

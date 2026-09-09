@@ -12,6 +12,8 @@ publisher contracts are public compatibility surfaces.
 
 - Move RabbitMQ Streams integration coverage to the target-oriented transport
   adapter.
+- Make the deprecated RabbitMQ Streams adapter a compatibility facade over
+  its target-oriented successor.
 
 - Publish complete schema-v2 cohesion metadata and versioned Golib ecosystem
   navigation for the outbox module and its six independently releasable

@@ -169,8 +169,7 @@ Shared adapter, ownership, and lifecycle expectations are in the versioned
 and its [Persistence and durability family](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/design-language.md#package-families-and-selection).
 
 Migration changes the import path only. Callers may use the successor's
-default `outboxrabbitstream` qualifier or alias it as `gorabbitstream`. The
-legacy and successor modules contain independent implementations: their
-exported sentinels and concrete/reflection identities are distinct and must
-not be compared across paths. See the
-[migration guide](../../docs/adapter-migration.md).
+default `outboxrabbitstream` qualifier or alias it as `gorabbitstream`. This
+legacy module delegates to the successor: public type aliases and sentinel
+errors share the successor's identity, and construction and classification
+preserve the same behavior. See the [migration guide](../../docs/adapter-migration.md).
