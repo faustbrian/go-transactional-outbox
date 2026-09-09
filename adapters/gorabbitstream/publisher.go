@@ -120,7 +120,7 @@ func translateError(err error) error {
 			return err
 		}
 
-		return translatedError{message: err.Error(), cause: translatedCause}
+		return translatedError{message: err.Error(), cause: translatedCause, original: err}
 	}
 
 	for _, mapping := range []struct {
@@ -149,9 +149,40 @@ func sameError(left, right error) bool {
 }
 
 type translatedError struct {
-	message string
-	cause   error
+	message  string
+	cause    error
+	original error
 }
 
 func (err translatedError) Error() string { return err.message }
 func (err translatedError) Unwrap() error { return err.cause }
+
+func (err translatedError) Is(target error) bool {
+	if isSuccessorSentinel(target) {
+		return false
+	}
+
+	return errors.Is(err.original, target)
+}
+
+func (err translatedError) As(target any) bool {
+	return errors.As(err.original, target)
+}
+
+func isSuccessorSentinel(target error) bool {
+	for _, sentinel := range []error{
+		successor.ErrClientRequired,
+		successor.ErrInvalidConfig,
+		successor.ErrInvalidEnvelope,
+		successor.ErrReservedMetadata,
+		successor.ErrUnconfirmed,
+		successor.ErrContextRequired,
+		successor.ErrClientPanic,
+	} {
+		if sameError(target, sentinel) {
+			return true
+		}
+	}
+
+	return false
+}

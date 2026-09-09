@@ -75,6 +75,24 @@ func TestLegacyPathTranslatesSuccessorErrors(t *testing.T) {
 	assertLegacyError(t, panicErr, legacy.ErrClientPanic, successor.ErrClientPanic)
 }
 
+func TestLegacyPathPreservesTypedClientErrorsWhileTranslatingSentinels(t *testing.T) {
+	t.Parallel()
+
+	clientCause := &typedClientError{cause: successor.ErrInvalidEnvelope}
+	publisher, err := legacy.New(&recordingClient{err: clientCause}, legacy.Config{Stream: "events"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	publishErr := publisher.Publish(t.Context(), outbox.Envelope{
+		ID: "event-1", Topic: "events", PayloadVersion: 1,
+	})
+	assertLegacyError(t, publishErr, legacy.ErrInvalidEnvelope, successor.ErrInvalidEnvelope)
+	var preserved *typedClientError
+	if !errors.As(publishErr, &preserved) || preserved != clientCause {
+		t.Fatalf("typed client error was not preserved: %v", publishErr)
+	}
+}
+
 func assertLegacyError(t *testing.T, err, legacyError, successorError error) {
 	t.Helper()
 	if !errors.Is(err, legacyError) {
@@ -95,3 +113,8 @@ func publisherPath(value any) string {
 		return "unknown"
 	}
 }
+
+type typedClientError struct{ cause error }
+
+func (*typedClientError) Error() string           { return "typed client error" }
+func (clientErr *typedClientError) Unwrap() error { return clientErr.cause }
