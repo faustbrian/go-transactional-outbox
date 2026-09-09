@@ -45,8 +45,9 @@ shown here.
 ## Safety And Concurrency
 
 - Shared mutable state MUST have one documented synchronization owner.
-- Goroutines MUST have explicit lifetime, cancellation, shutdown, and leak
-  tests. Fire-and-forget goroutines are forbidden.
+- Goroutines MUST have explicit lifetime, cancellation, and shutdown.
+  Targeted leak tests are required when lifecycle risk is material.
+  Fire-and-forget goroutines are forbidden.
 - Channels MUST have documented ownership and closure rules.
 - Locks MUST NOT be held across caller callbacks, network IO, blocking channel
   operations, or unbounded work.
@@ -109,7 +110,7 @@ shown here.
 - `.github/workflows/ci.yml` is the only owned GitHub Actions workflow.
 - Package-local workflows MUST NOT be added.
 - Actions and external tools MUST be pinned to immutable versions.
-- Every selected module MUST have an attributable result and evidence artifact.
+- Every selected module MUST have an attributable result.
 - The stable required job MUST fail for failed, cancelled, skipped, or missing
   module results.
 - Required checks MUST NOT use `continue-on-error`, `|| true`, permissive
@@ -123,11 +124,10 @@ shown here.
   abstraction; wrappers require a stable policy or portability boundary.
 - Generated code and vendored corpora MUST record source, version, checksum,
   license, generation command, and update procedure.
-- Vulnerability, secret, and license checks are release gates when applicable
-  to the released dependency surface.
-- Public releases MUST publish the repository's required checksums, SBOM, and
-  provenance. Clean-consumer checks are required when a public package or
-  dependency identity changes.
+- Vulnerability, secret, license, artifact, and provenance checks MUST be
+  selected according to the released surface and material supply-chain risk.
+- Clean-consumer checks are required when a public package or dependency
+  identity changes, not for unrelated documentation or metadata.
 
 ## Documentation
 
@@ -135,9 +135,9 @@ shown here.
   invariants, ownership, errors, concurrency, and caveats where relevant.
 - Comments MUST explain why a constraint or non-obvious implementation exists;
   they MUST NOT narrate obvious syntax.
-- Every public module MUST provide a quick start, API reference, examples,
-  guidance on when to use it, explicit limitations, security notes, FAQ, and
-  release notes.
+- Public modules MUST document the information needed to adopt and operate
+  their actual contract. Examples, limitations, security notes, FAQs, and
+  release notes are required only when relevant to that module.
 - The root README MUST remain a concise entry point. Detailed guides,
   operations, audits, and maintainer material belong under `docs/` and MUST be
   linked through `docs/README.md`.
@@ -150,8 +150,8 @@ shown here.
 - Entries MUST describe behavior and migration impact, not internal activity.
 - Changes to multiple modules MUST update every affected changelog.
 - Unreleased entries MUST NOT be silently rewritten or removed.
-- Generated, dependency, security, compatibility, and deprecation changes are
-  user-visible and require entries.
+- Generated, dependency, security, compatibility, and deprecation changes
+  require entries only when they materially affect users of the module.
 
 ## Completion
 
