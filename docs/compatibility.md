@@ -6,7 +6,7 @@ metrics, observer events, and publisher behavior.
 
 | Surface | Versions | Evidence and boundary |
 |---|---|---|
-| Go | 1.26.6 minimum and stable | Linux, macOS, and Windows unit jobs |
+| Go | 1.27.0 minimum and stable | Linux, macOS, and Windows unit jobs |
 | PostgreSQL | 14, 15, 16, 17, 18 | Full migration, crash, isolation, multi-process, retention, and plan integration per major |
 | pgx | v5.10.0 | Caller transaction, pool, errors, cancellation, and connection loss |
 | Kafka | `adapters/kafka` v1 | First-party producer contract, confirmed synchronous publication, bounded mapping, and error categories |
