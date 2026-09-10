@@ -141,7 +141,9 @@ shown here.
 - The root README MUST remain a concise entry point. Detailed guides,
   operations, audits, and maintainer material belong under `docs/` and MUST be
   linked through `docs/README.md`.
-- Documentation and examples MUST compile and be checked in CI.
+- Changed executable examples MUST compile and run. Changed or otherwise
+  affected documentation MUST be validated proportionally for its links,
+  embedded examples, generation, and rendered structure.
 
 ## Changelogs
 
