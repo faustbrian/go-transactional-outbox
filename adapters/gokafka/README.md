@@ -62,7 +62,7 @@ additional guarantees beyond the documented module boundary.
 
 ## Compatibility and support
 
-This module requires Go 1.26.6 and follows Semantic Versioning. Report
+This module requires Go 1.27.0 and follows Semantic Versioning. Report
 vulnerabilities through the [parent security policy](../../SECURITY.md).
 
 Migration changes the import path only. Callers may use the successor's

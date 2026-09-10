@@ -10,6 +10,8 @@ publisher contracts are public compatibility surfaces.
 
 ### Changed
 
+- Require Go 1.27.0 across every module, development, CI, and compatibility
+  surface.
 - Move RabbitMQ Streams integration coverage to the target-oriented transport
   adapter.
 - Make the deprecated RabbitMQ Streams adapter a compatibility facade over

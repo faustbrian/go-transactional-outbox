@@ -4,7 +4,7 @@
 `rabbitstream.Message`. It owns no producer, topology, relay, retry loop,
 database transaction, or outbox state transition.
 
-This stable, independently versioned module requires Go 1.26.6.
+This stable, independently versioned module requires Go 1.27.0.
 
 ## Install
 

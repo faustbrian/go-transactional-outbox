@@ -43,7 +43,7 @@ worker, err := relay.New(store, publisher, relay.Config{
 The caller creates and closes the producer. Production topology remains
 operator-owned.
 
-This module requires Go 1.26.6 and follows Semantic Versioning.
+This module requires Go 1.27.0 and follows Semantic Versioning.
 
 ## Construction, ownership, and concurrency
 

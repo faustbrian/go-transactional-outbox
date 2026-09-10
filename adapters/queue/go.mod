@@ -1,6 +1,6 @@
 module github.com/faustbrian/go-transactional-outbox/adapters/queue
 
-go 1.26.6
+go 1.27.0
 
 require (
 	github.com/faustbrian/go-queue v1.0.0

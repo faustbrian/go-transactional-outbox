@@ -6,7 +6,7 @@
     {
       "directory": ".",
       "module_path": "github.com/faustbrian/go-transactional-outbox",
-      "go_version": "1.26.6",
+      "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": ".",
@@ -103,7 +103,7 @@
           "github.com/faustbrian/go-idempotency"
         ],
         "supported_go": {
-          "minimum": "1.26.6",
+          "minimum": "1.27.0",
           "tested": [
             "1.27.0"
           ]
@@ -187,7 +187,7 @@
     {
       "directory": "adapters/gokafka",
       "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/gokafka",
-      "go_version": "1.26.6",
+      "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": "adapters/gokafka",
@@ -251,7 +251,7 @@
           "github.com/faustbrian/go-transactional-outbox/adapters/kafka"
         ],
         "supported_go": {
-          "minimum": "1.26.6",
+          "minimum": "1.27.0",
           "tested": [
             "1.27.0"
           ]
@@ -330,7 +330,7 @@
     {
       "directory": "adapters/gorabbitstream",
       "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream",
-      "go_version": "1.26.6",
+      "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": "adapters/gorabbitstream",
@@ -392,7 +392,7 @@
         "adapters": [],
         "companions": [],
         "supported_go": {
-          "minimum": "1.26.6",
+          "minimum": "1.27.0",
           "tested": [
             "1.27.0"
           ]
@@ -471,7 +471,7 @@
     {
       "directory": "adapters/otel",
       "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/otel",
-      "go_version": "1.26.6",
+      "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": "adapters/otel",
@@ -533,7 +533,7 @@
           "github.com/faustbrian/go-telemetry"
         ],
         "supported_go": {
-          "minimum": "1.26.6",
+          "minimum": "1.27.0",
           "tested": [
             "1.27.0"
           ]
@@ -608,7 +608,7 @@
     {
       "directory": "adapters/queue",
       "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/queue",
-      "go_version": "1.26.6",
+      "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": "adapters/queue",
@@ -668,7 +668,7 @@
         "adapters": [],
         "companions": [],
         "supported_go": {
-          "minimum": "1.26.6",
+          "minimum": "1.27.0",
           "tested": [
             "1.27.0"
           ]
@@ -746,7 +746,7 @@
     {
       "directory": "adapters/kafka",
       "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/kafka",
-      "go_version": "1.26.6",
+      "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": "adapters/kafka",
@@ -808,7 +808,7 @@
           "github.com/faustbrian/go-transactional-outbox/adapters/gokafka"
         ],
         "supported_go": {
-          "minimum": "1.26.6",
+          "minimum": "1.27.0",
           "tested": [
             "1.27.0"
           ]
@@ -885,7 +885,7 @@
     {
       "directory": "adapters/rabbitstream",
       "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream",
-      "go_version": "1.26.6",
+      "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": "adapters/rabbitstream",
@@ -947,7 +947,7 @@
           "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream"
         ],
         "supported_go": {
-          "minimum": "1.26.6",
+          "minimum": "1.27.0",
           "tested": [
             "1.27.0"
           ]
