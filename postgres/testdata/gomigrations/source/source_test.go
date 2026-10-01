@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	migrations "github.com/faustbrian/go-migrations/v2"
+	migrations "github.com/faustbrian/go-migrations/v3"
 	outboxpostgres "github.com/faustbrian/go-transactional-outbox/postgres"
 	"github.com/faustbrian/go-transactional-outbox/postgres/testdata/gomigrations/filesystem"
 )

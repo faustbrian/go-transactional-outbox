@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	migrations "github.com/faustbrian/go-migrations/v2"
-	migrationpostgres "github.com/faustbrian/go-migrations/v2/postgres"
+	migrations "github.com/faustbrian/go-migrations/v3"
+	migrationpostgres "github.com/faustbrian/go-migrations/v3/postgres"
 	outboxpostgres "github.com/faustbrian/go-transactional-outbox/postgres"
 	"github.com/faustbrian/go-transactional-outbox/postgres/testdata/gomigrations/filesystem"
 	_ "github.com/jackc/pgx/v5/stdlib"

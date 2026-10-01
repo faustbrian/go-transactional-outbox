@@ -3,7 +3,7 @@ package filesystem
 
 import (
 	"context"
-	migrations "github.com/faustbrian/go-migrations/v2"
+	migrations "github.com/faustbrian/go-migrations/v3"
 	"io/fs"
 )
 
