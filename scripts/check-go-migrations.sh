@@ -2,7 +2,7 @@
 set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-go_migrations="${GO_MIGRATIONS_DIR:-$root/../migrations}"
+go_migrations="${GO_MIGRATIONS_DIR:-$root/../go-migrations}"
 
 test -f "$go_migrations/go.mod" || {
   echo "migrations checkout not found at $go_migrations" >&2
