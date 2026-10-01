@@ -5,12 +5,13 @@ import (
 	"strings"
 	"testing"
 
-	migrations "github.com/faustbrian/go-migrations"
+	migrations "github.com/faustbrian/go-migrations/v3"
 	outboxpostgres "github.com/faustbrian/go-transactional-outbox/postgres"
+	"github.com/faustbrian/go-transactional-outbox/postgres/testdata/gomigrations/filesystem"
 )
 
 func TestGoMigrationsLoadsOutboxSource(t *testing.T) {
-	source, err := migrations.NewFSSource(outboxpostgres.Migrations(), ".")
+	source, err := migrations.NewFSSource(filesystem.FS{Files: outboxpostgres.Migrations()}, ".")
 	if err != nil {
 		t.Fatalf("create migration source: %v", err)
 	}
