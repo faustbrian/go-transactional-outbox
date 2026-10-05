@@ -8,9 +8,10 @@ import (
 	"testing"
 	"time"
 
-	migrations "github.com/faustbrian/go-migrations"
-	migrationpostgres "github.com/faustbrian/go-migrations/postgres"
+	migrations "github.com/faustbrian/go-migrations/v3"
+	migrationpostgres "github.com/faustbrian/go-migrations/v3/postgres"
 	outboxpostgres "github.com/faustbrian/go-transactional-outbox/postgres"
+	"github.com/faustbrian/go-transactional-outbox/postgres/testdata/gomigrations/filesystem"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	tcpostgres "github.com/testcontainers/testcontainers-go/modules/postgres"
 )
@@ -51,7 +52,7 @@ func TestGoMigrationsConcurrentCleanInstall(t *testing.T) {
 		t.Fatalf("ping PostgreSQL: %v", err)
 	}
 
-	source, err := migrations.NewFSSource(outboxpostgres.Migrations(), ".")
+	source, err := migrations.NewFSSource(filesystem.FS{Files: outboxpostgres.Migrations()}, ".")
 	if err != nil {
 		t.Fatalf("create migration source: %v", err)
 	}
@@ -98,7 +99,7 @@ func TestGoMigrationsConcurrentCleanInstall(t *testing.T) {
 	var dirtyRows int
 	if err := database.QueryRowContext(ctx, `
 SELECT count(*), count(*) FILTER (WHERE dirty)
-FROM go_schema_migrations
+FROM public.migrations
 WHERE version = 1 AND name = 'create_outbox'`).Scan(&ledgerRows, &dirtyRows); err != nil {
 		t.Fatalf("read migration ledger: %v", err)
 	}

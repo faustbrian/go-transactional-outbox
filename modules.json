@@ -268,7 +268,7 @@
         "documentation": {
           "readme": "adapters/gokafka/README.md",
           "api": "adapters/gokafka/docs/reference.md",
-          "adoption": "adapters/gokafka/docs/reference.md",
+          "adoption": "https://github.com/faustbrian/go-transactional-outbox/blob/e18e67dbdacb678a9b1c29bc973a30ceb344f5b9/docs/adapter-migration.md",
           "security": "adapters/gokafka/docs/reference.md",
           "compatibility": "adapters/gokafka/docs/reference.md",
           "performance": "adapters/gokafka/docs/reference.md",
