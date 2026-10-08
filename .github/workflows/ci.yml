@@ -9,10 +9,15 @@ on:
   workflow_dispatch:
     inputs:
       release_dry_run:
-        description: Run the stable release rehearsal
+        description: Run the stable release rehearsal for selected releasable modules
         required: false
         default: false
         type: boolean
+      release_module:
+        description: Rehearse one module directory; blank selects every releasable module
+        required: false
+        default: ''
+        type: string
 
 permissions:
   contents: read
@@ -24,6 +29,7 @@ jobs:
     with:
       tooling_sha: 47269f1aa78baa637a8c377b0af24c113b34c1c9
       release_dry_run: ${{ inputs.release_dry_run || false }}
+      release_module: ${{ inputs.release_module || '' }}
 
   required:
     name: Required
