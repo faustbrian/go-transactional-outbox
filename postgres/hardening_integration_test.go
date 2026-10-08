@@ -67,6 +67,10 @@ func TestHardeningPersistenceContracts(t *testing.T) {
 		t.Fatalf("create writer: %v", err)
 	}
 
+	t.Run("fences expired leases before replacement", func(t *testing.T) {
+		testLeaseExpiryFencing(t, ctx, pool)
+	})
+
 	t.Run("keeps writer failures atomic", func(t *testing.T) {
 		t.Run("proves a different transaction is not atomic", func(t *testing.T) {
 			applicationTx, err := pool.Begin(ctx)
