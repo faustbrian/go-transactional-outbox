@@ -4,6 +4,14 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+### Security
+
+- Select OpenTelemetry SDK 1.45.0 and its matching API modules to address
+  [GHSA-8wmf-6v46-5gfg](https://github.com/open-telemetry/opentelemetry-go/security/advisories/GHSA-8wmf-6v46-5gfg).
+  The advisory concerns verbose internal SDK logging of sensitive exporter
+  configuration; application-owned provider and exporter controls remain
+  separate from this adapter's telemetry privacy guarantees.
+
 ### Changed
 
 - Adopt checksum-verified `go-library-tools` v1.4.0 W14 enforcement and resolve
