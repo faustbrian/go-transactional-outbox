@@ -110,3 +110,50 @@ func TestPublisherAdmitsExactMappedBudgets(t *testing.T) {
 		})
 	}
 }
+
+func TestPublisherRejectsGeneratedAndApplicationPropertyBounds(t *testing.T) {
+	for _, test := range []struct {
+		name        string
+		limits      func(*rabbitstream.Limits)
+		idempotency string
+		metadata    map[string]string
+	}{
+		{
+			name: "generated schema key", limits: func(limits *rabbitstream.Limits) { limits.MaxMetadataKeyBytes = len("schema-version") - 1 },
+		},
+		{
+			name: "generated entry count", limits: func(limits *rabbitstream.Limits) { limits.MaxMetadataEntries = 1 },
+			idempotency: "command",
+		},
+		{
+			name: "idempotency value", limits: func(limits *rabbitstream.Limits) { limits.MaxMetadataValueBytes = 16 },
+			idempotency: strings.Repeat("c", 32),
+		},
+		{
+			name: "application value", limits: func(limits *rabbitstream.Limits) { limits.MaxMetadataValueBytes = 16 },
+			metadata: map[string]string{"a": strings.Repeat("v", 32)},
+		},
+		{
+			name: "application key syntax", limits: func(*rabbitstream.Limits) {},
+			metadata: map[string]string{"": "value"},
+		},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			limits := rabbitstream.DefaultLimits()
+			test.limits(&limits)
+			client := &recordingClient{}
+			publisher, err := outboxrabbitstream.New(client, outboxrabbitstream.Config{Stream: "events", Limits: limits})
+			if err != nil {
+				t.Fatal(err)
+			}
+			err = publisher.Publish(t.Context(), outbox.Envelope{
+				ID: "event", Topic: "events", PayloadVersion: 1,
+				OrderingKey: "route", IdempotencyKey: test.idempotency, Metadata: test.metadata,
+			})
+			if !errors.Is(err, outboxrabbitstream.ErrInvalidEnvelope) ||
+				!errors.Is(err, rabbitstream.ErrValidation) || client.calls != 0 {
+				t.Fatalf("property budget error/calls = %v/%d", err, client.calls)
+			}
+		})
+	}
+}
