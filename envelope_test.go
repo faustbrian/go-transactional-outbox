@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/faustbrian/go-transactional-outbox"
+	"github.com/faustbrian/go-transactional-outbox/v2"
 )
 
 func TestEnvelopeBuilderBuildsDeterministicEnvelope(t *testing.T) {

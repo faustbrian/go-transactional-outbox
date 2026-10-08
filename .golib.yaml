@@ -28,7 +28,7 @@ api:
   baselines:
   - module: "."
     mode: apidiff
-    path: api/baseline.txt
+    path: api/v2-baseline.txt
   - module: adapters/gokafka
     mode: apidiff
     path: adapters/gokafka/api/baseline.txt

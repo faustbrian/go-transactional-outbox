@@ -3,11 +3,13 @@
 ## Install the core module
 
 ```sh
-go get github.com/faustbrian/go-transactional-outbox@v1.0.0
+go get github.com/faustbrian/go-transactional-outbox/v2@v2.0.0
 ```
 
-Pin an exact released version and review the compatibility, migration, and
-changelog contracts before upgrading.
+The root v2 release is being prepared on `main`; this command applies once
+v2.0.0 is published. Pin an exact released version and review the compatibility,
+[major migration](adapter-migration.md#root-v2-migration), and changelog
+contracts before upgrading.
 
 ## Apply migrations
 

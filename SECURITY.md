@@ -2,9 +2,20 @@
 
 ## Supported versions
 
-No version has been published yet. Until v1, security fixes land on the default
-branch. The
-latest v1 release receives fixes through supported patch releases.
+Each independently versioned module receives security fixes in the latest
+patch release of its latest published major. Until a new major is published,
+the existing published major remains current; preparing v2 on `main` does not
+end v1 support. Older majors require migration to the supported major.
+
+Deprecated adapter names follow the [adapter support interval](docs/adapter-migration.md).
+Path deprecation does not change the supported-major policy. Root and adapter
+major versions are independent; publishing root v2 does not end adapter v1
+support while v1 is still an adapter's latest published major.
+
+Reports are acknowledged, triaged, and coordinated under the shared
+[Golib vulnerability-management policy](https://github.com/faustbrian/go-library-tools/blob/ebd8d754223cf8cfc60fd8f3f63709881093d51f/docs/ecosystem/security/vulnerability-management.md).
+Advisories identify exact affected and fixed module versions and safe upgrade
+guidance. Fixes are scoped to affected modules, not unrelated package releases.
 
 ## Reporting
 

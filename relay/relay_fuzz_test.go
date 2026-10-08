@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/faustbrian/go-transactional-outbox/postgres"
-	"github.com/faustbrian/go-transactional-outbox/relay"
+	"github.com/faustbrian/go-transactional-outbox/v2/postgres"
+	"github.com/faustbrian/go-transactional-outbox/v2/relay"
 )
 
 func FuzzRelayOptions(f *testing.F) {

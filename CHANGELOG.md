@@ -10,6 +10,13 @@ publisher contracts are public compatibility surfaces.
 
 ### Changed
 
+- Prepare the root as `/v2` with Go 1.27 as its minimum toolchain. Envelope
+  encoding and database migrations remain unchanged. Existing v1 adapters
+  continue using their published v1 root until separately migrated.
+- Clarify latest-published-major security support and the shared vulnerability
+  response policy without prematurely ending v1 support.
+- Select OpenTelemetry SDK 1.45.0 for the Testcontainers test dependency graph;
+  the root production packages remain independent of the SDK.
 - Require Go 1.27.0 across every module, development, CI, and compatibility
   surface.
 - Move RabbitMQ Streams integration coverage to the target-oriented transport

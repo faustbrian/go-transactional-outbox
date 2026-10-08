@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	outboxpostgres "github.com/faustbrian/go-transactional-outbox/postgres"
+	outboxpostgres "github.com/faustbrian/go-transactional-outbox/v2/postgres"
 )
 
 func migrationUpSQL(t testing.TB) string {

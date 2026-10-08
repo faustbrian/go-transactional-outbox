@@ -10,8 +10,8 @@ import (
 
 	migrations "github.com/faustbrian/go-migrations/v3"
 	migrationpostgres "github.com/faustbrian/go-migrations/v3/postgres"
-	outboxpostgres "github.com/faustbrian/go-transactional-outbox/postgres"
-	"github.com/faustbrian/go-transactional-outbox/postgres/testdata/gomigrations/filesystem"
+	outboxpostgres "github.com/faustbrian/go-transactional-outbox/v2/postgres"
+	"github.com/faustbrian/go-transactional-outbox/v2/postgres/testdata/gomigrations/filesystem"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	tcpostgres "github.com/testcontainers/testcontainers-go/modules/postgres"
 )

@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/faustbrian/go-transactional-outbox"
-	"github.com/faustbrian/go-transactional-outbox/postgres"
+	"github.com/faustbrian/go-transactional-outbox/v2"
+	"github.com/faustbrian/go-transactional-outbox/v2/postgres"
 )
 
 func TestExponentialBackoffIsBounded(t *testing.T) {

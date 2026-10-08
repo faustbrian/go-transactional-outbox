@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	outboxpostgres "github.com/faustbrian/go-transactional-outbox/postgres"
+	outboxpostgres "github.com/faustbrian/go-transactional-outbox/v2/postgres"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 

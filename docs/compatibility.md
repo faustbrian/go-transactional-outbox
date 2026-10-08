@@ -4,6 +4,11 @@ SemVer applies independently to core and every adapter module. Compatibility
 surfaces include canonical encoding, migrations, delivery semantics, errors,
 metrics, observer events, and publisher behavior.
 
+Root v2 requires Go 1.27.0 and uses the `/v2` module path. The adapter versions
+below remain the published v1 cohort, whose public signatures require v1 root
+types; they are not root v2 compatibility evidence. See the
+[major-version migration boundary](adapter-migration.md#root-v2-migration).
+
 | Surface | Versions | Evidence and boundary |
 |---|---|---|
 | Go | 1.27.0 minimum and stable | Linux, macOS, and Windows unit jobs |

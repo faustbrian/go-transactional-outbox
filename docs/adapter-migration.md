@@ -11,6 +11,30 @@ new adoption should use the successors.
 
 ## Source migration
 
+### Root v2 migration
+
+Root v2 requires Go 1.27.0; published root v1.0.0 supported Go 1.26.6. Change
+root imports to `github.com/faustbrian/go-transactional-outbox/v2`, with
+`postgres` and `relay` following that suffix. Package names, envelope encoding,
+database migrations, publisher semantics, and error categories are unchanged
+by this module identity change; no database migration is required solely to
+change imports.
+
+The six published adapters remain on their independent v1 cohort and accept
+v1 root types. They cannot accept v2 envelopes or satisfy v2 relay interfaces.
+Applications using those adapters must retain their complete v1 boundary
+until matching adapter v2 releases are public, or supply a publisher built
+against the v2 root contract. A development workspace is not public-consumer
+proof. Deprecated Kafka and RabbitMQ Streams names are retained, not removed
+by the root major upgrade.
+
+CloudEvents' outbox adapters, Event Sourcing's outbox adapter, Idempotency's
+ecosystem composition, Service's reference durability composition, Webhook,
+and the library-tools compatibility consumer remain v1 consumers until their
+imports and tests are migrated. They do not certify root v2 compatibility.
+
+### Target-oriented adapter migration within v1
+
 Change only the module import path. To avoid changing existing selectors,
 alias the preferred import:
 

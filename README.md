@@ -5,7 +5,7 @@
 [![Coverage](https://img.shields.io/badge/coverage-100%25_required-blue)](CONTRIBUTING.md#verification)
 [![Mutation](https://img.shields.io/badge/mutation-100%25_required-blue)](CONTRIBUTING.md#verification)
 [![Documentation](https://img.shields.io/badge/docs-checked_in_CI-blue)](docs/)
-[![Go Reference](https://pkg.go.dev/badge/github.com/faustbrian/go-transactional-outbox.svg)](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox)
+[![Go Reference](https://pkg.go.dev/badge/github.com/faustbrian/go-transactional-outbox/v2.svg)](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/v2)
 [![Release](https://img.shields.io/github/v/release/faustbrian/go-transactional-outbox?sort=semver)](https://github.com/faustbrian/go-transactional-outbox/releases)
 [![Go](https://img.shields.io/badge/go-1.27.0-00ADD8?logo=go)](https://go.dev/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -15,7 +15,7 @@ outbox pattern. It writes application state and publishable envelopes in the
 same caller-owned `pgx` transaction, then relays committed envelopes to a
 small publisher contract with at-least-once delivery.
 
-The stable v1 API follows the compatibility surfaces described in
+The root v2 API requires Go 1.27 and follows the compatibility surfaces described in
 [the compatibility policy](docs/compatibility.md). Delivery remains at
 least once; upgrading the library does not remove the consumer's idempotency
 duty.
@@ -38,10 +38,10 @@ transactions or exactly-once delivery.
 
 ## Packages
 
-- `github.com/faustbrian/go-transactional-outbox`: envelope construction and validation.
-- `github.com/faustbrian/go-transactional-outbox/postgres`: migrations, transactional writer,
+- `github.com/faustbrian/go-transactional-outbox/v2`: envelope construction and validation.
+- `github.com/faustbrian/go-transactional-outbox/v2/postgres`: migrations, transactional writer,
   claims, leases, retries, dead letters, replay, and retention.
-- `github.com/faustbrian/go-transactional-outbox/relay`: bounded embedded relay.
+- `github.com/faustbrian/go-transactional-outbox/v2/relay`: bounded embedded relay.
 - `github.com/faustbrian/go-transactional-outbox/adapters/kafka`: preferred,
   separately versioned Kafka publisher adapter.
 - `github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream`: preferred,
@@ -53,6 +53,10 @@ transactions or exactly-once delivery.
 
 The released `adapters/gokafka` and `adapters/gorabbitstream` paths remain as
 deprecated compatibility modules. See the [adapter migration guide](docs/adapter-migration.md).
+
+The listed adapters still use the published v1 root types and cannot accept
+root v2 envelopes. Retain a complete v1 dependency boundary until matching
+adapter v2 releases are public, or provide a publisher against the v2 contract.
 
 ## Quick start
 

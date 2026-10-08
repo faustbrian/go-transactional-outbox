@@ -5,14 +5,14 @@
   "modules": [
     {
       "directory": ".",
-      "module_path": "github.com/faustbrian/go-transactional-outbox",
+      "module_path": "github.com/faustbrian/go-transactional-outbox/v2",
       "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": ".",
           "directory": ".",
           "name": "outbox",
-          "import_path": "github.com/faustbrian/go-transactional-outbox",
+          "import_path": "github.com/faustbrian/go-transactional-outbox/v2",
           "kind": "public",
           "production": true,
           "executable": true,
@@ -24,7 +24,7 @@
           "module_directory": ".",
           "directory": "postgres",
           "name": "postgres",
-          "import_path": "github.com/faustbrian/go-transactional-outbox/postgres",
+          "import_path": "github.com/faustbrian/go-transactional-outbox/v2/postgres",
           "kind": "public",
           "production": true,
           "executable": true,
@@ -36,7 +36,7 @@
           "module_directory": ".",
           "directory": "relay",
           "name": "relay",
-          "import_path": "github.com/faustbrian/go-transactional-outbox/relay",
+          "import_path": "github.com/faustbrian/go-transactional-outbox/v2/relay",
           "kind": "public",
           "production": true,
           "executable": true,
@@ -67,7 +67,7 @@
         ],
         "public_package_identifier": "outbox",
         "primary_entry_packages": [
-          "github.com/faustbrian/go-transactional-outbox"
+          "github.com/faustbrian/go-transactional-outbox/v2"
         ],
         "package_selection": {},
         "lifecycle_status": "active",
@@ -91,14 +91,7 @@
           "background_work": "package"
         },
         "optional_owned_dependencies": [],
-        "adapters": [
-          "github.com/faustbrian/go-transactional-outbox/adapters/gokafka",
-          "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream",
-          "github.com/faustbrian/go-transactional-outbox/adapters/kafka",
-          "github.com/faustbrian/go-transactional-outbox/adapters/otel",
-          "github.com/faustbrian/go-transactional-outbox/adapters/queue",
-          "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream"
-        ],
+        "adapters": [],
         "companions": [
           "github.com/faustbrian/go-idempotency"
         ],
@@ -125,7 +118,7 @@
           "examples": "docs/examples.md",
           "faq": "docs/troubleshooting.md",
           "changelog": "CHANGELOG.md",
-          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/v2",
           "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md"
         },
         "known_good_compatibility_sets": [],
@@ -135,22 +128,10 @@
           "release": "in-progress"
         }
       },
-      "version": "1.0.0",
+      "version": "2.0.0",
       "tag_prefix": "v",
       "owned_dependencies": [],
-      "reverse_owned_dependencies": [
-        "github.com/faustbrian/go-cloudevents/adapters/golib",
-        "github.com/faustbrian/go-event-sourcing/adapters/outbox",
-        "github.com/faustbrian/go-idempotency/compatibility/ecosystem",
-        "github.com/faustbrian/go-transactional-outbox/adapters/gokafka",
-        "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream",
-        "github.com/faustbrian/go-transactional-outbox/adapters/kafka",
-        "github.com/faustbrian/go-transactional-outbox/adapters/otel",
-        "github.com/faustbrian/go-transactional-outbox/adapters/queue",
-        "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream",
-        "github.com/faustbrian/go-service/integration/reference-durability",
-        "github.com/faustbrian/go-webhook"
-      ],
+      "reverse_owned_dependencies": [],
       "external_runtime_dependencies": [
         "github.com/jackc/pgx/v5",
         "github.com/testcontainers/testcontainers-go/modules/postgres",
