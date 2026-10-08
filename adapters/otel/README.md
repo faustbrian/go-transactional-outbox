@@ -1,13 +1,13 @@
 # Outbox OpenTelemetry adapter
 
 `outboxotel` adds optional OpenTelemetry spans and metrics to
-[`github.com/faustbrian/go-transactional-outbox`](../..). The core outbox module stays
+[`github.com/faustbrian/go-transactional-outbox/v2`](../..). The core outbox module stays
 independent of OpenTelemetry, and exporter lifecycle remains caller-owned.
 
 ## Install
 
 ```sh
-go get github.com/faustbrian/go-transactional-outbox/adapters/otel@v1
+go get github.com/faustbrian/go-transactional-outbox/adapters/otel/v2@v2.0.0
 ```
 
 ## Quick start
@@ -40,7 +40,7 @@ additional guarantees beyond the documented module boundary.
 
 - [Documentation index](docs/README.md)
 - [Complete technical guide](docs/reference.md)
-- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/otel)
+- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/otel/v2)
 - [Parent package documentation](../../docs/README.md)
 
 ## Compatibility and support

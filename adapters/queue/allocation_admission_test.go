@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/faustbrian/go-transactional-outbox"
-	"github.com/faustbrian/go-transactional-outbox/adapters/queue"
+	"github.com/faustbrian/go-transactional-outbox/adapters/queue/v2"
+	"github.com/faustbrian/go-transactional-outbox/v2"
 )
 
 func TestPublisherRejectsBorrowedInputsBeforeSnapshotAllocation(t *testing.T) {

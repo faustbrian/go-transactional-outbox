@@ -7,11 +7,11 @@ It owns no worker, retry loop, transaction, topic, or producer lifecycle.
 
 ## Install
 
-This successor is implemented but not yet published. After
-`adapters/kafka/v1.0.0` is released, install the exact version:
+The v1 successor is public. The v2 cohort is being prepared; after
+`adapters/kafka/v2.0.0` is published, install the exact version:
 
 ```sh
-go get github.com/faustbrian/go-transactional-outbox/adapters/kafka@v1.0.0
+go get github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2@v2.0.0
 ```
 
 ## Quick start
@@ -49,7 +49,7 @@ additional guarantees beyond the documented module boundary.
 
 - [Documentation index](docs/README.md)
 - [Complete technical guide](docs/reference.md)
-- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/kafka)
+- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2)
 - [Compiled example](example_test.go)
 - [Troubleshooting](../../docs/troubleshooting.md)
 - [Parent package documentation](../../docs/README.md)

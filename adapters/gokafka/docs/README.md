@@ -11,7 +11,7 @@ This module is deprecated in favor of
 
 ## API reference
 
-- [Go package documentation](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/gokafka)
+- [Go package documentation](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/gokafka/v2)
 
 ## Security and compatibility
 

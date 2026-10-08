@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"github.com/faustbrian/go-kafka"
-	"github.com/faustbrian/go-transactional-outbox"
-	"github.com/faustbrian/go-transactional-outbox/adapters/gokafka"
+	"github.com/faustbrian/go-transactional-outbox/adapters/gokafka/v2"
+	"github.com/faustbrian/go-transactional-outbox/v2"
 )
 
 func ExamplePublisher() {

@@ -11,6 +11,8 @@ All notable changes to this module are documented here.
 
 ### Changed
 
+- Prepare the adapter as `/v2` for v2 outbox envelopes and relay types. Upgrade
+  this adapter and the root together; Go 1.27 is required.
 - Verify broker interoperability through the target-oriented
   `go-rabbitmq-streams/adapters/rabbitmq` transport adapter while preserving
   the outbox publisher contract.

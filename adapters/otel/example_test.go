@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/faustbrian/go-transactional-outbox"
-	"github.com/faustbrian/go-transactional-outbox/adapters/otel"
+	"github.com/faustbrian/go-transactional-outbox/adapters/otel/v2"
+	"github.com/faustbrian/go-transactional-outbox/v2"
 	metricnoop "go.opentelemetry.io/otel/metric/noop"
 	"go.opentelemetry.io/otel/propagation"
 	tracenoop "go.opentelemetry.io/otel/trace/noop"

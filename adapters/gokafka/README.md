@@ -1,11 +1,11 @@
 # Outbox Kafka adapter
 
 > **Deprecated:** use
-> `github.com/faustbrian/go-transactional-outbox/adapters/kafka`. The
+> `github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2`. The
 > target-oriented path removes the redundant `go` prefix. This compatibility
 > module remains available for the longer of 180 days and two stable minor
-> releases, and may be removed only in an authorized v2 after owned consumers
-> and clean public-consumer checks have migrated.
+> releases. This v2 cohort retains the deprecated name; removal requires a
+> separate authorization and completed consumer migration.
 
 `gokafka` is the released compatibility adapter from `outbox.Envelope` to the
 first-party `kafka.Producer`. It maps one persisted envelope to one Kafka
@@ -15,7 +15,7 @@ It owns no worker, retry loop, transaction, topic, or producer lifecycle.
 ## Install
 
 ```sh
-go get github.com/faustbrian/go-transactional-outbox/adapters/gokafka@v1
+go get github.com/faustbrian/go-transactional-outbox/adapters/gokafka/v2@v2.0.0
 ```
 
 ## Quick start
@@ -53,7 +53,7 @@ additional guarantees beyond the documented module boundary.
 
 - [Documentation index](docs/README.md)
 - [Complete technical guide](docs/reference.md)
-- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/gokafka)
+- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/gokafka/v2)
 - [Compiled example](example_test.go)
 - [Troubleshooting](../../docs/troubleshooting.md)
 - [Parent package documentation](../../docs/README.md)

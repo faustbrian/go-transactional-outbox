@@ -1,7 +1,7 @@
 # Outbox Kafka adapter technical guide
 
 This compatibility module is deprecated. New adoption should use
-`github.com/faustbrian/go-transactional-outbox/adapters/kafka`; see the
+`github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2`; see the
 [migration guide](../../../docs/adapter-migration.md).
 
 This guide contains the complete behavioral and operational reference. Start

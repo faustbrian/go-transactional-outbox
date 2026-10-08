@@ -1,17 +1,17 @@
-module github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream
+module github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2
 
 go 1.27.0
 
 require (
 	github.com/faustbrian/go-rabbitmq-streams v1.1.0
 	github.com/faustbrian/go-rabbitmq-streams/adapters/rabbitmq v1.0.0
-	github.com/faustbrian/go-transactional-outbox v1.0.0
+	github.com/faustbrian/go-transactional-outbox/v2 v2.0.0
 	github.com/rabbitmq/rabbitmq-stream-go-client v1.8.3
 )
 
 require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
-	github.com/go-logr/logr v1.4.3 // indirect
+	github.com/go-logr/logr v1.4.4 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/golang/snappy v1.0.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
@@ -23,9 +23,9 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
-	go.opentelemetry.io/otel v1.44.0 // indirect
-	go.opentelemetry.io/otel/metric v1.44.0 // indirect
-	go.opentelemetry.io/otel/trace v1.44.0 // indirect
+	go.opentelemetry.io/otel v1.45.0 // indirect
+	go.opentelemetry.io/otel/metric v1.45.0 // indirect
+	go.opentelemetry.io/otel/trace v1.45.0 // indirect
 	golang.org/x/sync v0.22.0 // indirect
 	golang.org/x/text v0.41.0 // indirect
 )

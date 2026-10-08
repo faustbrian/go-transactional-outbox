@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/faustbrian/go-transactional-outbox"
-	"github.com/faustbrian/go-transactional-outbox/adapters/otel"
+	"github.com/faustbrian/go-transactional-outbox/adapters/otel/v2"
+	"github.com/faustbrian/go-transactional-outbox/v2"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/metric"
@@ -613,16 +613,23 @@ func TestTelemetryScopesAreVersioned(t *testing.T) {
 	})
 
 	spans := recorder.Ended()
-	if len(spans) != 1 || spans[0].InstrumentationScope().Version != outboxotel.InstrumentationVersion {
+	if len(spans) != 1 {
 		t.Fatalf("span scope = %#v", spans)
+	}
+	if scope := spans[0].InstrumentationScope(); scope.Name != "github.com/faustbrian/go-transactional-outbox" ||
+		scope.Version != outboxotel.InstrumentationVersion {
+		t.Errorf("span instrumentation scope = %#v", scope)
 	}
 	var metrics metricdata.ResourceMetrics
 	if err := reader.Collect(context.Background(), &metrics); err != nil {
 		t.Fatalf("collect metrics: %v", err)
 	}
-	if len(metrics.ScopeMetrics) != 1 ||
-		metrics.ScopeMetrics[0].Scope.Version != outboxotel.InstrumentationVersion {
+	if len(metrics.ScopeMetrics) != 1 {
 		t.Fatalf("metric scope = %#v", metrics.ScopeMetrics)
+	}
+	if scope := metrics.ScopeMetrics[0].Scope; scope.Name != "github.com/faustbrian/go-transactional-outbox" ||
+		scope.Version != outboxotel.InstrumentationVersion {
+		t.Errorf("metric instrumentation scope = %#v", scope)
 	}
 }
 

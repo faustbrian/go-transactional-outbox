@@ -14,9 +14,9 @@ import (
 	"github.com/faustbrian/go-queue/core"
 	"github.com/faustbrian/go-queue/job"
 	"github.com/faustbrian/go-queue/management"
-	"github.com/faustbrian/go-transactional-outbox"
-	"github.com/faustbrian/go-transactional-outbox/adapters/queue"
-	"github.com/faustbrian/go-transactional-outbox/relay"
+	"github.com/faustbrian/go-transactional-outbox/adapters/queue/v2"
+	"github.com/faustbrian/go-transactional-outbox/v2"
+	"github.com/faustbrian/go-transactional-outbox/v2/relay"
 )
 
 func TestPublisherQueuesCanonicalEnvelope(t *testing.T) {

@@ -162,7 +162,8 @@ during a rolling migration; the adapter does not add a dual-write mode.
 
 The module follows the repository Go compatibility policy and publishes under
 directory-prefixed semantic-version tags. Public API changes are checked
-against `api/baseline.txt`.
+against `api/v2-baseline.txt`. The former `api/baseline.txt` remains the
+historical v1 projection.
 
 ## Security notes
 

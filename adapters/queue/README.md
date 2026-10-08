@@ -9,7 +9,7 @@ lifecycle.
 ## Install
 
 ```sh
-go get github.com/faustbrian/go-transactional-outbox/adapters/queue@v1
+go get github.com/faustbrian/go-transactional-outbox/adapters/queue/v2@v2.0.0
 ```
 
 ## Quick start
@@ -38,7 +38,7 @@ additional guarantees beyond the documented module boundary.
 
 - [Documentation index](docs/README.md)
 - [Complete technical guide](docs/reference.md)
-- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/queue)
+- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/queue/v2)
 - [Parent package documentation](../../docs/README.md)
 
 ## Compatibility and support

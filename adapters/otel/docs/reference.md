@@ -4,7 +4,7 @@ This guide contains the complete behavioral and operational reference. Start
 with the [package overview](../README.md).
 
 `outboxotel` adds optional OpenTelemetry spans and metrics to
-[`github.com/faustbrian/go-transactional-outbox`](../../..). The core outbox module stays
+[`github.com/faustbrian/go-transactional-outbox/v2`](../../..). The core outbox module stays
 independent of OpenTelemetry, and exporter lifecycle remains caller-owned.
 
 ## Quick start

@@ -167,14 +167,14 @@
     },
     {
       "directory": "adapters/gokafka",
-      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/gokafka",
+      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/gokafka/v2",
       "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": "adapters/gokafka",
           "directory": ".",
           "name": "gokafka",
-          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/gokafka",
+          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/gokafka/v2",
           "kind": "public",
           "production": true,
           "executable": true,
@@ -204,10 +204,10 @@
         ],
         "public_package_identifier": "gokafka",
         "primary_entry_packages": [
-          "github.com/faustbrian/go-transactional-outbox/adapters/gokafka"
+          "github.com/faustbrian/go-transactional-outbox/adapters/gokafka/v2"
         ],
         "package_selection": {
-          "github.com/faustbrian/go-transactional-outbox/adapters/gokafka": "Use only to preserve the released v1 import path while migrating to adapters/kafka."
+          "github.com/faustbrian/go-transactional-outbox/adapters/gokafka/v2": "Use to retain the legacy package qualifier with outbox v2 while migrating to adapters/kafka/v2."
         },
         "lifecycle_status": "deprecated",
         "maturity": "stable",
@@ -229,7 +229,7 @@
         "optional_owned_dependencies": [],
         "adapters": [],
         "companions": [
-          "github.com/faustbrian/go-transactional-outbox/adapters/kafka"
+          "github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2"
         ],
         "supported_go": {
           "minimum": "1.27.0",
@@ -256,7 +256,7 @@
           "examples": "adapters/gokafka/example_test.go",
           "faq": "adapters/gokafka/docs/reference.md",
           "changelog": "adapters/gokafka/CHANGELOG.md",
-          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/gokafka",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/gokafka/v2",
           "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md"
         },
         "known_good_compatibility_sets": [],
@@ -266,15 +266,13 @@
           "release": "in-progress"
         }
       },
-      "version": "1.0.0",
+      "version": "2.0.0",
       "tag_prefix": "adapters/gokafka/v",
       "owned_dependencies": [
         "github.com/faustbrian/go-kafka",
-        "github.com/faustbrian/go-transactional-outbox"
+        "github.com/faustbrian/go-transactional-outbox/v2"
       ],
-      "reverse_owned_dependencies": [
-        "github.com/faustbrian/go-workflow"
-      ],
+      "reverse_owned_dependencies": [],
       "external_runtime_dependencies": [
         "github.com/jackc/pgx/v5",
         "github.com/testcontainers/testcontainers-go/modules/kafka",
@@ -451,14 +449,14 @@
     },
     {
       "directory": "adapters/otel",
-      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/otel",
+      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/otel/v2",
       "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": "adapters/otel",
           "directory": ".",
           "name": "outboxotel",
-          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/otel",
+          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/otel/v2",
           "kind": "public",
           "production": true,
           "executable": true,
@@ -488,7 +486,7 @@
         ],
         "public_package_identifier": "outboxotel",
         "primary_entry_packages": [
-          "github.com/faustbrian/go-transactional-outbox/adapters/otel"
+          "github.com/faustbrian/go-transactional-outbox/adapters/otel/v2"
         ],
         "package_selection": {},
         "lifecycle_status": "active",
@@ -537,7 +535,7 @@
           "examples": "adapters/otel/example_test.go",
           "faq": "adapters/otel/docs/reference.md",
           "changelog": "adapters/otel/CHANGELOG.md",
-          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/otel",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/otel/v2",
           "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md"
         },
         "known_good_compatibility_sets": [],
@@ -547,10 +545,10 @@
           "release": "not-started"
         }
       },
-      "version": "1.0.0",
+      "version": "2.0.0",
       "tag_prefix": "adapters/otel/v",
       "owned_dependencies": [
-        "github.com/faustbrian/go-transactional-outbox"
+        "github.com/faustbrian/go-transactional-outbox/v2"
       ],
       "reverse_owned_dependencies": [],
       "external_runtime_dependencies": [
@@ -588,14 +586,14 @@
     },
     {
       "directory": "adapters/queue",
-      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/queue",
+      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/queue/v2",
       "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": "adapters/queue",
           "directory": ".",
           "name": "outboxqueue",
-          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/queue",
+          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/queue/v2",
           "kind": "public",
           "production": true,
           "executable": true,
@@ -625,7 +623,7 @@
         ],
         "public_package_identifier": "outboxqueue",
         "primary_entry_packages": [
-          "github.com/faustbrian/go-transactional-outbox/adapters/queue"
+          "github.com/faustbrian/go-transactional-outbox/adapters/queue/v2"
         ],
         "package_selection": {},
         "lifecycle_status": "active",
@@ -672,7 +670,7 @@
           "examples": "adapters/queue/example_test.go",
           "faq": "adapters/queue/docs/reference.md",
           "changelog": "adapters/queue/CHANGELOG.md",
-          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/queue",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/queue/v2",
           "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md"
         },
         "known_good_compatibility_sets": [],
@@ -682,15 +680,13 @@
           "release": "not-started"
         }
       },
-      "version": "1.0.0",
+      "version": "2.0.0",
       "tag_prefix": "adapters/queue/v",
       "owned_dependencies": [
-        "github.com/faustbrian/go-transactional-outbox",
+        "github.com/faustbrian/go-transactional-outbox/v2",
         "github.com/faustbrian/go-queue"
       ],
-      "reverse_owned_dependencies": [
-        "github.com/faustbrian/go-service/integration/reference-durability"
-      ],
+      "reverse_owned_dependencies": [],
       "external_runtime_dependencies": [
         "github.com/jackc/pgx/v5",
         "github.com/testcontainers/testcontainers-go/modules/postgres"
@@ -726,14 +722,14 @@
     },
     {
       "directory": "adapters/kafka",
-      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/kafka",
+      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2",
       "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": "adapters/kafka",
           "directory": ".",
           "name": "outboxkafka",
-          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/kafka",
+          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2",
           "kind": "public",
           "production": true,
           "executable": true,
@@ -763,7 +759,7 @@
         ],
         "public_package_identifier": "outboxkafka",
         "primary_entry_packages": [
-          "github.com/faustbrian/go-transactional-outbox/adapters/kafka"
+          "github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2"
         ],
         "package_selection": {},
         "lifecycle_status": "active",
@@ -786,7 +782,7 @@
         "optional_owned_dependencies": [],
         "adapters": [],
         "companions": [
-          "github.com/faustbrian/go-transactional-outbox/adapters/gokafka"
+          "github.com/faustbrian/go-transactional-outbox/adapters/gokafka/v2"
         ],
         "supported_go": {
           "minimum": "1.27.0",
@@ -813,7 +809,7 @@
           "examples": "adapters/kafka/example_test.go",
           "faq": "adapters/kafka/docs/reference.md",
           "changelog": "adapters/kafka/CHANGELOG.md",
-          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/kafka",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2",
           "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md"
         },
         "known_good_compatibility_sets": [],
@@ -823,11 +819,11 @@
           "release": "in-progress"
         }
       },
-      "version": "1.0.0",
+      "version": "2.0.0",
       "tag_prefix": "adapters/kafka/v",
       "owned_dependencies": [
         "github.com/faustbrian/go-kafka",
-        "github.com/faustbrian/go-transactional-outbox"
+        "github.com/faustbrian/go-transactional-outbox/v2"
       ],
       "reverse_owned_dependencies": [],
       "external_runtime_dependencies": [
@@ -865,14 +861,14 @@
     },
     {
       "directory": "adapters/rabbitstream",
-      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream",
+      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2",
       "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": "adapters/rabbitstream",
           "directory": ".",
           "name": "outboxrabbitstream",
-          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream",
+          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2",
           "kind": "public",
           "production": true,
           "executable": true,
@@ -902,7 +898,7 @@
         ],
         "public_package_identifier": "outboxrabbitstream",
         "primary_entry_packages": [
-          "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream"
+          "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2"
         ],
         "package_selection": {},
         "lifecycle_status": "active",
@@ -954,7 +950,7 @@
           "examples": "adapters/rabbitstream/example_test.go",
           "faq": "adapters/rabbitstream/README.md",
           "changelog": "adapters/rabbitstream/CHANGELOG.md",
-          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2",
           "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md"
         },
         "known_good_compatibility_sets": [],
@@ -964,10 +960,10 @@
           "release": "in-progress"
         }
       },
-      "version": "1.0.1",
+      "version": "2.0.0",
       "tag_prefix": "adapters/rabbitstream/v",
       "owned_dependencies": [
-        "github.com/faustbrian/go-transactional-outbox",
+        "github.com/faustbrian/go-transactional-outbox/v2",
         "github.com/faustbrian/go-rabbitmq-streams",
         "github.com/faustbrian/go-rabbitmq-streams/adapters/rabbitmq"
       ],

@@ -9,7 +9,7 @@ This stable, independently versioned module requires Go 1.27.0.
 ## Install
 
 ```sh
-go get github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream@v1
+go get github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2@v2.0.0
 ```
 
 ## Quick start
@@ -145,7 +145,7 @@ No. One publisher accepts one exact configured Stream or Super Stream target.
 ## Documentation and support
 
 - [Documentation index](docs/README.md)
-- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream)
+- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2)
 - [Compiled example](example_test.go)
 - [Troubleshooting](../../docs/troubleshooting.md)
 - [Parent package documentation](../../docs/README.md)

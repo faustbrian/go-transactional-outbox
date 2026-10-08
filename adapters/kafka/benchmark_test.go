@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/faustbrian/go-transactional-outbox"
-	"github.com/faustbrian/go-transactional-outbox/adapters/kafka"
+	"github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2"
+	"github.com/faustbrian/go-transactional-outbox/v2"
 )
 
 // BenchmarkPublisherMappingOnly uses an in-memory client so broker latency,

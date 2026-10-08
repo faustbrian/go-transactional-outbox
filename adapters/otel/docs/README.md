@@ -7,7 +7,7 @@
 
 ## API reference
 
-- [Go package documentation](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/otel)
+- [Go package documentation](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/otel/v2)
 
 ## Security and compatibility
 

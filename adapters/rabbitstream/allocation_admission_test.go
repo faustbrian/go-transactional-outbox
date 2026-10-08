@@ -6,8 +6,8 @@ import (
 	"testing"
 
 	"github.com/faustbrian/go-rabbitmq-streams"
-	"github.com/faustbrian/go-transactional-outbox"
-	"github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream"
+	"github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2"
+	"github.com/faustbrian/go-transactional-outbox/v2"
 )
 
 func TestPublisherRejectsBorrowedInputsBeforeMessageCopies(t *testing.T) {

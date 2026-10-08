@@ -4,8 +4,8 @@ import (
 	"context"
 
 	streamcontract "github.com/faustbrian/go-rabbitmq-streams"
-	"github.com/faustbrian/go-transactional-outbox"
-	gorabbitstream "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream"
+	gorabbitstream "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2"
+	"github.com/faustbrian/go-transactional-outbox/v2"
 )
 
 // Compile-time migration evidence: callers can preserve the former qualifier

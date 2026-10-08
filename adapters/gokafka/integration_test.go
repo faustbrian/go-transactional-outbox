@@ -12,8 +12,8 @@ import (
 	"time"
 
 	"github.com/faustbrian/go-kafka"
-	"github.com/faustbrian/go-transactional-outbox"
-	"github.com/faustbrian/go-transactional-outbox/adapters/gokafka"
+	"github.com/faustbrian/go-transactional-outbox/adapters/gokafka/v2"
+	"github.com/faustbrian/go-transactional-outbox/v2"
 	tckafka "github.com/testcontainers/testcontainers-go/modules/kafka"
 	"github.com/twmb/franz-go/pkg/kadm"
 	"github.com/twmb/franz-go/pkg/kgo"

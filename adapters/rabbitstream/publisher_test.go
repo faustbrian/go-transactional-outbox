@@ -9,9 +9,9 @@ import (
 	"time"
 
 	"github.com/faustbrian/go-rabbitmq-streams"
-	"github.com/faustbrian/go-transactional-outbox"
-	"github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream"
-	"github.com/faustbrian/go-transactional-outbox/relay"
+	"github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2"
+	"github.com/faustbrian/go-transactional-outbox/v2"
+	"github.com/faustbrian/go-transactional-outbox/v2/relay"
 )
 
 func TestPublisherConstructionRequiresClientOneTargetAndValidLimits(t *testing.T) {

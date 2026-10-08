@@ -4,8 +4,8 @@ import (
 	"context"
 
 	kafkacontract "github.com/faustbrian/go-kafka"
-	"github.com/faustbrian/go-transactional-outbox"
-	gokafka "github.com/faustbrian/go-transactional-outbox/adapters/kafka"
+	gokafka "github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2"
+	"github.com/faustbrian/go-transactional-outbox/v2"
 )
 
 // Compile-time migration evidence: callers can preserve the former qualifier

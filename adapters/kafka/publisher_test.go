@@ -11,9 +11,9 @@ import (
 	"time"
 
 	"github.com/faustbrian/go-kafka"
-	"github.com/faustbrian/go-transactional-outbox"
-	"github.com/faustbrian/go-transactional-outbox/adapters/kafka"
-	"github.com/faustbrian/go-transactional-outbox/relay"
+	"github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2"
+	"github.com/faustbrian/go-transactional-outbox/v2"
+	"github.com/faustbrian/go-transactional-outbox/v2/relay"
 )
 
 func TestPublisherMapsEnvelopeToKafkaMessage(t *testing.T) {
