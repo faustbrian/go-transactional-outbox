@@ -6,8 +6,8 @@ new adoption should use the successors.
 
 | Target | Preferred module | Default package | Deprecated module | Legacy package |
 |---|---|---|---|---|
-| Kafka | `github.com/faustbrian/go-transactional-outbox/adapters/kafka` | `outboxkafka` | `github.com/faustbrian/go-transactional-outbox/adapters/gokafka` | `gokafka` |
-| RabbitMQ Streams | `github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream` | `outboxrabbitstream` | `github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream` | `gorabbitstream` |
+| Kafka | `github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2` | `outboxkafka` | `github.com/faustbrian/go-transactional-outbox/adapters/gokafka/v2` | `gokafka` |
+| RabbitMQ Streams | `github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2` | `outboxrabbitstream` | `github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream/v2` (publication pending) | `gorabbitstream` |
 
 ## Source migration
 
@@ -20,13 +20,14 @@ database migrations, publisher semantics, and error categories are unchanged
 by this module identity change; no database migration is required solely to
 change imports.
 
-The six published adapters remain on their independent v1 cohort and accept
-v1 root types. They cannot accept v2 envelopes or satisfy v2 relay interfaces.
-Applications using those adapters must retain their complete v1 boundary
-until matching adapter v2 releases are public, or supply a publisher built
-against the v2 root contract. A development workspace is not public-consumer
-proof. Deprecated Kafka and RabbitMQ Streams names are retained, not removed
-by the root major upgrade.
+Kafka, GoKafka, Queue, OpenTelemetry and RabbitStream adapter v2.0.0 releases
+are public and consume root v2. The GoRabbitStream facade v2.0.0 is prepared
+in this source against the public RabbitStream v2.0.0 successor but remains
+pending publication. Change each application's root, relay and adapter imports
+together. Existing adapter v1 releases still accept only root-v1 types and
+cannot satisfy v2 relay interfaces. A development workspace is not
+public-consumer proof. Deprecated names are retained, not removed by the
+root major upgrade.
 
 CloudEvents' outbox adapters, Event Sourcing's outbox adapter, Idempotency's
 ecosystem composition, Service's reference durability composition, Webhook,
@@ -65,6 +66,6 @@ facade depends on the public successor release and the canonical
 those dependencies resolve through the public proxy and checksum database.
 
 Legacy modules remain supported for the longer of 180 days and two stable
-minor releases. Removal requires an explicitly authorized v2 and evidence that
+minor releases. Removal requires an explicitly authorized future major and evidence that
 owned consumers and a clean public-consumer search no longer depend on the
 legacy paths.

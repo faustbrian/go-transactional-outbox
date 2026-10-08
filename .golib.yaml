@@ -34,7 +34,7 @@ api:
     path: adapters/gokafka/api/v2-baseline.txt
   - module: adapters/gorabbitstream
     mode: apidiff
-    path: adapters/gorabbitstream/api/baseline.txt
+    path: adapters/gorabbitstream/api/v2-baseline.txt
   - module: adapters/kafka
     mode: apidiff
     path: adapters/kafka/api/v2-baseline.txt

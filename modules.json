@@ -308,14 +308,14 @@
     },
     {
       "directory": "adapters/gorabbitstream",
-      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream",
+      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream/v2",
       "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": "adapters/gorabbitstream",
           "directory": ".",
           "name": "gorabbitstream",
-          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream",
+          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream/v2",
           "kind": "public",
           "production": true,
           "executable": true,
@@ -345,10 +345,10 @@
         ],
         "public_package_identifier": "gorabbitstream",
         "primary_entry_packages": [
-          "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream"
+          "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream/v2"
         ],
         "package_selection": {
-          "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream": "Use only to preserve the released v1 import path while migrating to adapters/rabbitstream."
+          "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream/v2": "Use the deprecated facade with root-v2 types while migrating to adapters/rabbitstream/v2."
         },
         "lifecycle_status": "deprecated",
         "maturity": "stable",
@@ -397,7 +397,7 @@
           "examples": "adapters/gorabbitstream/example_test.go",
           "faq": "adapters/gorabbitstream/README.md",
           "changelog": "adapters/gorabbitstream/CHANGELOG.md",
-          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream/v2",
           "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md"
         },
         "known_good_compatibility_sets": [],
@@ -407,13 +407,13 @@
           "release": "in-progress"
         }
       },
-      "version": "1.0.2",
+      "version": "2.0.0",
       "tag_prefix": "adapters/gorabbitstream/v",
       "owned_dependencies": [
-        "github.com/faustbrian/go-transactional-outbox",
+        "github.com/faustbrian/go-transactional-outbox/v2",
         "github.com/faustbrian/go-rabbitmq-streams",
         "github.com/faustbrian/go-rabbitmq-streams/adapters/rabbitmq",
-        "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream"
+        "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2"
       ],
       "reverse_owned_dependencies": [],
       "external_runtime_dependencies": [

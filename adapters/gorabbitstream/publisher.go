@@ -1,7 +1,7 @@
 // Package gorabbitstream preserves the released RabbitMQ Streams outbox
 // adapter path while delegating to the target-oriented successor.
 //
-// Deprecated: use github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream.
+// Deprecated: use github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2.
 package gorabbitstream
 
 import (
@@ -10,9 +10,9 @@ import (
 	"reflect"
 
 	"github.com/faustbrian/go-rabbitmq-streams"
-	"github.com/faustbrian/go-transactional-outbox"
-	successor "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream"
-	"github.com/faustbrian/go-transactional-outbox/relay"
+	successor "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2"
+	"github.com/faustbrian/go-transactional-outbox/v2"
+	"github.com/faustbrian/go-transactional-outbox/v2/relay"
 )
 
 var (

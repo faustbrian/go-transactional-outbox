@@ -1,5 +1,5 @@
 // Package gorabbitstream adapts transactional outbox envelopes to confirmed
 // RabbitMQ Streams publications.
 //
-// Deprecated: use github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream.
+// Deprecated: use github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2.
 package gorabbitstream

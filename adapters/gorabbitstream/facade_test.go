@@ -6,9 +6,9 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/faustbrian/go-transactional-outbox"
-	legacy "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream"
-	successor "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream"
+	legacy "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream/v2"
+	successor "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2"
+	"github.com/faustbrian/go-transactional-outbox/v2"
 )
 
 func TestLegacyPathRetainsDistinctPublicIdentityWhileDelegating(t *testing.T) {

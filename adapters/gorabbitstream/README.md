@@ -1,10 +1,10 @@
 # Outbox RabbitMQ Streams adapter
 
 > **Deprecated:** use
-> `github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream`. The
+> `github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2`. The
 > target-oriented path removes the redundant `go` prefix. This compatibility
 > module remains available for the longer of 180 days and two stable minor
-> releases, and may be removed only in an authorized v2 after owned consumers
+> releases, and may be removed only in an authorized future major after owned consumers
 > and clean public-consumer checks have migrated.
 
 `gorabbitstream` maps one persisted `outbox.Envelope` to one confirmed
@@ -14,7 +14,7 @@ database transaction, or outbox state transition.
 ## Install
 
 ```sh
-go get github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream@v1
+go get github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream/v2@v2
 ```
 
 ## Quick start
@@ -39,6 +39,12 @@ worker, err := relay.New(store, publisher, relay.Config{
     ClassifyError: gorabbitstream.ClassifyError,
 })
 ```
+
+The v2 facade release is being prepared; the command above becomes available
+after publication. Import root `github.com/faustbrian/go-transactional-outbox/v2`
+and its `/relay` package together with the facade. Root v1 envelopes and relay
+types are not interchangeable with v2. This source uses the already published
+`adapters/rabbitstream/v2` v2.0.0 successor.
 
 The caller creates and closes the producer. Production topology remains
 operator-owned.
@@ -152,7 +158,7 @@ No. One publisher accepts one exact configured Stream or Super Stream target.
 ## Documentation and support
 
 - [Documentation index](docs/README.md)
-- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream)
+- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream/v2)
 - [Compiled example](example_test.go)
 - [Troubleshooting](../../docs/troubleshooting.md)
 - [Parent package documentation](../../docs/README.md)
@@ -168,7 +174,9 @@ Shared adapter, ownership, and lifecycle expectations are in the versioned
 [Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md)
 and its [Persistence and durability family](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/design-language.md#package-families-and-selection).
 
-Migration changes the import path only. Callers may use the successor's
+Migrating between the two v2 adapter names changes the import path only.
+Upgrading from v1 also requires the matching root-v2 envelope and relay types.
+Callers may use the successor's
 default `outboxrabbitstream` qualifier or alias it as `gorabbitstream`. This
 legacy module delegates to the successor: public types and sentinel errors
 retain their released identity, while construction, publication, and

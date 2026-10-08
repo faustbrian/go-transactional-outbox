@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"github.com/faustbrian/go-rabbitmq-streams"
-	"github.com/faustbrian/go-transactional-outbox"
-	"github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream"
+	"github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream/v2"
+	"github.com/faustbrian/go-transactional-outbox/v2"
 )
 
 func BenchmarkPublisherMappingAndConfirmation(b *testing.B) {

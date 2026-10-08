@@ -42,21 +42,20 @@ transactions or exactly-once delivery.
 - `github.com/faustbrian/go-transactional-outbox/v2/postgres`: migrations, transactional writer,
   claims, leases, retries, dead letters, replay, and retention.
 - `github.com/faustbrian/go-transactional-outbox/v2/relay`: bounded embedded relay.
-- `github.com/faustbrian/go-transactional-outbox/adapters/kafka`: preferred,
+- `github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2`: preferred,
   separately versioned Kafka publisher adapter.
-- `github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream`: preferred,
+- `github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2`: preferred,
   separately versioned RabbitMQ Streams publisher adapter.
-- `github.com/faustbrian/go-transactional-outbox/adapters/queue`: separately versioned
+- `github.com/faustbrian/go-transactional-outbox/adapters/queue/v2`: separately versioned
   `queue` publisher adapter; importing core does not add `queue`.
-- `github.com/faustbrian/go-transactional-outbox/adapters/otel`: separately versioned
+- `github.com/faustbrian/go-transactional-outbox/adapters/otel/v2`: separately versioned
   metrics and trace-linkage integration compatible with `telemetry`.
 
-The released `adapters/gokafka` and `adapters/gorabbitstream` paths remain as
-deprecated compatibility modules. See the [adapter migration guide](docs/adapter-migration.md).
-
-The listed adapters still use the published v1 root types and cannot accept
-root v2 envelopes. Retain a complete v1 dependency boundary until matching
-adapter v2 releases are public, or provide a publisher against the v2 contract.
+The listed adapter v2.0.0 releases and deprecated `adapters/gokafka/v2`
+v2.0.0 accept root-v2 contracts. The deprecated `adapters/gorabbitstream/v2`
+facade is prepared in this source but still pending publication. Existing
+v1 releases remain separate and cannot accept root-v2 envelopes. See the
+[adapter migration guide](docs/adapter-migration.md).
 
 ## Quick start
 

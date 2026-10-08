@@ -30,7 +30,7 @@
       "module_directory": "adapters/gorabbitstream",
       "directory": ".",
       "name": "gorabbitstream",
-      "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream",
+      "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream/v2",
       "kind": "public",
       "production": true,
       "executable": true,
