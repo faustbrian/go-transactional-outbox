@@ -126,6 +126,9 @@ func (publisher *Publisher) message(envelope outbox.Envelope) (rabbitstream.Mess
 		envelope.Topic == "" || envelope.Topic != publisher.target() {
 		return rabbitstream.Message{}, ErrInvalidEnvelope
 	}
+	if err := publisher.admitEnvelope(envelope); err != nil {
+		return rabbitstream.Message{}, err
+	}
 	for key := range envelope.Metadata {
 		if reservedMetadata(key) {
 			return rabbitstream.Message{}, errors.Join(ErrInvalidEnvelope, ErrReservedMetadata)
@@ -175,6 +178,68 @@ func (publisher *Publisher) message(envelope outbox.Envelope) (rabbitstream.Mess
 	}
 
 	return message, nil
+}
+
+// Admit borrowed fields before payload copies, metadata allocation or sorting.
+// Message.Validate remains authoritative for representation and key syntax.
+func (publisher *Publisher) admitEnvelope(envelope outbox.Envelope) error {
+	limits := publisher.config.Limits
+	contentType := envelope.Metadata["es.content_type"]
+	if contentType == "" {
+		contentType = defaultContentType
+	}
+	probe := rabbitstream.Message{
+		Stream: publisher.config.Stream, SuperStream: publisher.config.SuperStream,
+		RoutingKey: routingKey(envelope), ContentType: contentType,
+		MessageID: envelope.ID, CorrelationID: envelope.Metadata["correlation-id"],
+		Payload: envelope.Payload,
+	}
+	if err := probe.Validate(limits); err != nil {
+		return errors.Join(ErrInvalidEnvelope, err)
+	}
+	entries := 1 // The adapter always emits schema-version.
+	if envelope.IdempotencyKey != "" {
+		entries++
+	}
+	applicationEntries := len(envelope.Metadata)
+	if _, present := envelope.Metadata["correlation-id"]; present {
+		applicationEntries-- // It maps to a standard property, not an entry.
+	}
+	if entries > limits.MaxMetadataEntries || applicationEntries > limits.MaxMetadataEntries-entries {
+		return errors.Join(ErrInvalidEnvelope, rabbitstream.ErrValidation)
+	}
+	remaining := limits.MaxMetadataBytes
+	consume := func(size int) bool {
+		if size > remaining {
+			return false
+		}
+		remaining -= size
+		return true
+	}
+	versionBytes := 1
+	for version := envelope.PayloadVersion; version >= 10; version /= 10 {
+		versionBytes++
+	}
+	if len("schema-version") > limits.MaxMetadataKeyBytes || versionBytes > limits.MaxMetadataValueBytes ||
+		!consume(len(probe.ContentType)) || !consume(len(probe.MessageID)) || !consume(len(probe.CorrelationID)) ||
+		!consume(len("schema-version")) || !consume(versionBytes) {
+		return errors.Join(ErrInvalidEnvelope, rabbitstream.ErrValidation)
+	}
+	if envelope.IdempotencyKey != "" && (len("idempotency-key") > limits.MaxMetadataKeyBytes ||
+		len(envelope.IdempotencyKey) > limits.MaxMetadataValueBytes ||
+		!consume(len("idempotency-key")) || !consume(len(envelope.IdempotencyKey))) {
+		return errors.Join(ErrInvalidEnvelope, rabbitstream.ErrValidation)
+	}
+	for key, value := range envelope.Metadata {
+		if key == "correlation-id" {
+			continue
+		}
+		if len(key) > limits.MaxMetadataKeyBytes || len(value) > limits.MaxMetadataValueBytes ||
+			!consume(len(key)) || !consume(len(value)) {
+			return errors.Join(ErrInvalidEnvelope, rabbitstream.ErrValidation)
+		}
+	}
+	return nil
 }
 
 func (publisher *Publisher) target() string {

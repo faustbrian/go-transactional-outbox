@@ -4,6 +4,11 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+### Fixed
+
+- Admit payload and mapped metadata budgets before copying envelope data into
+  a stream message, preserving owned accepted messages and confirmations.
+
 ### Changed
 
 - Verify broker interoperability through the target-oriented
