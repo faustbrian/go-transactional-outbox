@@ -4,6 +4,11 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+### Fixed
+
+- Reject over-budget envelope payloads and metadata before copying them into
+  a task snapshot; accepted encoded tasks retain independent byte ownership.
+
 ### Changed
 
 - Adopt checksum-verified `go-library-tools` v1.4.0 W14 enforcement and resolve

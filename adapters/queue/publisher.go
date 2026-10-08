@@ -354,16 +354,13 @@ func taskFromEnvelope(envelope outbox.Envelope) Task {
 	if contentType == "" {
 		contentType = "application/json"
 	}
-	metadata := make(map[string]string, len(envelope.Metadata))
-	for key, value := range envelope.Metadata {
-		metadata[key] = value
-	}
-
+	// Borrow inputs through validation and synchronous JSON encoding. The
+	// encoded message owns the snapshot before any queue callback can run.
 	return Task{
 		TaskID: envelope.ID, IdempotencyKey: idempotencyKey,
-		OrderingKey: envelope.OrderingKey, Content: append([]byte(nil), envelope.Payload...),
+		OrderingKey: envelope.OrderingKey, Content: envelope.Payload,
 		ContentType: contentType, EventName: eventName,
-		SchemaVersion: envelope.PayloadVersion, Metadata: metadata,
+		SchemaVersion: envelope.PayloadVersion, Metadata: envelope.Metadata,
 	}
 }
 
