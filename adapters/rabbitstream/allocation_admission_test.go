@@ -118,6 +118,46 @@ func TestPublisherAdmitsExactMappedBudgets(t *testing.T) {
 	}
 }
 
+func TestPublisherRejectsApplicationBoundsAlongsideCorrelationBeforeCopies(t *testing.T) {
+	for _, test := range []struct {
+		name  string
+		key   string
+		value string
+	}{
+		{name: "key", key: strings.Repeat("k", 15), value: "value"},
+		{name: "value", key: "kind", value: strings.Repeat("v", 17)},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			limits := rabbitstream.DefaultLimits()
+			limits.MaxMetadataKeyBytes = 14
+			limits.MaxMetadataValueBytes = 16
+			client := &recordingClient{}
+			publisher, err := outboxrabbitstream.New(client, outboxrabbitstream.Config{Stream: "events", Limits: limits})
+			if err != nil {
+				t.Fatal(err)
+			}
+			envelope := outbox.Envelope{
+				ID: "event", Topic: "events", PayloadVersion: 1, Payload: []byte("payload"),
+				Metadata: map[string]string{"correlation-id": "correlation", test.key: test.value},
+			}
+			ctx := t.Context()
+			// Map order is unspecified. Finite samples exercise both metadata
+			// roles without claiming deterministic traversal-order coverage.
+			// Measure each call separately so early copies cannot be averaged away.
+			for sample := 0; sample < 64; sample++ {
+				allocations := testing.AllocsPerRun(1, func() { err = publisher.Publish(ctx, envelope) })
+				if !errors.Is(err, outboxrabbitstream.ErrInvalidEnvelope) ||
+					!errors.Is(err, rabbitstream.ErrValidation) || client.calls != 0 {
+					t.Fatalf("application %s error/calls = %v/%d", test.name, err, client.calls)
+				}
+				if allocations > 4 {
+					t.Fatalf("application %s copied before rejection: %g allocations", test.name, allocations)
+				}
+			}
+		})
+	}
+}
+
 func TestPublisherRejectsGeneratedAndApplicationPropertyBounds(t *testing.T) {
 	for _, test := range []struct {
 		name        string
