@@ -95,6 +95,7 @@ type Claim struct {
 
 // LeaseRef identifies a record and the opaque token for its current lease
 // generation. An expired or replaced token cannot mutate the record.
+// Expiry is checked under the row lock using the PostgreSQL clock.
 type LeaseRef struct {
 	ID    string
 	Token string
@@ -528,7 +529,12 @@ func (s *Store) MarkDelivered(ctx context.Context, lease LeaseRef) error {
 		return err
 	}
 	query := fmt.Sprintf(`
-UPDATE %s
+WITH locked AS MATERIALIZED (
+    SELECT id, leased_until FROM %s
+    WHERE id = $1 AND state = 'leased' AND lease_token = $2
+    FOR UPDATE
+)
+UPDATE %s AS message
 SET state = 'delivered',
     lease_owner = NULL,
     lease_token = NULL,
@@ -536,7 +542,8 @@ SET state = 'delivered',
     delivered_at = clock_timestamp(),
     last_error = NULL,
     updated_at = clock_timestamp()
-WHERE id = $1 AND state = 'leased' AND lease_token = $2`, s.table)
+FROM locked
+WHERE message.id = locked.id AND locked.leased_until > clock_timestamp()`, s.table, s.table)
 
 	return s.execLeaseUpdate(ctx, "mark delivered", query, lease.ID, lease.Token)
 }
@@ -551,11 +558,17 @@ func (s *Store) ExtendLease(ctx context.Context, lease LeaseRef, duration time.D
 	}
 
 	query := fmt.Sprintf(`
-UPDATE %s
+WITH locked AS MATERIALIZED (
+    SELECT id, leased_until FROM %s
+    WHERE id = $1 AND state = 'leased' AND lease_token = $2
+    FOR UPDATE
+)
+UPDATE %s AS message
 SET leased_until = clock_timestamp() + ($3::bigint * interval '1 microsecond'),
     updated_at = clock_timestamp()
-WHERE id = $1 AND state = 'leased' AND lease_token = $2
-RETURNING leased_until`, s.table)
+FROM locked
+WHERE message.id = locked.id AND locked.leased_until > clock_timestamp()
+RETURNING message.leased_until`, s.table, s.table)
 	var leasedUntil time.Time
 	if err := s.pool.QueryRow(ctx, query, lease.ID, lease.Token, duration.Microseconds()).Scan(&leasedUntil); err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
@@ -577,7 +590,12 @@ func (s *Store) Retry(ctx context.Context, lease LeaseRef, delay time.Duration, 
 		return err
 	}
 	query := fmt.Sprintf(`
-UPDATE %s
+WITH locked AS MATERIALIZED (
+    SELECT id, leased_until FROM %s
+    WHERE id = $1 AND state = 'leased' AND lease_token = $2
+    FOR UPDATE
+)
+UPDATE %s AS message
 SET state = 'pending',
     lease_owner = NULL,
     lease_token = NULL,
@@ -585,7 +603,8 @@ SET state = 'pending',
     available_at = clock_timestamp() + ($3::bigint * interval '1 microsecond'),
     last_error = $4,
     updated_at = clock_timestamp()
-WHERE id = $1 AND state = 'leased' AND lease_token = $2`, s.table)
+FROM locked
+WHERE message.id = locked.id AND locked.leased_until > clock_timestamp()`, s.table, s.table)
 
 	return s.execLeaseUpdate(ctx, "schedule retry", query,
 		lease.ID, lease.Token, delay.Microseconds(), errorText(cause))
@@ -597,7 +616,12 @@ func (s *Store) DeadLetter(ctx context.Context, lease LeaseRef, cause error) err
 		return err
 	}
 	query := fmt.Sprintf(`
-UPDATE %s
+WITH locked AS MATERIALIZED (
+    SELECT id, leased_until FROM %s
+    WHERE id = $1 AND state = 'leased' AND lease_token = $2
+    FOR UPDATE
+)
+UPDATE %s AS message
 SET state = 'dead',
     lease_owner = NULL,
     lease_token = NULL,
@@ -605,7 +629,8 @@ SET state = 'dead',
     dead_lettered_at = clock_timestamp(),
     last_error = $3,
     updated_at = clock_timestamp()
-WHERE id = $1 AND state = 'leased' AND lease_token = $2`, s.table)
+FROM locked
+WHERE message.id = locked.id AND locked.leased_until > clock_timestamp()`, s.table, s.table)
 
 	return s.execLeaseUpdate(ctx, "dead letter", query, lease.ID, lease.Token, errorText(cause))
 }
@@ -617,14 +642,20 @@ func (s *Store) ReleaseLease(ctx context.Context, lease LeaseRef) error {
 		return err
 	}
 	query := fmt.Sprintf(`
-UPDATE %s
+WITH locked AS MATERIALIZED (
+    SELECT id, leased_until FROM %s
+    WHERE id = $1 AND state = 'leased' AND lease_token = $2
+    FOR UPDATE
+)
+UPDATE %s AS message
 SET state = 'pending',
     lease_owner = NULL,
     lease_token = NULL,
     leased_until = NULL,
     available_at = clock_timestamp(),
     updated_at = clock_timestamp()
-WHERE id = $1 AND state = 'leased' AND lease_token = $2`, s.table)
+FROM locked
+WHERE message.id = locked.id AND locked.leased_until > clock_timestamp()`, s.table, s.table)
 
 	return s.execLeaseUpdate(ctx, "release lease", query, lease.ID, lease.Token)
 }

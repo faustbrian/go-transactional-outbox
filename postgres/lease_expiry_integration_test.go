@@ -35,29 +35,25 @@ func testLeaseExpiryFencing(t *testing.T, ctx context.Context, pool *pgxpool.Poo
 	for _, operation := range []struct {
 		name  string
 		state string
-		apply func(outboxpostgres.LeaseRef) (time.Time, error)
+		apply func(context.Context, outboxpostgres.LeaseRef) (time.Time, error)
 	}{
-		{"delivered", "delivered", func(lease outboxpostgres.LeaseRef) (time.Time, error) {
+		{"delivered", "delivered", func(ctx context.Context, lease outboxpostgres.LeaseRef) (time.Time, error) {
 			return time.Time{}, store.MarkDelivered(ctx, lease)
 		}},
-		{"extend", "leased", func(lease outboxpostgres.LeaseRef) (time.Time, error) {
+		{"extend", "leased", func(ctx context.Context, lease outboxpostgres.LeaseRef) (time.Time, error) {
 			return store.ExtendLease(ctx, lease, 2*time.Minute)
 		}},
-		{"retry", "pending", func(lease outboxpostgres.LeaseRef) (time.Time, error) {
+		{"retry", "pending", func(ctx context.Context, lease outboxpostgres.LeaseRef) (time.Time, error) {
 			return time.Time{}, store.Retry(ctx, lease, time.Minute, errors.New("retry fixture"))
 		}},
-		{"dead", "dead", func(lease outboxpostgres.LeaseRef) (time.Time, error) {
+		{"dead", "dead", func(ctx context.Context, lease outboxpostgres.LeaseRef) (time.Time, error) {
 			return time.Time{}, store.DeadLetter(ctx, lease, errors.New("dead-letter fixture"))
 		}},
-		{"release", "pending", func(lease outboxpostgres.LeaseRef) (time.Time, error) {
+		{"release", "pending", func(ctx context.Context, lease outboxpostgres.LeaseRef) (time.Time, error) {
 			return time.Time{}, store.ReleaseLease(ctx, lease)
 		}},
 	} {
-		for _, expired := range []bool{true, false} {
-			status := "active"
-			if expired {
-				status = "expired"
-			}
+		for _, status := range []string{"expired", "active", "waiting"} {
 			t.Run(operation.name+"/"+status, func(t *testing.T) {
 				id := "lease-" + operation.name + "-" + status
 				t.Cleanup(func() {
@@ -85,10 +81,16 @@ func testLeaseExpiryFencing(t *testing.T, ctx context.Context, pool *pgxpool.Poo
 					t.Fatalf("claim isolated lease fixture: count=%d error=%v", len(claims), err)
 				}
 				claim := claims[0]
-				if expired {
+				if status == "expired" {
 					// Expire without reclaiming: the original token remains current.
 					if _, err := pool.Exec(ctx, `UPDATE outbox_lease_expiry
 SET leased_until = clock_timestamp() - interval '1 second' WHERE id = $1`, id); err != nil {
+						t.Fatal(err)
+					}
+				}
+				if status == "waiting" {
+					if _, err := pool.Exec(ctx, `UPDATE outbox_lease_expiry
+SET leased_until = clock_timestamp() + interval '1 second' WHERE id = $1`, id); err != nil {
 						t.Fatal(err)
 					}
 				}
@@ -101,8 +103,16 @@ FROM outbox_lease_expiry AS message WHERE id = $1`, id).Scan(&row); err != nil {
 					return row
 				}
 				before := readRow()
-				deadline, err := operation.apply(outboxpostgres.LeaseRef{ID: id, Token: claim.LeaseToken})
-				if expired {
+				lease := outboxpostgres.LeaseRef{ID: id, Token: claim.LeaseToken}
+				var deadline time.Time
+				if status == "waiting" {
+					deadline, err = transitionAfterLeaseLockWait(t, ctx, pool, id, func(ctx context.Context) (time.Time, error) {
+						return operation.apply(ctx, lease)
+					})
+				} else {
+					deadline, err = operation.apply(ctx, lease)
+				}
+				if status != "active" {
 					if !errors.Is(err, outboxpostgres.ErrLeaseLost) || !deadline.IsZero() {
 						t.Errorf("expired lease error/deadline = %v/%s, want lost/zero", err, deadline)
 					}
@@ -131,5 +141,77 @@ FROM outbox_lease_expiry WHERE id = $1`, id).Scan(&state, &token); err != nil {
 				}
 			})
 		}
+	}
+}
+
+func transitionAfterLeaseLockWait(
+	t *testing.T, ctx context.Context, pool *pgxpool.Pool, id string,
+	apply func(context.Context) (time.Time, error),
+) (time.Time, error) {
+	t.Helper()
+	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	defer cancel()
+	locker, err := pool.Begin(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer func() {
+		cleanup, stop := context.WithTimeout(context.Background(), 5*time.Second)
+		defer stop()
+		_ = locker.Rollback(cleanup)
+	}()
+	var originalDeadline time.Time
+	if err := locker.QueryRow(ctx, `SELECT leased_until FROM outbox_lease_expiry
+WHERE id = $1 FOR UPDATE`, id).Scan(&originalDeadline); err != nil {
+		t.Fatal(err)
+	}
+	type transitionResult struct {
+		deadline time.Time
+		err      error
+	}
+	result := make(chan transitionResult, 1)
+	joined := false
+	t.Cleanup(func() {
+		cancel()
+		if !joined {
+			select {
+			case <-result:
+			case <-time.After(5 * time.Second):
+				t.Error("lease transition did not finish after cancellation")
+			}
+		}
+	})
+	go func() {
+		deadline, err := apply(ctx)
+		result <- transitionResult{deadline, err}
+	}()
+	waitForQueryLock(t, ctx, pool, "outbox_lease_expiry")
+	var active bool
+	if err := pool.QueryRow(ctx, "SELECT clock_timestamp() < $1", originalDeadline).Scan(&active); err != nil || !active {
+		t.Fatalf("lease was not active when the transition began waiting: active=%v error=%v", active, err)
+	}
+	// Observe actual database-clock expiry without changing the locked row.
+	ticker := time.NewTicker(10 * time.Millisecond)
+	defer ticker.Stop()
+	for active {
+		select {
+		case <-ctx.Done():
+			t.Fatal("database clock did not reach the lease deadline")
+		case <-ticker.C:
+			if err := pool.QueryRow(ctx, "SELECT clock_timestamp() < $1", originalDeadline).Scan(&active); err != nil {
+				t.Fatal(err)
+			}
+		}
+	}
+	if err := locker.Commit(ctx); err != nil {
+		t.Fatal(err)
+	}
+	select {
+	case outcome := <-result:
+		joined = true
+		return outcome.deadline, outcome.err
+	case <-ctx.Done():
+		t.Fatal("lease transition did not finish after releasing its row lock")
+		return time.Time{}, ctx.Err()
 	}
 }

@@ -46,6 +46,8 @@ publisher contracts are public compatibility surfaces.
 
 ### Fixed
 
+- Reject expired lease transitions after acquiring PostgreSQL row ownership,
+  including leases that expire while an update waits for another transaction.
 - Preserve all application metadata when transport metadata is present during
   RabbitMQ Streams publication.
 
