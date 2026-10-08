@@ -19,9 +19,40 @@ guidance. Fixes are scoped to affected modules, not unrelated package releases.
 
 ## Reporting
 
-Report vulnerabilities privately through GitHub's security advisory workflow.
+Report vulnerabilities through the
+[private reporting form](https://github.com/faustbrian/go-transactional-outbox/security/advisories/new).
 Do not open a public issue containing credentials, payloads, exploit details,
 or tenant data.
+
+## Published findings
+
+The following corrected issues have conditional medium severity. They do not
+establish authentication bypass or measured resource exhaustion.
+
+- Root `github.com/faustbrian/go-transactional-outbox` v1.0.0 accepts durable
+  lease transitions with an expired token when that token has not been
+  replaced. A paused worker can therefore change a record after its lease
+  expires. Root `github.com/faustbrian/go-transactional-outbox/v2` v2.0.0
+  checks the fresh PostgreSQL deadline after acquiring row ownership. Upgrade
+  root and relay consumers together. A relay-host clock check alone does
+  not close a database lock-wait window.
+- `adapters/queue` v1.0.0, `adapters/rabbitstream` v1.0.0 and v1.0.1, and
+  `adapters/gorabbitstream` v1.0.0 through v1.0.2 copy input-sized payload or
+  metadata before admission. Passing oversized envelopes directly to these
+  publishers can cause allocations before rejection. Their corresponding
+  `/v2` modules at v2.0.0 admit input before copying. Until migration, callers
+  must enforce finite payload and mapped metadata budgets before publication.
+  Kafka, deprecated Go Kafka, and telemetry adapters are not included in this
+  finding; supplier transport advisories are separate.
+
+These fixes are published as new module identities, not patched v1 versions.
+The v2 modules require Go 1.27. Follow the
+[adapter migration guide](docs/adapter-migration.md) when changing imports and
+keep independently versioned root and adapters coherent.
+
+The [versioned threat model](docs/security-threat-model-v1.md) records trust
+boundaries, sensitive data, controls, and remaining application obligations.
+It is not a substitute for release or transport qualification.
 
 ## Operational responsibilities
 

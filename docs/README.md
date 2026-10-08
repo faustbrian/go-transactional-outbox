@@ -8,6 +8,8 @@
 - [Telemetry](telemetry.md), [operations](operations.md), and
   [recovery runbooks](runbooks.md)
 - [Troubleshooting](troubleshooting.md) and [security inventory](inventory.md)
+- [Versioned security threat model](security-threat-model-v1.md) and
+  [published-version security guidance](../SECURITY.md#published-findings)
 
 ## Optional modules
 
