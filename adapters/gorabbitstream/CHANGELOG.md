@@ -2,6 +2,13 @@
 
 All notable changes to this module are documented here.
 
+## [2.0.1] - 2026-10-09
+
+### Changed
+
+- Refresh dependency selections without changing the adapter public API,
+  publication semantics, module identity, or Go 1.27.0 minimum.
+
 ## Unreleased
 
 ### Changed

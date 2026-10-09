@@ -6,6 +6,16 @@ format follows Keep a Changelog, and releases follow Semantic Versioning.
 Schema, envelope encoding, delivery semantics, exported errors, metrics, and
 publisher contracts are public compatibility surfaces.
 
+## [2.0.1] - 2026-10-09
+
+### Changed
+
+- Refresh dependency selections, including Testcontainers 0.44.0 for
+  integration fixtures. The public API, envelope encoding, database schema,
+  and delivery semantics are unchanged; Go 1.27.0 remains the minimum.
+- Use the database clock in the PostgreSQL lease-expiry integration fixture
+  so host clock skew cannot invalidate the test.
+
 ## [Unreleased]
 
 ### Changed
