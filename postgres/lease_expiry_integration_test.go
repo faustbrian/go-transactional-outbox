@@ -68,7 +68,12 @@ func testLeaseExpiryFencing(t *testing.T, ctx context.Context, pool *pgxpool.Poo
 					t.Fatal(err)
 				}
 				defer func() { _ = tx.Rollback(ctx) }()
-				if err := writer.Insert(ctx, tx, hardeningEnvelope(id)); err != nil {
+				envelope := hardeningEnvelope(id)
+				// Immediate eligibility follows the database clock, not the host clock.
+				if err := tx.QueryRow(ctx, "SELECT clock_timestamp()").Scan(&envelope.AvailableAt); err != nil {
+					t.Fatal(err)
+				}
+				if err := writer.Insert(ctx, tx, envelope); err != nil {
 					t.Fatal(err)
 				}
 				if err := tx.Commit(ctx); err != nil {
