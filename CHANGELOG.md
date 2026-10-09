@@ -15,6 +15,8 @@ publisher contracts are public compatibility surfaces.
   and delivery semantics are unchanged; Go 1.27.0 remains the minimum.
 - Use the database clock in the PostgreSQL lease-expiry integration fixture
   so host clock skew cannot invalidate the test.
+- Correct the adapter availability guide to reflect the published
+  GoRabbitStream v2 facade.
 
 ## [Unreleased]
 
