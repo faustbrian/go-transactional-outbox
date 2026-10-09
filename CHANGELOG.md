@@ -6,6 +6,21 @@ format follows Keep a Changelog, and releases follow Semantic Versioning.
 Schema, envelope encoding, delivery semantics, exported errors, metrics, and
 publisher contracts are public compatibility surfaces.
 
+## [2.0.1] - 2026-10-09
+
+### Changed
+
+- Use Go 1.27.2 for development and CI with compiler-compatible source
+  tooling, retaining the public Go 1.27.0 minimum. Rebuild applications
+  with a patched toolchain to receive standard-library security fixes.
+- Refresh dependency selections, including Testcontainers 0.44.0 for
+  integration fixtures. The public API, envelope encoding, database schema,
+  and delivery semantics are unchanged; Go 1.27.0 remains the minimum.
+- Use the database clock in the PostgreSQL lease-expiry integration fixture
+  so host clock skew cannot invalidate the test.
+- Correct the adapter availability guide to reflect the published
+  GoRabbitStream v2 facade.
+
 ## [Unreleased]
 
 ### Changed

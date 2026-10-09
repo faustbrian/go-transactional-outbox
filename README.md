@@ -51,10 +51,10 @@ transactions or exactly-once delivery.
 - `github.com/faustbrian/go-transactional-outbox/adapters/otel/v2`: separately versioned
   metrics and trace-linkage integration compatible with `telemetry`.
 
-The listed adapter v2.0.0 releases and deprecated `adapters/gokafka/v2`
-v2.0.0 accept root-v2 contracts. The deprecated `adapters/gorabbitstream/v2`
-facade is prepared in this source but still pending publication. Existing
-v1 releases remain separate and cannot accept root-v2 envelopes. See the
+All six adapter v2.0.0 releases are public and accept root-v2 contracts,
+including deprecated `adapters/gokafka/v2` and the deprecated
+`adapters/gorabbitstream/v2` facade. Existing v1 releases remain separate
+and cannot accept root-v2 envelopes. See the
 [adapter migration guide](docs/adapter-migration.md).
 
 ## Quick start
