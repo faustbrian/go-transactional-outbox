@@ -564,6 +564,7 @@ func waitContext(ctx context.Context, duration time.Duration) error {
 func exponentialBackoff(attempt int) time.Duration {
 	ceiling := backoffCeiling(attempt)
 
+	// #nosec G404 -- this randomness schedules retry jitter, not security-sensitive values.
 	return time.Duration(rand.Int64N(int64(ceiling)))
 }
 
