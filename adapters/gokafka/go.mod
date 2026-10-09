@@ -6,7 +6,7 @@ require (
 	github.com/faustbrian/go-kafka v1.0.0
 	github.com/faustbrian/go-transactional-outbox/v2 v2.0.0
 	github.com/jackc/pgx/v5 v5.10.0
-	github.com/testcontainers/testcontainers-go/modules/kafka v0.43.0
+	github.com/testcontainers/testcontainers-go/modules/kafka v0.44.0
 	github.com/testcontainers/testcontainers-go/modules/postgres v0.44.0
 	github.com/twmb/franz-go v1.21.5
 	github.com/twmb/franz-go/pkg/kadm v1.18.0
