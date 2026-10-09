@@ -41,6 +41,8 @@ publisher contracts are public compatibility surfaces.
 
 ### Documentation
 
+- Document the versioned security threat model and affected published versions
+  for expired lease transitions and publisher admission before copying.
 - Add target-oriented Kafka and RabbitMQ Streams adapter entry points and a
   migration guide for the retained deprecated module paths.
 - Link the outbox README directly to the immutable v1.4.0

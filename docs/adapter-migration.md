@@ -7,7 +7,7 @@ new adoption should use the successors.
 | Target | Preferred module | Default package | Deprecated module | Legacy package |
 |---|---|---|---|---|
 | Kafka | `github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2` | `outboxkafka` | `github.com/faustbrian/go-transactional-outbox/adapters/gokafka/v2` | `gokafka` |
-| RabbitMQ Streams | `github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2` | `outboxrabbitstream` | `github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream/v2` (publication pending) | `gorabbitstream` |
+| RabbitMQ Streams | `github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2` | `outboxrabbitstream` | `github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream/v2` | `gorabbitstream` |
 
 ## Source migration
 
@@ -20,19 +20,18 @@ database migrations, publisher semantics, and error categories are unchanged
 by this module identity change; no database migration is required solely to
 change imports.
 
-Kafka, GoKafka, Queue, OpenTelemetry and RabbitStream adapter v2.0.0 releases
-are public and consume root v2. The GoRabbitStream facade v2.0.0 is prepared
-in this source against the public RabbitStream v2.0.0 successor but remains
-pending publication. Change each application's root, relay and adapter imports
+All six adapter v2.0.0 releases are public and consume root v2, including
+the deprecated GoRabbitStream facade. Change each application's root, relay
+and adapter imports
 together. Existing adapter v1 releases still accept only root-v1 types and
 cannot satisfy v2 relay interfaces. A development workspace is not
 public-consumer proof. Deprecated names are retained, not removed by the
 root major upgrade.
 
-CloudEvents' outbox adapters, Event Sourcing's outbox adapter, Idempotency's
-ecosystem composition, Service's reference durability composition, Webhook,
-and the library-tools compatibility consumer remain v1 consumers until their
-imports and tests are migrated. They do not certify root v2 compatibility.
+For integrations in CloudEvents, Event Sourcing, Idempotency, Service,
+Webhook, or library-tools, select a release or maintained composition that
+explicitly consumes root v2. An older v1 integration does not certify root v2
+compatibility merely because this repository has published a new major.
 
 ### Target-oriented adapter migration within v1
 
