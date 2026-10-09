@@ -32,9 +32,15 @@ that hide a failing package.
 
 ## Verification
 
-Install the exact `golib` release declared by `.golib.yaml`; the Make targets
-below are intentionally thin wrappers around that CLI. CI installs and verifies
-the same release automatically.
+Use Go 1.27.2 for development and CI. The public module minimum remains
+Go 1.27.0; rebuild applications with a patched toolchain to receive
+standard-library security fixes.
+
+CI builds the immutable `tooling_sha` declared in `.github/workflows/ci.yml`
+through its explicit source-bootstrap path. For equivalent local checks,
+build that tooling revision with Go 1.27.2 and set `GOLIB` to its executable.
+The Make targets below are thin wrappers; the published release identity
+in `.golib.yaml` does not identify this source-built development verifier.
 
 Run during development:
 

@@ -9,6 +9,10 @@ below remain the published v1 cohort, whose public signatures require v1 root
 types; they are not root v2 compatibility evidence. See the
 [major-version migration boundary](adapter-migration.md#root-v2-migration).
 
+Development and CI use Go 1.27.2. The Go 1.27.0 public minimum describes
+compiler compatibility, not a security recommendation. Rebuild applications
+with a patched toolchain to receive standard-library security fixes.
+
 | Surface | Versions | Evidence and boundary |
 |---|---|---|
 | Go | 1.27.0 minimum and stable | Linux, macOS, and Windows unit jobs |

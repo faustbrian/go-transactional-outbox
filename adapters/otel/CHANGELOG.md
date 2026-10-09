@@ -6,6 +6,9 @@ All notable changes to this module are documented here.
 
 ### Changed
 
+- Use Go 1.27.2 for development and CI with compiler-compatible source
+  tooling, retaining the public Go 1.27.0 minimum. Rebuild applications
+  with a patched toolchain to receive standard-library security fixes.
 - Adopt OpenTelemetry API, metric, and trace 1.47.0 while retaining SDK
   and SDK/metric 1.45.0. The adapter public API and telemetry privacy
   contract are unchanged.
