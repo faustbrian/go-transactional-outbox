@@ -218,7 +218,7 @@ consumer side effect by stable identity.
 
 ## Development
 
-`make check` runs formatting, vet, unit tests, race, exact statement coverage,
+From this module directory, `make check` runs formatting, vet, unit tests, race, exact statement coverage,
 fuzzing, benchmarks, and documentation. `make integration` uses a digest-pinned
 Confluent Local 7.5.0 container to verify real-broker acknowledgement,
 key-partition order, deterministic headers, broker-restart recovery, redacted

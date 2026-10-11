@@ -104,16 +104,26 @@ and [architecture and crash matrix](docs/architecture.md).
 
 ## Development gates
 
+Use Go 1.27.2 and the verified public Tools v2.1.1 binary; module minima remain
+Go 1.27.0. See [contributing](CONTRIBUTING.md#verification) for installation,
+standalone tests, seed versus active fuzzing and optional focused mutation.
+
 ```sh
 make check
+make check-full
 make recovery POSTGRES_VERSION=18
 make migration-integration POSTGRES_VERSION=18
 ```
 
-Integration tests use ephemeral Testcontainers PostgreSQL instances. They do
+`make check` selects bounded checks and the cheap documentation policy;
+`make check-full` selects the original full campaign. Selected relay assertions
+use fake stores, not live SQL/broker proof. All-module integration retains
+database/broker services and tags. PostgreSQL tests use ephemeral Testcontainers
+instances. They do
 not use an existing application or production database. The migration gate
 uses `GO_MIGRATIONS_DIR` when the sibling checkout is not at
-`../migrations`.
+`../go-migrations`; this is explicit source-composition qualification, not an
+ordinary standalone prerequisite. Scheduled CI is bounded, not a full matrix.
 
 ## License
 

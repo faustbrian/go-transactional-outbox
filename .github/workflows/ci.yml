@@ -25,22 +25,36 @@ permissions:
 
 jobs:
   ci:
-    uses: faustbrian/go-library-tools/.github/workflows/library-ci.yml@e5bce6cf7eea0d5f6745f344ebcf80fe248a047a
+    uses: faustbrian/go-library-tools/.github/workflows/library-ci.yml@eff8b2127c361ee2f422123824a1d337cc277ac4 # qualified public v2.1.1 source
     with:
-      tooling_sha: e8c0c51cc517dfede5475858bb417f0e7a21f39d
-      source_bootstrap: true
+      tooling_sha: eff8b2127c361ee2f422123824a1d337cc277ac4
+      source_bootstrap: false
       public_dependencies: true
       release_dry_run: ${{ inputs.release_dry_run || false }}
       release_module: ${{ inputs.release_module || '' }}
 
+  docs-policy:
+    name: Documentation policy
+    permissions:
+      contents: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Preserve documentation and publication guarantees
+        run: ./scripts/check-docs.sh --local
+
   required:
     name: Required
     if: always()
-    needs: ci
+    needs: [ci, docs-policy]
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - name: Require shared workflow
         env:
           CI_RESULT: ${{ needs.ci.result }}
-        run: test "${CI_RESULT}" = success
+          DOCS_RESULT: ${{ needs.docs-policy.result }}
+        run: test "${CI_RESULT}" = success && test "${DOCS_RESULT}" = success

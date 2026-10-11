@@ -45,6 +45,6 @@ make migration-integration POSTGRES_VERSION=18
 ```
 
 Set `GO_MIGRATIONS_DIR=/path/to/migrations` when the sibling checkout is not
-at `../migrations`. The command creates and removes its own temporary Go
+at `../go-migrations`. The command creates and removes its own temporary Go
 workspace. Future schema versions must add an upgrade fixture for every
 released predecessor.

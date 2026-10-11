@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+local_docs=false
+if [[ $# -eq 1 && "$1" == --local ]]; then
+  local_docs=true
+elif [[ $# -ne 0 ]]; then
+  echo 'usage: check-docs.sh [--local]' >&2
+  exit 1
+fi
+
 required=(
   README.md
   CHANGELOG.md
@@ -32,9 +40,11 @@ for path in "${required[@]}"; do
   }
 done
 
-while IFS= read -r package; do
-  go doc "$package" >/dev/null
-done < <(go list ./...)
+if [[ "$local_docs" == false ]]; then
+  while IFS= read -r package; do
+    go doc "$package" >/dev/null
+  done < <(go list ./...)
+fi
 
 if grep -RniE 'guarantees exactly.once|exactly.once delivery is guaranteed|provides exactly.once' \
   --include='*.md' --include='*.go' .; then

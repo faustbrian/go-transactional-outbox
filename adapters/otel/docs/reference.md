@@ -159,10 +159,11 @@ returns its exact result; defensive containment also handles provider panics.
 From the repository root, run:
 
 ```sh
-make check MODULES=adapters/otel
+golib check --local --module adapters/otel
 ```
 
-The module contract includes tests, race detection, exact statement coverage,
+Select `golib check --module adapters/otel` for the full module contract,
+which includes tests, race detection, exact statement coverage,
 fuzzing, mutation, security, API, documentation, and benchmark gates.
 
 ## Documentation
