@@ -175,3 +175,12 @@ snapshots were removed after their bounded sessions, including failure cleanup.
 No live database/broker, migration workspace or public consumer was exercised.
 The unanswered rationale and existing limitations above remain explicit; this
 pass neither repairs them nor represents stronger protocol/delivery guarantees.
+
+## Objective Enforcement
+
+The checksum-pinned public Tools v2.4.0 verifier now supplies
+`make source-docs-check` as a prerequisite of the existing local and CI Make
+routes. Ordinary shared CI selects strict source-documentation checking and
+requires its result. Native prerequisites, operation budgets, security and
+release controls are retained. Hosted exact-head evidence is recorded by the
+coordination ledger; configuration alone does not establish green delivery.
