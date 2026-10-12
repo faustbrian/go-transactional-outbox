@@ -31,25 +31,45 @@ const (
 )
 
 var (
-	ErrPoolRequired         = errors.New("outbox/postgres: pool is required")
-	ErrNotWritable          = errors.New("outbox/postgres: database session is not a writable primary")
-	ErrValueOutsideBounds   = errors.New("outbox/postgres: value is outside persistence bounds")
-	ErrClaimOwnerRequired   = errors.New("outbox/postgres: claim owner is required")
-	ErrInvalidClaimLimit    = errors.New("outbox/postgres: claim limit is outside configured bounds")
+	// ErrPoolRequired requires a caller-owned pool.
+	ErrPoolRequired = errors.New("outbox/postgres: pool is required")
+	// ErrNotWritable reports a read-only or recovery session readiness check.
+	ErrNotWritable = errors.New("outbox/postgres: database session is not a writable primary")
+	// ErrValueOutsideBounds refuses persistence schema/identity admission.
+	ErrValueOutsideBounds = errors.New("outbox/postgres: value is outside persistence bounds")
+	// ErrClaimOwnerRequired requires a nonempty claim-owner label.
+	ErrClaimOwnerRequired = errors.New("outbox/postgres: claim owner is required")
+	// ErrInvalidClaimLimit refuses claim admission outside configured cardinality.
+	ErrInvalidClaimLimit = errors.New("outbox/postgres: claim limit is outside configured bounds")
+	// ErrInvalidLeaseDuration refuses lease duration outside configured positive bounds.
 	ErrInvalidLeaseDuration = errors.New("outbox/postgres: lease duration is outside configured bounds")
-	ErrLeaseLost            = errors.New("outbox/postgres: lease is no longer owned")
-	ErrInvalidRetryDelay    = errors.New("outbox/postgres: retry delay is outside bounds")
-	ErrInvalidAdminLimit    = errors.New("outbox/postgres: administrative batch is outside configured bounds")
-	ErrReplayIDsRequired    = errors.New("outbox/postgres: replay IDs are required")
-	ErrReplayRequestedBy    = errors.New("outbox/postgres: replay requester is required")
+	// ErrLeaseLost reports unmatched, expired or replaced lease capability.
+	ErrLeaseLost = errors.New("outbox/postgres: lease is no longer owned")
+	// ErrInvalidRetryDelay refuses retry delay outside zero..one minute.
+	ErrInvalidRetryDelay = errors.New("outbox/postgres: retry delay is outside bounds")
+	// ErrInvalidAdminLimit refuses administrative cardinality outside configured bounds.
+	ErrInvalidAdminLimit = errors.New("outbox/postgres: administrative batch is outside configured bounds")
+	// ErrReplayIDsRequired requires a nonempty replay selection and IDs.
+	ErrReplayIDsRequired = errors.New("outbox/postgres: replay IDs are required")
+	// ErrReplayRequestedBy requires a replay audit requester label.
+	ErrReplayRequestedBy = errors.New("outbox/postgres: replay requester is required")
+	// ErrReplayReasonRequired requires a replay audit reason.
 	ErrReplayReasonRequired = errors.New("outbox/postgres: replay reason is required")
-	ErrReplayDuplicateID    = errors.New("outbox/postgres: replay IDs must be unique")
-	ErrReplayUnauthorized   = errors.New("outbox/postgres: replay is not authorized")
-	ErrReplayConflict       = errors.New("outbox/postgres: replay selection contains missing or non-terminal records")
-	ErrPruneCutoffRequired  = errors.New("outbox/postgres: prune cutoff is required")
-	ErrArchiverRequired     = errors.New("outbox/postgres: archiver is required")
-	ErrArchiverPanic        = errors.New("outbox/postgres: archiver panicked")
-	ErrInvalidMessageState  = errors.New("outbox/postgres: message state is invalid")
+	// ErrReplayDuplicateID refuses duplicate IDs within a replay request.
+	ErrReplayDuplicateID = errors.New("outbox/postgres: replay IDs must be unique")
+	// ErrReplayUnauthorized denies absent, failing or panicking replay authorization without its details.
+	ErrReplayUnauthorized = errors.New("outbox/postgres: replay is not authorized")
+	// ErrReplayConflict refuses missing or nonterminal rows in an all-or-none replay selection.
+	ErrReplayConflict = errors.New("outbox/postgres: replay selection contains missing or non-terminal records")
+	// ErrPruneCutoffRequired requires a nonzero exclusive terminal-time cutoff.
+	ErrPruneCutoffRequired = errors.New("outbox/postgres: prune cutoff is required")
+	// ErrArchiverRequired requires an archive callback for archive-before-delete.
+	ErrArchiverRequired = errors.New("outbox/postgres: archiver is required")
+	// ErrArchiverPanic contains callback panic without exposing its value.
+	ErrArchiverPanic = errors.New("outbox/postgres: archiver panicked")
+	// ErrInvalidMessageState refuses an unknown administrative state filter.
+	ErrInvalidMessageState = errors.New("outbox/postgres: message state is invalid")
+	// ErrInvalidSerialization refuses an unknown claim serialization mode.
 	ErrInvalidSerialization = errors.New("outbox/postgres: serialization mode is invalid")
 )
 
@@ -58,38 +78,58 @@ var (
 type SerializationMode uint8
 
 const (
+	// SerializeNone permits unordered eligible claims.
 	SerializeNone SerializationMode = iota
+	// SerializeByOrderingKey admits the earliest nonterminal row per nonempty key; empty keys stay unordered.
 	SerializeByOrderingKey
+	// SerializeByTopic admits the earliest nonterminal row per topic.
 	SerializeByTopic
 )
 
 // StoreConfig bounds relay claims and selects the outbox table.
 type StoreConfig struct {
-	Schema              string
-	Table               string
-	MaxClaimBatch       int
-	MaxAdminBatch       int
-	MaxLeaseDuration    time.Duration
+	// Schema Quoted schema name; empty selects public. Replay audit uses outbox_replay_audit in this schema.
+	Schema string
+	// Table Quoted message table name; empty selects outbox_messages.
+	Table string
+	// MaxClaimBatch Claim admission ceiling, default 100 and maximum 1000.
+	MaxClaimBatch int
+	// MaxAdminBatch Administrative batch ceiling, default 100 and maximum 1000.
+	MaxAdminBatch int
+	// MaxLeaseDuration Positive lease ceiling, default five minutes and maximum 24 hours. SQL durations truncate to microseconds.
+	MaxLeaseDuration time.Duration
+	// LeaseTokenGenerator Borrowed concurrent callback; nil uses random 128-bit hex. It must not reuse a generation token for a record.
 	LeaseTokenGenerator func() (string, error)
-	ReplayAuthorizer    ReplayAuthorizer
-	Observer            outbox.Observer
-	Clock               func() time.Time
+	// ReplayAuthorizer Borrowed concurrent policy; nil denies replay. Approval occurs before transaction/row locking.
+	ReplayAuthorizer ReplayAuthorizer
+	// Observer Borrowed synchronous administrative observer; panics contained, blocking/privacy caller-owned.
+	Observer outbox.Observer
+	// Clock Borrowed diagnostic clock only, default time.Now; panics yield zero time, not DB scheduling time.
+	Clock func() time.Time
 }
 
 // ClaimRequest describes one bounded lease acquisition.
 type ClaimRequest struct {
-	Owner         string
-	Limit         int
+	// Owner Required opaque owner label, at most 255 bytes; not authentication.
+	Owner string
+	// Limit Required positive count no greater than configured claim ceiling.
+	Limit int
+	// LeaseDuration Required positive duration within ceiling, converted to whole microseconds in SQL.
 	LeaseDuration time.Duration
+	// Serialization Optional scoped head-of-line claim policy; zero is unordered.
 	Serialization SerializationMode
 }
 
 // Claim is an envelope together with the ownership proof required for every
 // subsequent state transition.
 type Claim struct {
-	Envelope    outbox.Envelope
-	Owner       string
-	LeaseToken  string
+	// Envelope Owned decoded mutable record, with attempts already incremented by claim.
+	Envelope outbox.Envelope
+	// Owner Current opaque lease-owner label.
+	Owner string
+	// LeaseToken Current fencing capability; one claim batch shares a token across distinct IDs.
+	LeaseToken string
+	// LeasedUntil PostgreSQL-clock expiry, not an application-clock deadline.
 	LeasedUntil time.Time
 }
 
@@ -97,29 +137,39 @@ type Claim struct {
 // generation. An expired or replaced token cannot mutate the record.
 // Expiry is checked under the row lock using the PostgreSQL clock.
 type LeaseRef struct {
-	ID    string
+	// ID Record identity; validated for byte length before transition SQL.
+	ID string
+	// Token Current opaque generation capability; do not reuse or expose across trust boundaries.
 	Token string
 }
 
 // ReplayRequest is an explicit, audited request to make terminal records
 // publishable again. Replaying can produce duplicates and resets attempts.
 type ReplayRequest struct {
-	IDs         []string
+	// IDs Unique required terminal IDs within admin bounds; replay return order is not input order.
+	IDs []string
+	// RequestedBy Required operator audit label, at most 255 bytes; not an authorization credential.
 	RequestedBy string
-	Reason      string
+	// Reason Required audit reason, at most 4096 bytes, retained as supplied.
+	Reason string
+	// AvailableAt Optional next eligibility time; zero uses PostgreSQL clock, explicit values use UTC.
 	AvailableAt time.Time
 }
 
 // ReplayAuthorizer approves an explicit duplicate-producing replay request.
 // Stores deny replay by default when no authorizer is configured.
 type ReplayAuthorizer interface {
+	// AuthorizeReplay runs before token generation/transaction; Store copies IDs
+	// for this call. Error/panic denies replay without preserving its cause.
+	// Authorization latency and concurrent safety remain caller-owned.
 	AuthorizeReplay(context.Context, ReplayRequest) error
 }
 
 // ReplayAuthorizeFunc adapts a function to ReplayAuthorizer.
 type ReplayAuthorizeFunc func(context.Context, ReplayRequest) error
 
-// AuthorizeReplay forwards a copied request to the wrapped function.
+// AuthorizeReplay directly forwards the request. Store copies IDs before
+// invoking its configured authorizer; this function adapter itself does not.
 func (authorize ReplayAuthorizeFunc) AuthorizeReplay(ctx context.Context, request ReplayRequest) error {
 	return authorize(ctx, request)
 }
@@ -131,51 +181,78 @@ type BacklogStats = outbox.BacklogStats
 type MessageState string
 
 const (
-	MessageStatePending   MessageState = "pending"
-	MessageStateLeased    MessageState = "leased"
+	// MessageStatePending identifies rows waiting for eligibility.
+	MessageStatePending MessageState = "pending"
+	// MessageStateLeased identifies stored leased state even after its deadline expires.
+	MessageStateLeased MessageState = "leased"
+	// MessageStateDelivered identifies publisher acceptance marked durable.
 	MessageStateDelivered MessageState = "delivered"
-	MessageStateDead      MessageState = "dead"
+	// MessageStateDead identifies terminal failed publication.
+	MessageStateDead MessageState = "dead"
 )
 
 // InspectRequest selects a bounded administrative summary batch.
 type InspectRequest struct {
-	State  MessageState
-	Topic  string
+	// State Optional state filter; empty includes all recognized states.
+	State MessageState
+	// Topic Optional exact topic filter; empty includes all topics.
+	Topic string
+	// Before Optional exclusive creation cutoff; zero omits it.
 	Before time.Time
-	Limit  int
+	// Limit Required positive result count within admin ceiling; query orders created_at then ID.
+	Limit int
 }
 
 // MessageSummary intentionally excludes payload and metadata.
 type MessageSummary struct {
-	ID             string
-	Topic          string
-	OrderingKey    string
+	// ID Record identity, potentially sensitive.
+	ID string
+	// Topic Routing label, potentially sensitive.
+	Topic string
+	// OrderingKey Application ordering scope, not a payload-free privacy guarantee.
+	OrderingKey string
+	// IdempotencyKey Application deduplication key, potentially sensitive.
 	IdempotencyKey string
-	Attempts       int
-	AvailableAt    time.Time
-	CreatedAt      time.Time
-	UpdatedAt      time.Time
-	State          MessageState
-	LeaseOwner     *string
-	LeasedUntil    *time.Time
-	DeliveredAt    *time.Time
+	// Attempts Claim count, including acquisitions that never publish.
+	Attempts int
+	// AvailableAt Next eligibility time.
+	AvailableAt time.Time
+	// CreatedAt Creation ordering time.
+	CreatedAt time.Time
+	// UpdatedAt Last database transition time.
+	UpdatedAt time.Time
+	// State Stored lifecycle state; expiry alone does not change leased to pending.
+	State MessageState
+	// LeaseOwner Optional current owner label.
+	LeaseOwner *string
+	// LeasedUntil Optional PostgreSQL-clock lease expiry.
+	LeasedUntil *time.Time
+	// DeliveredAt Optional time the store marked publisher acceptance, not consumer processing.
+	DeliveredAt *time.Time
+	// DeadLetteredAt Optional terminal failure time.
 	DeadLetteredAt *time.Time
-	LastError      *string
+	// LastError Optional stored diagnostic; this store writes fixed operation text, not arbitrary publisher causes.
+	LastError *string
 }
 
-// DeliveredMessage contains the immutable message data supplied to an
+// DeliveredMessage contains mutable decoded message data supplied to an
 // archive-before-delete hook.
 type DeliveredMessage struct {
-	Envelope    outbox.Envelope
+	// Envelope Mutable decoded archive snapshot; payload/map are not immutable by type.
+	Envelope outbox.Envelope
+	// DeliveredAt Stored delivery-transition time, not broker/end-consumer completion.
 	DeliveredAt time.Time
 }
 
-// DeadMessage contains immutable message data and terminal failure context for
+// DeadMessage contains mutable decoded message data and terminal failure context for
 // a dead-letter archive.
 type DeadMessage struct {
-	Envelope       outbox.Envelope
+	// Envelope Mutable decoded archive snapshot requiring restricted content handling.
+	Envelope outbox.Envelope
+	// DeadLetteredAt Stored terminal failure time.
 	DeadLetteredAt time.Time
-	LastError      string
+	// LastError Stored diagnostic from the selected row; do not assume arbitrary historical rows are redacted.
+	LastError string
 }
 
 type terminalMessage struct {
@@ -188,6 +265,9 @@ type terminalMessage struct {
 // Implementations must tolerate duplicates because a successful archive can
 // be followed by an ambiguous PostgreSQL commit.
 type Archiver interface {
+	// Archive receives mutable decoded snapshots while database row locks are
+	// held. Do not reenter those rows; cooperate with context and deduplicate
+	// by ID because external success can precede database failure/ambiguity.
 	Archive(context.Context, []DeliveredMessage) error
 }
 
@@ -201,6 +281,8 @@ func (archive ArchiveFunc) Archive(ctx context.Context, messages []DeliveredMess
 
 // DeadArchiver persists dead letters before the store deletes them.
 type DeadArchiver interface {
+	// ArchiveDead has the same locking/idempotency obligations as Archive;
+	// historic LastError and message contents require restricted handling.
 	ArchiveDead(context.Context, []DeadMessage) error
 }
 
@@ -212,7 +294,10 @@ func (archive DeadArchiveFunc) ArchiveDead(ctx context.Context, messages []DeadM
 	return archive(ctx, messages)
 }
 
-// Store coordinates relay state through PostgreSQL.
+// Store coordinates relay state through a borrowed PostgreSQL pool. It does
+// not create/close the pool or install migrations. Callback concurrency and
+// lifetime remain caller-owned; database response errors may leave committed
+// transitions ambiguous, not necessarily rolled back.
 type Store struct {
 	pool                database
 	table               string
@@ -234,8 +319,9 @@ type database interface {
 	QueryRow(context.Context, string, ...any) pgx.Row
 }
 
-// Ping verifies that PostgreSQL accepts a round trip through a writable
-// primary session.
+// Ping checks pool connectivity then a writable-primary query. These may use
+// different pooled sessions; success is a point-in-time check, not schema
+// validation, every-connection qualification or future availability.
 func (s *Store) Ping(ctx context.Context) error {
 	if err := s.pool.Ping(ctx); err != nil {
 		return fmt.Errorf("outbox/postgres: ping: %w", err)
@@ -398,7 +484,14 @@ LIMIT $4`, s.table)
 }
 
 // Claim atomically leases available or expired messages. PostgreSQL row locks
-// with SKIP LOCKED make concurrent relay calls return disjoint records.
+// with SKIP LOCKED avoid selecting concurrently locked candidates. Expired
+// claims may be reclaimed while an old publisher still runs. Attempts increment
+// on acquisition (saturating at 10000), and one generated token covers the batch.
+// Token generators must not reuse lease generations; transitions fence ID/token.
+// Scoped serialization blocks later nonterminal rows, including future schedules;
+// it is not broker/consumer ordering. Returned row order is unspecified.
+// Durations are truncated to microseconds, including positive submicrosecond
+// values. Response/scan failures can leave committed leases until expiry.
 func (s *Store) Claim(ctx context.Context, request ClaimRequest) ([]Claim, error) {
 	if request.Owner == "" {
 		return nil, ErrClaimOwnerRequired
@@ -548,7 +641,9 @@ WHERE message.id = locked.id AND locked.leased_until > clock_timestamp()`, s.tab
 	return s.execLeaseUpdate(ctx, "mark delivered", query, lease.ID, lease.Token)
 }
 
-// ExtendLease moves the lease deadline relative to the PostgreSQL clock.
+// ExtendLease sets a new deadline relative to PostgreSQL time after checking
+// token and expiry under the row lock. It can shorten an existing lease; it
+// does not add duration to the old deadline. Microsecond truncation applies.
 func (s *Store) ExtendLease(ctx context.Context, lease LeaseRef, duration time.Duration) (time.Time, error) {
 	if duration <= 0 || duration > s.maxLeaseDuration {
 		return time.Time{}, ErrInvalidLeaseDuration
@@ -935,7 +1030,10 @@ func (s *Store) ArchiveAndPruneDelivered(
 		})
 }
 
-// ArchiveAndPruneDead archives a bounded dead-letter batch before deletion.
+// ArchiveAndPruneDead archives a bounded dead-letter batch before deletion,
+// with the same row-lock, callback cooperation and duplicate windows as
+// ArchiveAndPruneDelivered. Rollback is attempted with a separate bounded
+// context, but rollback failure is not returned as proof of cleanup.
 func (s *Store) ArchiveAndPruneDead(
 	ctx context.Context,
 	cutoff time.Time,

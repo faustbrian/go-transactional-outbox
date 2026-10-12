@@ -78,6 +78,11 @@ func New(client Client, config Config) (*Publisher, error) {
 // Publish maps, validates, owns, and synchronously publishes one envelope.
 // Success means rabbitstream observed a broker confirmation; the caller still
 // owns the separate durable outbox transition and its duplicate window.
+// Borrowed payload/metadata must not change during mapping; accepted fields
+// become owned copies. Routing uses OrderingKey, IdempotencyKey, then ID;
+// Topic must match the configured target. Client calls may overlap and must
+// cooperate with context. Client panics become ambiguous failures, while
+// wrapped error causes remain caller-controlled and potentially sensitive.
 func (publisher *Publisher) Publish(ctx context.Context, envelope outbox.Envelope) error {
 	if ctx == nil {
 		return ErrContextRequired

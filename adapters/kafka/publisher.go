@@ -15,10 +15,15 @@ import (
 )
 
 var (
-	ErrClientRequired   = errors.New("outbox/gokafka: Kafka client is required")
-	ErrInvalidEnvelope  = errors.New("outbox/gokafka: envelope routing identity is invalid")
-	ErrInvalidConfig    = errors.New("outbox/gokafka: configuration is invalid")
-	ErrPublishPanic     = errors.New("outbox/gokafka: Kafka client panicked during publish")
+	// ErrClientRequired requires a Kafka publication client interface.
+	ErrClientRequired = errors.New("outbox/gokafka: Kafka client is required")
+	// ErrInvalidEnvelope refuses local envelope/record admission.
+	ErrInvalidEnvelope = errors.New("outbox/gokafka: envelope routing identity is invalid")
+	// ErrInvalidConfig refuses publisher limits or options.
+	ErrInvalidConfig = errors.New("outbox/gokafka: configuration is invalid")
+	// ErrPublishPanic reports client publication panic as ambiguous acceptance.
+	ErrPublishPanic = errors.New("outbox/gokafka: Kafka client panicked during publish")
+	// ErrReservedMetadata refuses exact adapter-owned header-name collisions.
 	ErrReservedMetadata = errors.New(
 		"outbox/gokafka: metadata uses a reserved Kafka header",
 	)
@@ -26,7 +31,11 @@ var (
 
 // Client is the narrow Kafka producer surface used by Publisher.
 type Client interface {
+	// Publish synchronously reports client acceptance; it must honor context
+	// and support concurrent relay calls. Acceptance is not consumer handling.
 	Publish(context.Context, kafka.Message) error
+	// Health reports client-defined readiness without owning client lifetime.
+	// Health panics are not contained by this adapter.
 	Health(context.Context) error
 }
 
@@ -39,8 +48,10 @@ type Publisher struct {
 // Limits combines the persisted outbox bounds with the Kafka record bounds
 // enforced before the producer is called.
 type Limits struct {
+	// Envelope Positive root envelope field bounds; publication does not require insert-only timestamps/attempt zero.
 	Envelope outbox.Limits
-	Kafka    kafka.MessageLimits
+	// Kafka Positive mapped record/header bounds, separate from envelope admission.
+	Kafka kafka.MessageLimits
 }
 
 // DefaultLimits returns the outbox defaults and the first-party producer's
@@ -71,7 +82,8 @@ func WithLimits(limits Limits) Option {
 	return limitsOption{limits: limits}
 }
 
-// New creates a Kafka publisher adapter.
+// New creates a Kafka publisher adapter borrowing client without closing or
+// flushing it. Caller owns client concurrency, credentials and producer options.
 func New(client Client, options ...Option) (*Publisher, error) {
 	if client == nil {
 		return nil, ErrClientRequired
@@ -95,6 +107,11 @@ func New(client Client, options ...Option) (*Publisher, error) {
 
 // Publish sends an envelope payload with a stable partition key and schema
 // identity headers. Kafka acknowledgement does not make delivery exactly once.
+// Inputs are borrowed during mapping, then payload and sorted headers are copied.
+// Partition key precedence is OrderingKey, IdempotencyKey, then ID. Exact
+// reserved header names are rejected; record-size checks follow mapping allocation.
+// Publish panics become ambiguous failures. Fixed error text does not redact
+// the raw cause reachable through errors.Unwrap.
 func (publisher *Publisher) Publish(ctx context.Context, envelope outbox.Envelope) error {
 	if ctx == nil {
 		return kafka.ErrContextRequired

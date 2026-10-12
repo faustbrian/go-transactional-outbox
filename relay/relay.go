@@ -30,75 +30,123 @@ const (
 )
 
 var (
-	ErrStoreRequired      = errors.New("outbox/relay: store is required")
-	ErrPublisherRequired  = errors.New("outbox/relay: publisher is required")
-	ErrPublisherPanic     = errors.New("outbox/relay: publisher panicked")
-	ErrClassifierPanic    = errors.New("outbox/relay: error classifier panicked")
-	ErrInvalidErrorClass  = errors.New("outbox/relay: error classifier returned an invalid class")
-	ErrBackoffPanic       = errors.New("outbox/relay: backoff function panicked")
-	ErrInvalidBackoff     = errors.New("outbox/relay: backoff result is outside bounds")
-	ErrHeartbeatPanic     = errors.New("outbox/relay: heartbeat panicked")
+	// ErrStoreRequired requires a persistence interface.
+	ErrStoreRequired = errors.New("outbox/relay: store is required")
+	// ErrPublisherRequired requires a publication interface.
+	ErrPublisherRequired = errors.New("outbox/relay: publisher is required")
+	// ErrPublisherPanic contains publisher panic without its value.
+	ErrPublisherPanic = errors.New("outbox/relay: publisher panicked")
+	// ErrClassifierPanic reports contained classifier panic with transient fallback.
+	ErrClassifierPanic = errors.New("outbox/relay: error classifier panicked")
+	// ErrInvalidErrorClass reports unknown classification with transient fallback.
+	ErrInvalidErrorClass = errors.New("outbox/relay: error classifier returned an invalid class")
+	// ErrBackoffPanic reports contained delay callback panic with zero fallback.
+	ErrBackoffPanic = errors.New("outbox/relay: backoff function panicked")
+	// ErrInvalidBackoff reports negative/over-minute delay after clamping.
+	ErrInvalidBackoff = errors.New("outbox/relay: backoff result is outside bounds")
+	// ErrHeartbeatPanic contains heartbeat panic at its worker boundary.
+	ErrHeartbeatPanic = errors.New("outbox/relay: heartbeat panicked")
+	// ErrClaimBatchOverflow refuses a store result larger than requested without processing it.
 	ErrClaimBatchOverflow = errors.New("outbox/relay: store returned more claims than requested")
-	ErrOwnerRequired      = errors.New("outbox/relay: owner is required")
-	ErrInvalidConfig      = errors.New("outbox/relay: configuration values must be positive")
+	// ErrOwnerRequired requires a nonempty claim-owner label.
+	ErrOwnerRequired = errors.New("outbox/relay: owner is required")
+	// ErrInvalidConfig refuses unsupported relay bounds or serialization.
+	ErrInvalidConfig = errors.New("outbox/relay: configuration values must be positive")
 )
 
 // ErrorClass controls whether a failed publication is retried or terminated.
 type ErrorClass uint8
 
 const (
+	// ErrorTransient permits later publication, which may duplicate accepted work.
 	ErrorTransient ErrorClass = iota
+	// ErrorPermanent terminates the failed envelope according to relay policy.
 	ErrorPermanent
 )
 
 // Publisher accepts an envelope. Returning nil means the publisher accepted
 // it, not that exactly-once delivery has been achieved.
 type Publisher interface {
+	// Publish may overlap other calls; cooperate with cancellation. The relay
+	// joins it and cannot force completion or interrupt arbitrary blocking.
 	Publish(context.Context, outbox.Envelope) error
 }
 
 // Store is the lease-safe persistence contract used by Relay.
 type Store interface {
+	// Ping reports point-in-time store readiness.
 	Ping(context.Context) error
+	// Claim returns at most the requested batch; overflow is refused without
+	// processing and acquired leases are left to expire.
 	Claim(context.Context, postgres.ClaimRequest) ([]postgres.Claim, error)
+	// ExtendLease renews only a still-valid ID/token ownership proof.
 	ExtendLease(context.Context, postgres.LeaseRef, time.Duration) (time.Time, error)
+	// MarkDelivered records publisher acceptance, not consumer processing.
 	MarkDelivered(context.Context, postgres.LeaseRef) error
+	// Retry durably schedules a failed publication; duplicates remain possible.
 	Retry(context.Context, postgres.LeaseRef, time.Duration, error) error
+	// DeadLetter makes the failed claim terminal under its ownership proof.
 	DeadLetter(context.Context, postgres.LeaseRef, error) error
+	// ReleaseLease relinquishes ownership; relay cancellation uses a separate
+	// bounded cleanup context, without guaranteeing transition success.
 	ReleaseLease(context.Context, postgres.LeaseRef) error
 }
 
-// Config bounds one relay instance and injects deterministic policy seams.
+// Config bounds each polling cycle and injects borrowed policy seams.
 type Config struct {
-	Owner                string
-	BatchSize            int
-	Workers              int
-	LeaseDuration        time.Duration
+	// Owner Required opaque claim-owner label; PostgreSQL applies its own 255-byte ceiling.
+	Owner string
+	// BatchSize Per-RunOnce claim count, default 100 and maximum 1000.
+	BatchSize int
+	// Workers Per-RunOnce publication workers, default runtime.NumCPU and maximum 256; not an instance-wide guard.
+	Workers int
+	// LeaseDuration Claim/renewal duration, default 30 seconds and maximum 24 hours; not a publish timeout.
+	LeaseDuration time.Duration
+	// LeaseRenewalInterval Heartbeat interval, default half lease duration and required strictly shorter than it.
 	LeaseRenewalInterval time.Duration
-	MaxAttempts          int
-	PollInterval         time.Duration
-	TransitionTimeout    time.Duration
-	Clock                func() time.Time
-	Backoff              func(attempt int) time.Duration
-	ClassifyError        func(error) ErrorClass
-	Wait                 func(context.Context, time.Duration) error
-	Serialization        postgres.SerializationMode
-	Observer             outbox.Observer
-	Logger               *slog.Logger
-	Heartbeat            func(context.Context, time.Duration, func(context.Context) error) error
+	// MaxAttempts Failure terminal threshold for claim count, default 10 and maximum 10000. Success can still deliver at the threshold.
+	MaxAttempts int
+	// PollInterval Wait after a partial batch, default one second; no absolute upper ceiling is added here.
+	PollInterval time.Duration
+	// TransitionTimeout Cancellation-release cleanup timeout, default five seconds; does not wrap all transitions.
+	TransitionTimeout time.Duration
+	// Clock Borrowed diagnostic clock, default time.Now; panics yield zero time.
+	Clock func() time.Time
+	// Backoff Borrowed concurrent callback; nil selects full jitter. Negative/panic delays become zero; over-minute values clamp and report errors.
+	Backoff func(attempt int) time.Duration
+	// ClassifyError Borrowed concurrent failure policy; nil is transient. Panic/unknown class selects transient retry and returns policy error.
+	ClassifyError func(error) ErrorClass
+	// Wait Borrowed polling callback, default context timer; it must return cooperatively. Panics are not contained.
+	Wait func(context.Context, time.Duration) error
+	// Serialization Claim scope forwarded to Store; zero disables scoped serialization.
+	Serialization postgres.SerializationMode
+	// Observer Borrowed synchronous callback; panic contained but latency/privacy/concurrency remain caller-owned.
+	Observer outbox.Observer
+	// Logger Borrowed slog logger/handler; IDs/topics are emitted and handler privacy/latency remain caller-owned.
+	Logger *slog.Logger
+	// Heartbeat Borrowed per-active-publication maintenance loop; it must honor cancellation and return. Panic is contained, arbitrary blocking is not.
+	Heartbeat func(context.Context, time.Duration, func(context.Context) error) error
 }
 
 // Result summarizes one bounded polling cycle.
 type Result struct {
-	Claimed      int
-	Published    int
-	Delivered    int
-	Retried      int
+	// Claimed Store-returned count, including overflow batches not processed.
+	Claimed int
+	// Published Nil publication results with acceptable heartbeat completion, not all possible broker acceptances.
+	Published int
+	// Delivered Successful MarkDelivered calls, not consumer processing.
+	Delivered int
+	// Retried Successfully scheduled retry transitions, including those returning a policy error.
+	Retried int
+	// DeadLettered Successful terminal-failure transitions.
 	DeadLettered int
-	Released     int
+	// Released Successful cancellation-release transitions.
+	Released int
 }
 
-// Relay coordinates claims, publisher calls, and state transitions.
+// Relay coordinates claims, publisher calls, and state transitions. Bounds
+// apply per invocation, not across concurrent RunOnce/Run calls. Store, publisher
+// and callbacks must support any such concurrency; Relay closes none of them.
 type Relay struct {
 	store     Store
 	publisher Publisher
@@ -219,7 +267,12 @@ func (relay *Relay) Run(ctx context.Context) error {
 
 // RunOnce claims at most one batch and drains it with bounded worker
 // concurrency. Publisher failures that are durably scheduled are reflected in
-// Result; persistence failures are returned.
+// Result; persistence failures and contained policy errors are joined with
+// partial counts after all workers finish. Peers are not canceled on one error.
+// Only active publications have heartbeats; queued claims can expire before
+// starting. Cancellation stops cooperatively and joins publisher/heartbeat
+// completion, so a blocked callback prevents bounded shutdown. Broker acceptance
+// can precede a renewal/mark failure and cause duplicate publication later.
 func (relay *Relay) RunOnce(ctx context.Context) (Result, error) {
 	startedAt := relay.config.Clock()
 	claims, err := relay.store.Claim(ctx, postgres.ClaimRequest{
@@ -245,6 +298,8 @@ func (relay *Relay) RunOnce(ctx context.Context) (Result, error) {
 		return result, fmt.Errorf("%w: got %d, requested %d",
 			ErrClaimBatchOverflow, len(claims), relay.config.BatchSize)
 	}
+	// This invocation owns and closes the queue before workers start. Queued
+	// leases are not renewed here; only process starts a heartbeat.
 	jobs := make(chan postgres.Claim, len(claims))
 	for _, claim := range claims {
 		jobs <- claim

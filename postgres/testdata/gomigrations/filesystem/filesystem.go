@@ -9,9 +9,12 @@ import (
 
 // FS enforces the source budgets for trusted, in-memory migration fixtures.
 type FS struct {
+	// Files Borrowed trusted fixture filesystem, typically embedded SQL; reads can allocate before post-read bounds.
 	Files fs.FS
 }
 
+// ReadDir checks cancellation around a borrowed filesystem read, then applies
+// fixture entry/name budgets. The read itself is not context-interruptible.
 func (filesystem FS) ReadDir(
 	ctx context.Context,
 	root string,
@@ -41,6 +44,8 @@ func (filesystem FS) ReadDir(
 	return converted, ctx.Err()
 }
 
+// ReadFile bounds the result after the borrowed read, not its allocation.
+// Cancellation is polled before/after, not during the filesystem operation.
 func (filesystem FS) ReadFile(
 	ctx context.Context,
 	name string,

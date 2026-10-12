@@ -11,8 +11,11 @@ not dependency health, to avoid restart storms. Configure the default-deny
 `ReplayAuthorizer` with application authentication, tenant checks, and change
 policy; separately protect irreversible retention endpoints.
 
-Maximum in-flight work is approximately `replicas * Workers`; one claim cycle
-leases at most `replicas * BatchSize`. Keep leases longer than high-percentile
+With one polling loop per replica, maximum in-flight work is approximately
+`replicas * Workers`; one claim cycle leases at most `replicas * BatchSize`.
+Concurrent `Run`/`RunOnce` calls multiply those per-invocation bounds. Queued
+claims are not renewed until their publication starts, so batch wait time also
+consumes the initial lease. Keep leases longer than high-percentile
 publisher latency plus scheduling pauses. Check broker quotas, PostgreSQL
 connections, and ordering contention before scaling.
 

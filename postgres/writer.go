@@ -1,6 +1,8 @@
 // Package postgres provides pgx-backed transactional persistence for outbox
 // envelopes. Writer methods only accept pgx.Tx so callers cannot accidentally
-// use a pool or connection and lose application-write atomicity.
+// use a pool or connection and lose application-write atomicity. The caller
+// owns that exact transaction and must commit/rollback it; this package does
+// neither and does not install migrations.
 package postgres
 
 import (
@@ -16,9 +18,13 @@ import (
 )
 
 var (
-	ErrEmptyBatch          = errors.New("outbox/postgres: batch is empty")
-	ErrBatchTooLarge       = errors.New("outbox/postgres: batch exceeds configured limit")
-	ErrInvalidBatchLimit   = errors.New("outbox/postgres: batch limit is invalid")
+	// ErrEmptyBatch refuses zero inserts.
+	ErrEmptyBatch = errors.New("outbox/postgres: batch is empty")
+	// ErrBatchTooLarge refuses insert count beyond configured admission.
+	ErrBatchTooLarge = errors.New("outbox/postgres: batch exceeds configured limit")
+	// ErrInvalidBatchLimit refuses invalid configured insert cardinality.
+	ErrInvalidBatchLimit = errors.New("outbox/postgres: batch limit is invalid")
+	// ErrTransactionRequired requires a caller-owned pgx transaction interface.
 	ErrTransactionRequired = errors.New("outbox/postgres: caller transaction is required")
 )
 
@@ -29,9 +35,13 @@ const (
 
 // WriterConfig selects the application-owned outbox table.
 type WriterConfig struct {
-	Schema       string
-	Table        string
-	Limits       outbox.Limits
+	// Schema Quoted schema name; empty selects public, not automatically created.
+	Schema string
+	// Table Quoted table name; empty selects outbox_messages.
+	Table string
+	// Limits Only wholly zero selects defaults; otherwise every field must be positive.
+	Limits outbox.Limits
+	// MaxBatchSize Insert count ceiling, default 100 and maximum 6553 for ten SQL parameters per row.
 	MaxBatchSize int
 }
 
@@ -83,6 +93,10 @@ func (w *Writer) Insert(ctx context.Context, tx pgx.Tx, envelope outbox.Envelope
 
 // InsertBatch adds every envelope with one statement in the caller's
 // transaction. PostgreSQL therefore accepts all records or none of them.
+// Complete admission precedes SQL; construction caps batches at 6553 for ten
+// parameters per row. Payload slices remain borrowed through Exec, so
+// inputs must not change during the call. Errors do not finalize the caller
+// transaction. Store/schema ceilings also apply beyond envelope limits.
 func (w *Writer) InsertBatch(ctx context.Context, tx pgx.Tx, envelopes []outbox.Envelope) error {
 	if tx == nil {
 		return ErrTransactionRequired

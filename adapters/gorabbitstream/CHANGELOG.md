@@ -16,6 +16,8 @@ All notable changes to this module are documented here.
 
 ### Changed
 
+- Clarify legacy facade ownership and pinned-successor/error-identity
+  boundaries while consolidating deprecated package documentation.
 - Prepare the `/v2` module with public root-v2 envelope and relay contracts
   and the published `adapters/rabbitstream/v2` v2.0.0 successor. Upgrade root,
   relay and adapter imports together; v1 and v2 nominal types cannot be mixed.

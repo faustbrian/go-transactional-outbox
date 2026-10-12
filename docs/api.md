@@ -54,17 +54,17 @@ summarizes ownership and side effects that are easy to misuse.
 - `PruneDelivered`: deletes a bounded batch of old delivered records only.
 - `PruneDead`: deletes a bounded batch of old dead letters only.
 - `ArchiveAndPruneDelivered`: locks a bounded delivered batch, passes complete
-  immutable messages to an `Archiver`, and deletes them only after the hook
-  succeeds. Archives must deduplicate by envelope ID because commit ambiguity
-  can invoke archival again on a later attempt.
+  mutable decoded message snapshots to an `Archiver`, and deletes them only
+  after the hook succeeds. Archives must deduplicate by envelope ID because
+  commit ambiguity can invoke archival again on a later attempt.
 - `ArchiveAndPruneDead`: applies the same archive-before-delete contract to
   dead letters and includes terminal time and last error in the restricted
   archive record.
 - Replay and archive own their PostgreSQL transactions. Deferred rollback uses
-  a detached five-second deadline so cancellation still releases resources
-  without an unbounded network wait.
+  a detached five-second deadline to attempt cleanup despite cancellation.
+  Rollback errors are discarded, so completion does not prove rollback succeeded.
 - `ErrArchiverPanic`: a payload-safe sentinel returned when an archive hook
-  panics; the transaction rolls back and preserves every selected row.
+  panics before deletion; rollback is attempted rather than guaranteed.
 - `Ping`: verifies a PostgreSQL round trip and rejects read-only sessions or
   servers in recovery with `ErrNotWritable`.
 - `Backlog`: returns pending, leased, and dead counts together with the oldest
@@ -95,12 +95,13 @@ summarizes ownership and side effects that are easy to misuse.
   heartbeat panics. Publication is canceled and the existing lease is left
   untouched for expiry-based recovery.
 - `ErrClassifierPanic`, `ErrInvalidErrorClass`, `ErrBackoffPanic`, and
-  `ErrInvalidBackoff`: payload-safe policy failures returned after the relay
-  durably schedules a bounded transient retry. Custom retry delays are clamped
-  to the package's one-minute maximum.
+  `ErrInvalidBackoff`: payload-safe policy failures that select a bounded
+  transient retry; persistence can still fail to schedule it. Custom retry
+  delays are clamped to the package's one-minute maximum.
 - `ErrClaimBatchOverflow`: a Store violated its contract by returning more
   claims than requested. The relay reports the claimed count and does not
-  allocate or publish the oversized response; leases recover by expiry.
+  allocate a worker queue for or publish the oversized response; leases recover
+  by expiry.
 - `Config.Heartbeat`: injectable lease-maintenance loop for deterministic
   testing. The default extends each in-flight lease halfway through its
   duration until publication finishes or the relay context is canceled. A
@@ -123,8 +124,10 @@ records, `runtime.NumCPU()` workers, 10 attempts, and a 30-second lease.
   `log/slog`. Applications control handlers, sampling, and export.
 
 Observer and logger panics are contained at the diagnostic callback boundary.
-They cannot change a store result or interrupt relay delivery; operators must
-monitor their telemetry pipeline independently because the panic is discarded.
+Contained panics do not replace the operation result, but callbacks run
+synchronously: arbitrary blocking can delay store/relay completion. Operators
+own callback concurrency, latency and privacy and must monitor the pipeline
+independently because contained panics are discarded.
 
 Message IDs, topics, and attempts are included for diagnostics. Operators
 should apply their own cardinality and retention policies when translating

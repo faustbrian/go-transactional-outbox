@@ -18,31 +18,53 @@ import (
 const defaultPayloadVersion uint16 = 1
 
 var (
-	ErrIDRequired              = errors.New("outbox: ID is required")
-	ErrIDTooLarge              = errors.New("outbox: ID is too large")
-	ErrTopicRequired           = errors.New("outbox: topic is required")
-	ErrTopicTooLarge           = errors.New("outbox: topic is too large")
-	ErrPayloadTooLarge         = errors.New("outbox: payload is too large")
-	ErrMetadataTooLarge        = errors.New("outbox: metadata is too large")
+	// ErrIDRequired requires a nonempty ID.
+	ErrIDRequired = errors.New("outbox: ID is required")
+	// ErrIDTooLarge refuses ID bytes beyond construction limits.
+	ErrIDTooLarge = errors.New("outbox: ID is too large")
+	// ErrTopicRequired requires nonempty topic text.
+	ErrTopicRequired = errors.New("outbox: topic is required")
+	// ErrTopicTooLarge refuses topic bytes beyond limits.
+	ErrTopicTooLarge = errors.New("outbox: topic is too large")
+	// ErrPayloadTooLarge refuses opaque payload bytes beyond limits.
+	ErrPayloadTooLarge = errors.New("outbox: payload is too large")
+	// ErrMetadataTooLarge refuses summed key/value bytes beyond limits.
+	ErrMetadataTooLarge = errors.New("outbox: metadata is too large")
+	// ErrMetadataEntriesTooLarge refuses metadata cardinality beyond limits.
 	ErrMetadataEntriesTooLarge = errors.New("outbox: metadata has too many entries")
-	ErrOrderingKeyTooLarge     = errors.New("outbox: ordering key is too large")
-	ErrIdempotencyKeyTooLarge  = errors.New("outbox: idempotency key is too large")
-	ErrPayloadVersionRequired  = errors.New("outbox: payload version is required")
-	ErrAttemptsInvalid         = errors.New("outbox: new envelope attempts must be zero")
-	ErrAvailableAtRequired     = errors.New("outbox: availability time is required")
-	ErrCreatedAtRequired       = errors.New("outbox: creation time is required")
-	ErrTimestampOutOfRange     = errors.New("outbox: timestamp is outside JSON range")
-	ErrInvalidLimits           = errors.New("outbox: limits must be positive")
+	// ErrOrderingKeyTooLarge refuses ordering-key bytes beyond limits.
+	ErrOrderingKeyTooLarge = errors.New("outbox: ordering key is too large")
+	// ErrIdempotencyKeyTooLarge refuses idempotency-key bytes beyond limits.
+	ErrIdempotencyKeyTooLarge = errors.New("outbox: idempotency key is too large")
+	// ErrPayloadVersionRequired requires a nonzero persisted schema version.
+	ErrPayloadVersionRequired = errors.New("outbox: payload version is required")
+	// ErrAttemptsInvalid refuses nonzero attempts on a new insert.
+	ErrAttemptsInvalid = errors.New("outbox: new envelope attempts must be zero")
+	// ErrAvailableAtRequired requires nonzero availability time.
+	ErrAvailableAtRequired = errors.New("outbox: availability time is required")
+	// ErrCreatedAtRequired requires nonzero creation time.
+	ErrCreatedAtRequired = errors.New("outbox: creation time is required")
+	// ErrTimestampOutOfRange refuses timestamp years outside 0000..9999.
+	ErrTimestampOutOfRange = errors.New("outbox: timestamp is outside JSON range")
+	// ErrInvalidLimits requires every construction bound to be positive.
+	ErrInvalidLimits = errors.New("outbox: limits must be positive")
 )
 
 // Limits bounds all caller-controlled variable-length envelope fields.
 type Limits struct {
-	MaxIDBytes             int
-	MaxTopicBytes          int
-	MaxPayloadBytes        int
-	MaxMetadataEntries     int
-	MaxMetadataBytes       int
-	MaxOrderingKeyBytes    int
+	// MaxIDBytes Maximum nonempty envelope ID bytes; default 255.
+	MaxIDBytes int
+	// MaxTopicBytes Maximum nonempty topic bytes; default 255, without name/encoding normalization.
+	MaxTopicBytes int
+	// MaxPayloadBytes Maximum opaque payload bytes; default 1 MiB, not total encoded/heap bytes.
+	MaxPayloadBytes int
+	// MaxMetadataEntries Maximum supplied metadata entries; default 64.
+	MaxMetadataEntries int
+	// MaxMetadataBytes Maximum summed key/value bytes; default 16 KiB, not JSON-escaped size.
+	MaxMetadataBytes int
+	// MaxOrderingKeyBytes Maximum optional ordering-key bytes; default 255.
+	MaxOrderingKeyBytes int
+	// MaxIdempotencyKeyBytes Maximum optional application idempotency-key bytes; default 255.
 	MaxIdempotencyKeyBytes int
 }
 
@@ -71,23 +93,37 @@ func DefaultLimits() Limits {
 }
 
 // Envelope is the stable record transferred from PostgreSQL to a publisher.
-// Attempts is zero when written and increases when a claim is published.
+// Attempts is zero on insert and increases on claim acquisition, even if no
+// publication follows. Payload and Metadata are mutable; the type is not immutable.
 type Envelope struct {
-	ID             string            `json:"id"`
-	Topic          string            `json:"topic"`
-	Payload        []byte            `json:"payload"`
-	PayloadVersion uint16            `json:"payload_version"`
-	Metadata       map[string]string `json:"metadata,omitempty"`
-	OrderingKey    string            `json:"ordering_key,omitempty"`
-	IdempotencyKey string            `json:"idempotency_key,omitempty"`
-	Attempts       int               `json:"attempts"`
-	AvailableAt    time.Time         `json:"available_at"`
-	CreatedAt      time.Time         `json:"created_at"`
+	// ID Stable message identity; public construction does not itself guarantee uniqueness.
+	ID string `json:"id"`
+	// Topic Routing target, retained as supplied and validated by the selected publisher.
+	Topic string `json:"topic"`
+	// Payload Caller-owned mutable opaque bytes, not necessarily JSON; builder output is copied.
+	Payload []byte `json:"payload"`
+	// PayloadVersion Nonzero schema version for persistence; not validation against a schema registry.
+	PayloadVersion uint16 `json:"payload_version"`
+	// Metadata Caller-owned mutable string map; builder output is copied, not sanitized.
+	Metadata map[string]string `json:"metadata,omitempty"`
+	// OrderingKey Optional serialization/routing scope, not a global delivery-order guarantee.
+	OrderingKey string `json:"ordering_key,omitempty"`
+	// IdempotencyKey Optional stable application key; persistence uniqueness and consumer deduplication are separate.
+	IdempotencyKey string `json:"idempotency_key,omitempty"`
+	// Attempts Claim acquisitions, not confirmed publications; insert requires zero and SQL claim increment saturates at 10000.
+	Attempts int `json:"attempts"`
+	// AvailableAt Next claim eligibility time; not a publication completion deadline.
+	AvailableAt time.Time `json:"available_at"`
+	// CreatedAt Creation identity used in scoped ordering; builder uses UTC microsecond precision.
+	CreatedAt time.Time `json:"created_at"`
 }
 
 // CanonicalJSON returns a deterministic JSON representation. The wire struct
 // has a fixed field order, metadata keys are sorted by encoding/json, and
 // timestamps are formatted explicitly so encoding cannot fail on a time year.
+// This method does not validate fields or enforce limits. Payload uses JSON
+// base64 encoding; nil and empty slices differ, and invalid UTF-8 string bytes
+// are replaced by encoding/json. Do not mutate the borrowed map/slice during it.
 func (e Envelope) CanonicalJSON() []byte {
 	encoded, _ := json.Marshal(struct {
 		ID             string            `json:"id"`
@@ -157,13 +193,20 @@ func jsonTimestampYear(value time.Time) bool {
 
 // NewEnvelopeParams contains caller-controlled data for a new envelope.
 type NewEnvelopeParams struct {
-	Topic          string
-	Payload        []byte
+	// Topic Required opaque routing topic; empty rejects, whitespace/UTF-8 are not normalized here.
+	Topic string
+	// Payload Borrowed opaque bytes through Build; zero-length snapshots become nil.
+	Payload []byte
+	// PayloadVersion Schema version; zero defaults to one during Build.
 	PayloadVersion uint16
-	Metadata       map[string]string
-	OrderingKey    string
+	// Metadata Borrowed map through Build; caller must not mutate concurrently or from callbacks.
+	Metadata map[string]string
+	// OrderingKey Optional application ordering/routing scope.
+	OrderingKey string
+	// IdempotencyKey Optional stable application key for downstream deduplication.
 	IdempotencyKey string
-	AvailableAt    time.Time
+	// AvailableAt Optional schedule; zero defaults to the injected creation clock.
+	AvailableAt time.Time
 }
 
 // EnvelopeBuilder validates and constructs new envelopes.
@@ -232,7 +275,10 @@ func NewEnvelopeBuilder(options ...EnvelopeBuilderOption) (*EnvelopeBuilder, err
 }
 
 // Build creates a validated envelope and takes ownership by copying mutable
-// payload and metadata values.
+// payload and metadata values. Callers must keep inputs unchanged throughout
+// Build, including generator/clock callbacks. Zero-length payloads become nil;
+// creation/schedule times use UTC microsecond precision. Callback side effects
+// are not rolled back on failure, and the returned containers remain mutable.
 func (b *EnvelopeBuilder) Build(params NewEnvelopeParams) (Envelope, error) {
 	if err := validateParams(params, b.limits); err != nil {
 		return Envelope{}, err

@@ -1,7 +1,3 @@
-// Package gorabbitstream preserves the released RabbitMQ Streams outbox
-// adapter path while delegating to the target-oriented successor.
-//
-// Deprecated: use github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2.
 package gorabbitstream
 
 import (
@@ -36,6 +32,8 @@ var (
 //
 // Deprecated: use successor.Client.
 type Client interface {
+	// Publish must return broker confirmation for success and cooperate with
+	// context; caller owns concurrent safety and client shutdown.
 	Publish(context.Context, rabbitstream.Message) (rabbitstream.DeliveryResult, error)
 }
 
@@ -43,9 +41,12 @@ type Client interface {
 //
 // Deprecated: use successor.Config.
 type Config struct {
-	Stream      string
+	// Stream Configured ordinary stream forwarded to the pinned successor.
+	Stream string
+	// SuperStream Configured super stream forwarded to the pinned successor; target exclusivity is validated there.
 	SuperStream string
-	Limits      rabbitstream.Limits
+	// Limits Complete message bounds forwarded to the pinned successor; wholly zero uses its defaults.
+	Limits rabbitstream.Limits
 }
 
 // Publisher preserves the released type while delegating behavior.

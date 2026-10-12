@@ -25,6 +25,8 @@ publisher contracts are public compatibility surfaces.
 
 ### Changed
 
+- Clarify mutable envelope ownership, claim-attempt counts, lease fencing,
+  ambiguous database outcomes and cooperative per-cycle relay lifecycle.
 - Prepare the root as `/v2` with Go 1.27 as its minimum toolchain. Envelope
   encoding and database migrations remain unchanged. Existing v1 adapters
   continue using their published v1 root until separately migrated.

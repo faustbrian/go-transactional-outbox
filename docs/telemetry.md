@@ -24,9 +24,9 @@ envelope, err := builder.Build(outbox.NewEnvelopeParams{
 })
 ```
 
-Injection copies the application map and writes the runtime's bounded W3C
-propagation fields into the copy. Pass the result through `EnvelopeBuilder` so
-the normal metadata size limit still applies.
+Injection copies the application map and forwards the runtime's lowercase
+`traceparent` into the copy. No byte admission precedes copying. Pass the result
+through `EnvelopeBuilder` so the normal metadata size limit applies afterward.
 
 At relay construction, wrap the concrete publisher and register the same
 instrumentation as the observer:
@@ -46,12 +46,16 @@ worker, err := relay.New(store, publisher, relay.Config{
 Pass the same observer through `postgres.StoreConfig.Observer` to record replay,
 prune, and archive counts and latency.
 
-The wrapper extracts only lowercase `traceparent` and `tracestate` metadata and
+The wrapper currently extracts only lowercase `traceparent` metadata and
 creates an `outbox.publish` producer span. Span attributes are limited to the
 fixed operation, outcome, and retry-state dimensions. Message IDs, topics, raw
 attempt counts, destinations, payloads, arbitrary metadata, publisher errors,
-and panic values are never exported. Downstream errors and panics retain their
-exact values.
+and panic values are not added to adapter span/metric attributes. Provider
+resource/context attributes remain application-controlled. `Inject` copies
+existing metadata but forwards only freshly injected `traceparent`; `tracestate`
+and baggage are not newly propagated or extracted. This is an existing
+implementation limitation, not full W3C trace-context conformance. Downstream
+errors and panics retain their exact values.
 
 The observer exports:
 

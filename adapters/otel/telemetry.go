@@ -36,17 +36,26 @@ var (
 // Runtime is the standard-provider surface implemented by telemetry's
 // Runtime. Keeping the interface here avoids adding telemetry to core.
 type Runtime interface {
+	// TracerProvider returns a borrowed provider; application owns shutdown/export.
 	TracerProvider() trace.TracerProvider
+	// MeterProvider returns a borrowed provider supporting concurrent recording.
 	MeterProvider() metric.MeterProvider
+	// Propagator returns a borrowed context codec supporting concurrent calls.
 	Propagator() propagation.TextMapPropagator
 }
 
 // Publisher is the relay-compatible publication contract.
 type Publisher interface {
+	// Publish receives the caller context and borrowed envelope; downstream errors
+	// and panics retain their identities through instrumentation.
 	Publish(context.Context, outbox.Envelope) error
 }
 
-// Telemetry injects and extracts W3C context and implements outbox.Observer.
+// Telemetry forwards traceparent context and implements outbox.Observer.
+// It owns no exporter, worker, flush or provider shutdown. Provider callbacks
+// must support concurrent calls and return promptly; panic containment is not
+// a timeout. Adapter labels are bounded, but provider resource/context data
+// remains application-controlled.
 type Telemetry struct {
 	propagator       propagation.TextMapPropagator
 	tracer           trace.Tracer
@@ -137,8 +146,10 @@ func runtimeDependencies(
 	return tracerProvider, meterProvider, propagator, nil
 }
 
-// Inject copies metadata and writes the runtime's propagation fields into the
-// copy. Caller-owned metadata is never mutated.
+// Inject copies metadata and forwards only lowercase traceparent from the
+// runtime propagator. Existing tracestate/baggage are copied unchanged, not
+// newly injected. Input must not be mutated concurrently; no byte admission
+// precedes copying. A propagator panic returns the copy without surfacing it.
 func (telemetry *Telemetry) Inject(
 	ctx context.Context,
 	metadata map[string]string,
@@ -173,6 +184,8 @@ func (telemetry *Telemetry) Observe(ctx context.Context, event outbox.Event) {
 
 // RecordBacklog records a payload-safe snapshot returned by Store.Backlog.
 // The caller supplies now so collection is deterministic and clock-injectable.
+// A nil oldest time omits an age record; it does not reset a previous gauge.
+// Negative computed age clamps to zero; supplied depths are recorded as given.
 func (telemetry *Telemetry) RecordBacklog(ctx context.Context, stats outbox.BacklogStats, now time.Time) {
 	for state, depth := range map[string]int64{
 		"pending": stats.Pending,
@@ -192,7 +205,10 @@ func (telemetry *Telemetry) RecordBacklog(ctx context.Context, stats outbox.Back
 }
 
 // WrapPublisher extracts producer context from envelope metadata and creates
-// a publish span around the downstream publisher call.
+// a publish span around the downstream publisher call. Only lowercase
+// traceparent is extracted; tracestate/baggage are not. Caller context values
+// and cancellation are preserved, downstream panics are rethrown, and an
+// optional Health method delegates unchanged without instrumentation.
 func (telemetry *Telemetry) WrapPublisher(next Publisher) (Publisher, error) {
 	if !telemetry.valid() {
 		return nil, ErrRuntimeRequired
@@ -328,6 +344,8 @@ func (telemetry *Telemetry) extract(ctx context.Context, metadata map[string]str
 	return extracted
 }
 
+// Restrict both directions to the implemented field, rather than accepting
+// arbitrary propagator output as retained envelope metadata.
 func copyTraceContext(destination, source map[string]string) {
 	if value, exists := source[traceParentKey]; exists {
 		destination[traceParentKey] = value

@@ -1,4 +1,8 @@
 // Package outboxqueue adapts outbox envelopes to queue producers.
+// It owns encoding, not backend lifecycle or durability. Cancellation is checked
+// before mapping but cannot interrupt the synchronous context-free queue call.
+// Inputs are borrowed until encoding completes; final encoded-size admission
+// follows allocation and is not a total heap bound.
 package outboxqueue
 
 import (
@@ -20,16 +24,24 @@ import (
 )
 
 var (
-	ErrQueueRequired   = errors.New("outbox/queue: queue is required")
+	// ErrQueueRequired requires a usable nonnil queue, including typed-nil refusal.
+	ErrQueueRequired = errors.New("outbox/queue: queue is required")
+	// ErrContextRequired requires a nonnil publication context.
 	ErrContextRequired = errors.New("outbox/queue: context is required")
-	ErrInvalidConfig   = errors.New("outbox/queue: invalid configuration")
+	// ErrInvalidConfig refuses missing options or nonpositive bounds.
+	ErrInvalidConfig = errors.New("outbox/queue: invalid configuration")
+	// ErrInvalidEnvelope refuses task identity/schema/encoding admission.
 	ErrInvalidEnvelope = errors.New("outbox/queue: invalid envelope")
-	ErrTaskTooLarge    = errors.New("outbox/queue: encoded task is too large")
-	ErrQueuePanic      = errors.New("outbox/queue: queue panicked")
+	// ErrTaskTooLarge refuses task or queue-message encoded size admission.
+	ErrTaskTooLarge = errors.New("outbox/queue: encoded task is too large")
+	// ErrQueuePanic contains queue callback panic with unknown acceptance.
+	ErrQueuePanic = errors.New("outbox/queue: queue panicked")
 )
 
 // Queue is the narrow queue producer surface used by Publisher.
 type Queue interface {
+	// Queue synchronously accepts an encoded snapshot without a context.
+	// Caller owns backend durability, concurrent safety and shutdown.
 	Queue(core.QueuedMessage, ...job.AllowOption) error
 }
 
@@ -68,7 +80,9 @@ const (
 
 // PublishOutcome keeps backend acceptance separate from retry disposition.
 type PublishOutcome struct {
-	Acceptance  Acceptance
+	// Acceptance Whether adapter/backend evidence establishes accepted, rejected or unknown.
+	Acceptance Acceptance
+	// Disposition Retry classification independent of possible prior acceptance.
 	Disposition Disposition
 }
 
@@ -121,11 +135,16 @@ func ClassifyError(err error) relay.ErrorClass {
 // Limits bounds every caller-controlled task field and the final encoded
 // payload before it reaches a queue backend.
 type Limits struct {
-	MaxTaskBytes       int
-	MaxIdentityBytes   int
-	MaxContentBytes    int
+	// MaxTaskBytes Final JSON-task byte ceiling after encoding; default 2 MiB, not all transient allocation.
+	MaxTaskBytes int
+	// MaxIdentityBytes Per task identity/metadata-key bytes, default 255.
+	MaxIdentityBytes int
+	// MaxContentBytes Opaque content byte ceiling, default 1 MiB.
+	MaxContentBytes int
+	// MaxMetadataEntries Metadata entry ceiling, default 64.
 	MaxMetadataEntries int
-	MaxMetadataBytes   int
+	// MaxMetadataBytes Summed metadata key/value bytes, default 16 KiB, not escaped encoding size.
+	MaxMetadataBytes int
 }
 
 // DefaultLimits returns the adapter's conservative publication bounds.
@@ -167,14 +186,22 @@ func WithLimits(limits Limits) Option {
 // IdempotencyKey remain stable across relay attempts; attempt counters and
 // worker policy are deliberately excluded.
 type Task struct {
-	TaskID         string            `json:"task_id"`
-	IdempotencyKey string            `json:"idempotency_key"`
-	OrderingKey    string            `json:"ordering_key,omitempty"`
-	Content        []byte            `json:"content"`
-	ContentType    string            `json:"content_type"`
-	EventName      string            `json:"event_name"`
-	SchemaVersion  uint16            `json:"schema_version"`
-	Metadata       map[string]string `json:"metadata,omitempty"`
+	// TaskID Stable envelope ID for consumer deduplication.
+	TaskID string `json:"task_id"`
+	// IdempotencyKey Explicit key or TaskID fallback, not backend idempotency enforcement.
+	IdempotencyKey string `json:"idempotency_key"`
+	// OrderingKey Optional application ordering label, not queue order enforcement.
+	OrderingKey string `json:"ordering_key,omitempty"`
+	// Content Opaque event bytes, encoded as base64 by JSON.
+	Content []byte `json:"content"`
+	// ContentType Metadata es.content_type or application/json fallback; no payload-schema validation.
+	ContentType string `json:"content_type"`
+	// EventName Metadata es.event_name or Topic fallback.
+	EventName string `json:"event_name"`
+	// SchemaVersion Nonzero envelope payload version.
+	SchemaVersion uint16 `json:"schema_version"`
+	// Metadata Borrowed during validation/encoding; final queued bytes own the snapshot.
+	Metadata map[string]string `json:"metadata,omitempty"`
 }
 
 // New creates a queue publisher adapter.

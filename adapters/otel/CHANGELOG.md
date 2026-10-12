@@ -25,6 +25,8 @@ All notable changes to this module are documented here.
 
 ### Changed
 
+- Clarify borrowed provider lifecycle and traceparent-only propagation;
+  correct the guide that previously claimed tracestate extraction.
 - Prepare the adapter as `/v2` for v2 outbox envelopes, observers, and relay
   types. Upgrade this adapter and the root together; Go 1.27 is required.
 - Adopt checksum-verified `go-library-tools` v1.4.0 W14 enforcement and resolve
