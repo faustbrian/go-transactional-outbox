@@ -1,5 +1,8 @@
 # Outbox RabbitMQ Streams adapter
 
+[Documentation map](../../docs/index.md) · [Repository README](../../README.md)
+[Next: Documentation map](../../docs/index.md)
+
 `outboxrabbitstream` maps one persisted `outbox.Envelope` to one confirmed
 `rabbitstream.Message`. It owns no producer, topology, relay, retry loop,
 database transaction, or outbox state transition.
@@ -158,8 +161,8 @@ See the [root package documentation](../../README.md) for delivery semantics,
 adapter boundaries, and related packages.
 
 Shared adapter, ownership, and lifecycle expectations are in the versioned
-[Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md)
-and its [Persistence and durability family](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/design-language.md#package-families-and-selection).
+[Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.8.4/docs/ecosystem/README.md)
+and its [Persistence and durability family](https://github.com/faustbrian/go-library-tools/blob/v1.8.4/docs/ecosystem/design-language.md#package-families-and-selection).
 
 This module is the target-oriented successor to `adapters/gorabbitstream`.
 Existing callers can change only the import path and either use the default

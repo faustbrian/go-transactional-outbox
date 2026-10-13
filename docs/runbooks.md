@@ -1,5 +1,8 @@
 # Recovery Runbooks
 
+[Documentation map](index.md) · [Repository README](../README.md)
+[Next: API Reference](api.md)
+
 ## Backlog or publisher outage
 
 Record backlog, oldest age, readiness, retry rate, and publisher status. Leave

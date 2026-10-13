@@ -1,5 +1,8 @@
 # Kubernetes Operations And Capacity
 
+[Documentation map](index.md) · [Repository README](../README.md)
+[Next: API Reference](api.md)
+
 Run the relay embedded or as a Deployment. Give every pod a unique `Owner`.
 Multiple pods coordinate through `SKIP LOCKED`; leader election is unnecessary.
 Use `maxUnavailable: 0` and a termination grace period longer than the longest

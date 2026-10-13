@@ -1,5 +1,8 @@
 # Source documentation audit
 
+[Documentation map](index.md) · [Repository README](../README.md)
+[Next: API Reference](api.md)
+
 ## Pre-edit scope and plan
 
 Base `af8e3c19e1760d2cdb49ce45aea279e0d319b5ab`, detached main-source worktree;

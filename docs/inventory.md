@@ -1,5 +1,8 @@
 # Hardening Inventory
 
+[Documentation map](index.md) · [Repository README](../README.md)
+[Next: API Reference](api.md)
+
 This inventory is the stable v1 surface audited by the hardening
 matrix. `go doc -all` remains the symbol-level source of truth; this document
 groups every exported contract with its persistent or operational effect.

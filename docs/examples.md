@@ -1,5 +1,8 @@
 # Examples And Integrations
 
+[Documentation map](index.md) · [Repository README](../README.md)
+[Next: API Reference](api.md)
+
 ## pgx and sqlc
 
 Begin one `pgx.Tx`, bind sqlc queries with `WithTx(tx)`, and pass that exact

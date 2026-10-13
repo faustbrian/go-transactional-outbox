@@ -1,5 +1,8 @@
 # Outbox Kafka adapter
 
+[Documentation map](../../docs/index.md) · [Repository README](../../README.md)
+[Next: Documentation map](../../docs/index.md)
+
 > **Deprecated:** use
 > `github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2`. The
 > target-oriented path removes the redundant `go` prefix. This compatibility
@@ -76,5 +79,5 @@ compared across paths. See the [migration guide](../../docs/adapter-migration.md
 MIT. See [LICENSE](LICENSE).
 
 Shared adapter, ownership, and lifecycle expectations are in the versioned
-[Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md)
-and its [Persistence and durability family](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/design-language.md#package-families-and-selection).
+[Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.8.4/docs/ecosystem/README.md)
+and its [Persistence and durability family](https://github.com/faustbrian/go-library-tools/blob/v1.8.4/docs/ecosystem/design-language.md#package-families-and-selection).

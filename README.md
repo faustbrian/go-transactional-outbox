@@ -1,10 +1,7 @@
 # outbox
 
 [![CI](https://github.com/faustbrian/go-transactional-outbox/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/faustbrian/go-transactional-outbox/actions/workflows/ci.yml)
-[![CodeQL](https://img.shields.io/badge/CodeQL-required-blue)](https://github.com/faustbrian/go-transactional-outbox/actions/workflows/ci.yml)
-[![Coverage](https://img.shields.io/badge/coverage-100%25_required-blue)](CONTRIBUTING.md#verification)
-[![Mutation](https://img.shields.io/badge/mutation-100%25_required-blue)](CONTRIBUTING.md#verification)
-[![Documentation](https://img.shields.io/badge/docs-checked_in_CI-blue)](docs/)
+[![Documentation](https://img.shields.io/badge/docs-adoption_and_API-blue)](docs/index.md)
 [![Go Reference](https://pkg.go.dev/badge/github.com/faustbrian/go-transactional-outbox/v2.svg)](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/v2)
 [![Release](https://img.shields.io/github/v/release/faustbrian/go-transactional-outbox?sort=semver)](https://github.com/faustbrian/go-transactional-outbox/releases)
 [![Go](https://img.shields.io/badge/go-1.27.0-00ADD8?logo=go)](https://go.dev/)
@@ -19,6 +16,17 @@ The root v2 API requires Go 1.27 and follows the compatibility surfaces describe
 [the compatibility policy](docs/compatibility.md). Delivery remains at
 least once; upgrading the library does not remove the consumer's idempotency
 duty.
+
+## Adoption entry points
+
+The root module is `github.com/faustbrian/go-transactional-outbox/v2` (stable).
+It requires Go 1.27.0. Pin the published `v2.0.1` root tag
+with `go get github.com/faustbrian/go-transactional-outbox/v2@v2.0.1`.
+Install only the modules your application imports; nested module status and
+migration boundaries remain documented separately.
+
+Start with the [documentation map](docs/index.md) for package selection,
+examples, operational constraints, and contributor references.
 
 ## Guarantees
 
@@ -140,5 +148,5 @@ Use the [documentation index](docs/README.md) for package-owned guides,
 operational contracts, examples, and maintainer references.
 
 Shared construction, ownership, lifecycle, and composition expectations are in
-the versioned [Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md)
-and its [Persistence and durability family](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/design-language.md#package-families-and-selection).
+the versioned [Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.8.4/docs/ecosystem/README.md)
+and its [Persistence and durability family](https://github.com/faustbrian/go-library-tools/blob/v1.8.4/docs/ecosystem/design-language.md#package-families-and-selection).

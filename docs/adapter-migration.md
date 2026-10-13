@@ -1,5 +1,8 @@
 # Adapter Path Migration
 
+[Documentation map](index.md) · [Repository README](../README.md)
+[Next: Quickstart](quickstart.md)
+
 The Kafka and RabbitMQ Streams adapters now use target-oriented module paths.
 The published legacy modules remain available during a compatibility interval;
 new adoption should use the successors.

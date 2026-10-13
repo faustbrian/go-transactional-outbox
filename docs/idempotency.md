@@ -1,5 +1,8 @@
 # Consumer Idempotency With idempotency
 
+[Documentation map](index.md) · [Repository README](../README.md)
+[Next: API Reference](api.md)
+
 Outbox delivery is at least once. Consumer deduplication reduces repeated
 effects but does not change that delivery contract or create a distributed
 exactly-once guarantee.

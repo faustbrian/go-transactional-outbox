@@ -1,5 +1,8 @@
 # Schema Migrations And Upgrades
 
+[Documentation map](index.md) · [Repository README](../README.md)
+[Next: Quickstart](quickstart.md)
+
 `postgres.Migrations()` exposes one canonical
 `000001_create_outbox.sql` file through `fs.FS`; applications choose the
 runner and timing. The file uses `-- +migrations Up` and

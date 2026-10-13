@@ -1,5 +1,8 @@
 # Outbox Kafka adapter
 
+[Documentation map](../../docs/index.md) · [Repository README](../../README.md)
+[Next: Documentation map](../../docs/index.md)
+
 `outboxkafka` is the canonical synchronous adapter from `outbox.Envelope` to the
 first-party `kafka.Producer`. It maps one persisted envelope to one Kafka
 record and returns only after the producer reports the broker delivery result.
@@ -74,5 +77,5 @@ Report vulnerabilities through the [parent security policy](../../SECURITY.md).
 MIT. See [LICENSE](LICENSE).
 
 Shared adapter, ownership, and lifecycle expectations are in the versioned
-[Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md)
-and its [Persistence and durability family](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/design-language.md#package-families-and-selection).
+[Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.8.4/docs/ecosystem/README.md)
+and its [Persistence and durability family](https://github.com/faustbrian/go-library-tools/blob/v1.8.4/docs/ecosystem/design-language.md#package-families-and-selection).

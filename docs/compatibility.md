@@ -1,5 +1,8 @@
 # Compatibility Policy
 
+[Documentation map](index.md) · [Repository README](../README.md)
+[Next: Quickstart](quickstart.md)
+
 SemVer applies independently to core and every adapter module. Compatibility
 surfaces include canonical encoding, migrations, delivery semantics, errors,
 metrics, observer events, and publisher behavior.

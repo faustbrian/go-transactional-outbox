@@ -1,5 +1,8 @@
 # Delivery Guarantees
 
+[Documentation map](index.md) · [Repository README](../README.md)
+[Next: API Reference](api.md)
+
 ## Transaction boundary
 
 `postgres.Writer` accepts only a caller-owned `pgx.Tx`. Atomic persistence is

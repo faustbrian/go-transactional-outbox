@@ -1,5 +1,8 @@
 # Troubleshooting And FAQ
 
+[Documentation map](index.md) · [Repository README](../README.md)
+[Next: API Reference](api.md)
+
 - **Duplicate publication:** expected after ambiguous publisher acceptance,
   delivered-update failure, lease expiry, or replay. Verify consumer dedupe.
 - **Later record not claimed:** an earlier scheduled non-terminal record can

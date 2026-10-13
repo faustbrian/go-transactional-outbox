@@ -1,5 +1,8 @@
 # Documentation
 
+[Documentation map](../../../docs/index.md) · [Repository README](../../../README.md)
+[Next: Documentation map](../../../docs/index.md)
+
 This module is deprecated in favor of
 [`adapters/rabbitstream`](../../rabbitstream/docs/README.md). See the
 [repository migration guide](../../../docs/adapter-migration.md).

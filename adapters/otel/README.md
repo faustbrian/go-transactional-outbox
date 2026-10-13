@@ -1,5 +1,8 @@
 # Outbox OpenTelemetry adapter
 
+[Documentation map](../../docs/index.md) · [Repository README](../../README.md)
+[Next: Documentation map](../../docs/index.md)
+
 `outboxotel` adds optional OpenTelemetry spans and metrics to
 [`github.com/faustbrian/go-transactional-outbox/v2`](../..). The core outbox module stays
 independent of OpenTelemetry, and exporter lifecycle remains caller-owned.
@@ -53,5 +56,5 @@ This module follows Semantic Versioning. Report vulnerabilities through the
 MIT. See [LICENSE](LICENSE).
 
 Shared adapter, ownership, and lifecycle expectations are in the versioned
-[Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md)
-and its [Persistence and durability family](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/design-language.md#package-families-and-selection).
+[Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.8.4/docs/ecosystem/README.md)
+and its [Persistence and durability family](https://github.com/faustbrian/go-library-tools/blob/v1.8.4/docs/ecosystem/design-language.md#package-families-and-selection).

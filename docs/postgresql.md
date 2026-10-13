@@ -1,5 +1,8 @@
 # PostgreSQL Schema And Operations
 
+[Documentation map](index.md) · [Repository README](../README.md)
+[Next: API Reference](api.md)
+
 ## Migrations
 
 `postgres.Migrations()` returns an `fs.FS` containing one canonical

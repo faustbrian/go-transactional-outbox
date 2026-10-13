@@ -1,5 +1,8 @@
 # Telemetry integration
 
+[Documentation map](index.md) · [Repository README](../README.md)
+[Next: API Reference](api.md)
+
 The optional `adapters/otel` module accepts the standard providers
 exposed by `telemetry.Runtime`. Core and the `queue` adapter do not depend
 on OpenTelemetry.

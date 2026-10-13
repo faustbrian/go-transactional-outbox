@@ -1,5 +1,8 @@
 # Documentation
 
+[Documentation map](index.md) · [Repository README](../README.md)
+[Next: Documentation map](index.md)
+
 - [Quickstart](quickstart.md), [API](api.md), [examples](examples.md), and
   [consumer idempotency](idempotency.md)
 - [Architecture](architecture.md) and [guarantees](guarantees.md)

@@ -1,5 +1,8 @@
 # Security threat model, version 1
 
+[Documentation map](index.md) · [Repository README](../README.md)
+[Next: Kubernetes Operations And Capacity](operations.md)
+
 ## Scope and assets
 
 This model covers the root outbox, PostgreSQL writer and store, relay, and

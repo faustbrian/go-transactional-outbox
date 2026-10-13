@@ -1,5 +1,8 @@
 # Outbox RabbitMQ Streams adapter
 
+[Documentation map](../../docs/index.md) · [Repository README](../../README.md)
+[Next: Documentation map](../../docs/index.md)
+
 > **Deprecated:** use
 > `github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2`. The
 > target-oriented path removes the redundant `go` prefix. This compatibility
@@ -171,8 +174,8 @@ See the [root package documentation](../../README.md) for delivery semantics,
 adapter boundaries, and related packages.
 
 Shared adapter, ownership, and lifecycle expectations are in the versioned
-[Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md)
-and its [Persistence and durability family](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/design-language.md#package-families-and-selection).
+[Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.8.4/docs/ecosystem/README.md)
+and its [Persistence and durability family](https://github.com/faustbrian/go-library-tools/blob/v1.8.4/docs/ecosystem/design-language.md#package-families-and-selection).
 
 Migrating between the two v2 adapter names changes the import path only.
 Upgrading from v1 also requires the matching root-v2 envelope and relay types.

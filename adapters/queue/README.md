@@ -1,5 +1,8 @@
 # outbox queue adapter
 
+[Documentation map](../../docs/index.md) · [Repository README](../../README.md)
+[Next: Documentation map](../../docs/index.md)
+
 `outboxqueue` is the canonical synchronous adapter from `outbox.Envelope` to the
 first-party `queue` contract. It maps one persisted envelope to one owned JSON
 task and returns only after the queue reports its enqueue result. It owns no
@@ -51,5 +54,5 @@ This module follows Semantic Versioning. Report vulnerabilities through the
 MIT. See [LICENSE](LICENSE).
 
 Shared adapter, ownership, and lifecycle expectations are in the versioned
-[Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md)
-and its [Persistence and durability family](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/design-language.md#package-families-and-selection).
+[Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.8.4/docs/ecosystem/README.md)
+and its [Persistence and durability family](https://github.com/faustbrian/go-library-tools/blob/v1.8.4/docs/ecosystem/design-language.md#package-families-and-selection).

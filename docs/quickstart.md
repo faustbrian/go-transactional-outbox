@@ -1,5 +1,8 @@
 # Quickstart
 
+[Documentation map](index.md) · [Repository README](../README.md)
+[Next: Kubernetes Operations And Capacity](operations.md)
+
 ## Install the core module
 
 ```sh
