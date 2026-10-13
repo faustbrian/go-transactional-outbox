@@ -43,8 +43,8 @@ worker, err := relay.New(store, publisher, relay.Config{
 })
 ```
 
-The v2 facade release is being prepared; the command above becomes available
-after publication. Import root `github.com/faustbrian/go-transactional-outbox/v2`
+The deprecated v2 facade is published at v2.0.1. Import root
+`github.com/faustbrian/go-transactional-outbox/v2`
 and its `/relay` package together with the facade. Root v1 envelopes and relay
 types are not interchangeable with v2. This source uses the already published
 `adapters/rabbitstream/v2` v2.0.0 successor.
