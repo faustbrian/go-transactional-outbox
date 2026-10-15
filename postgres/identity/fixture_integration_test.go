@@ -58,7 +58,7 @@ func identityTestPostgresDSN(t *testing.T) string {
 	var image string
 	for _, line := range strings.Split(string(matrix), "\n") {
 		fields := strings.Fields(line)
-		if len(fields) == 2 && fields[0] == version && strings.Contains(fields[1], "@sha256:") {
+		if len(fields) == 2 && (fields[0] == version || strings.HasPrefix(fields[1], "postgres:"+version+"-alpine@sha256:")) && strings.Contains(fields[1], "@sha256:") {
 			image = fields[1]
 		}
 	}
