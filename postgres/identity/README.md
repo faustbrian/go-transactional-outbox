@@ -172,4 +172,4 @@ success/failure audit payloads and lifecycle metadata, not only binding counts.
   accepted; public generic outbox Writer APIs remain intentionally separate.
 
 See [release notes](CHANGELOG.md), [root guarantees](../../docs/guarantees.md)
-and [root security](../../docs/security.md).
+and [root security](../../SECURITY.md).
