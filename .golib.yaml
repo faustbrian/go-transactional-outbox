@@ -26,6 +26,9 @@ mutation:
     ledger: ".verification/mutation/migration-ledger.json"
 api:
   baselines:
+  - module: postgres/identity
+    mode: apidiff
+    path: postgres/identity/api/baseline.txt
   - module: "."
     mode: apidiff
     path: api/v2-baseline.txt
@@ -48,6 +51,31 @@ api:
     mode: apidiff
     path: adapters/rabbitstream/api/v2-baseline.txt
 operations:
+- module: postgres/identity
+  gate: local-test
+  steps:
+  - type: go-test
+    packages: ["."]
+    run: '^Test(LifecyclePersistenceIntegration|PublicIdentityComposition)$'
+    race: true
+    count: 1
+    timeout: 2m
+- module: postgres/identity
+  gate: fuzz
+  steps:
+  - type: go-test
+    packages: ["."]
+    fuzz: '^FuzzLifecycleCommandAdmission$'
+    budget: 10000x
+    timeout: 2m
+- module: postgres/identity
+  gate: benchmark
+  steps:
+  - type: go-test
+    packages: ["."]
+    benchmark: '^BenchmarkLifecycleEnvelope$'
+    budget: 100ms
+    timeout: 2m
 - module: "."
   gate: local-test
   steps:

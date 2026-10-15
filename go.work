@@ -8,4 +8,5 @@ use (
 	./adapters/otel
 	./adapters/queue
 	./adapters/rabbitstream
+	./postgres/identity
 )

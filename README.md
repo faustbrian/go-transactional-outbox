@@ -50,6 +50,8 @@ transactions or exactly-once delivery.
 - `github.com/faustbrian/go-transactional-outbox/v2/postgres`: migrations, transactional writer,
   claims, leases, retries, dead letters, replay, and retention.
 - `github.com/faustbrian/go-transactional-outbox/v2/relay`: bounded embedded relay.
+- [Identity lifecycle contributor](postgres/identity/README.md): experimental,
+  independently versioned module; not part of the root-v2 dependency graph.
 - `github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2`: preferred,
   separately versioned Kafka publisher adapter.
 - `github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2`: preferred,
