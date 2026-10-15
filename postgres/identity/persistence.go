@@ -15,6 +15,10 @@ import (
 )
 
 func lifecycleEnvelope(r identitypostgres.StagedLifecycle) (outbox.Envelope, error) {
+	generation := ""
+	if r.CascadeGeneration != 0 {
+		generation = strconv.FormatUint(r.CascadeGeneration, 10)
+	}
 	payload, err := json.Marshal(struct {
 		Profile       string             `json:"profile"`
 		ID            string             `json:"id"`
@@ -29,7 +33,9 @@ func lifecycleEnvelope(r identitypostgres.StagedLifecycle) (outbox.Envelope, err
 		BeforeVersion string             `json:"before_version"`
 		AfterVersion  string             `json:"after_version"`
 		OccurredAt    string             `json:"occurred_at"`
-	}{"identity-lifecycle-v1", r.ID, r.CommandID, r.TenantID, r.UserID, r.OperationID, r.EventType, r.EventIndex, r.SubjectType, r.SubjectID, strconv.FormatUint(r.BeforeVersion, 10), strconv.FormatUint(r.AfterVersion, 10), r.OccurredAt.Format(time.RFC3339Nano)})
+		CascadeID     identity.CascadeID `json:"cascade_id,omitempty"`
+		Generation    string             `json:"cascade_generation,omitempty"`
+	}{"identity-lifecycle-v1", r.ID, r.CommandID, r.TenantID, r.UserID, r.OperationID, r.EventType, r.EventIndex, r.SubjectType, r.SubjectID, strconv.FormatUint(r.BeforeVersion, 10), strconv.FormatUint(r.AfterVersion, 10), r.OccurredAt.Format(time.RFC3339Nano), r.CascadeID, generation})
 	if err != nil {
 		return outbox.Envelope{}, invalid()
 	}

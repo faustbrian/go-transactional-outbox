@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Preserve pending identifier-removal cascade ID and generation in the
+  transactional lifecycle payload. Non-cascade payload bytes and replay
+  bindings remain unchanged; publication does not acknowledge consumer cleanup.
+
 - Restore this independent adapter against current identity and outbox-v2
   engines. Use its unversioned repository-relative module path, not a `/v2`
   segment before `postgres/identity`; module tags are independent. Existing

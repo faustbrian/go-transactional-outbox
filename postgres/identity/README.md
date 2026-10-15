@@ -5,6 +5,13 @@ identity lifecycle events in `public.outbox_messages` through the **same**
 `identity/postgres.Work` as the protected mutation and audit. Core outbox
 consumers do not acquire an identity dependency.
 
+Selected identifier-removal events retain their original `cascade_id` and
+lossless decimal-string `cascade_generation` in the existing JSON payload.
+These correlate a pending owner admission, not downstream acknowledgement.
+Both fields are omitted for non-cascade events, preserving their existing
+payload bytes and immutable replay bindings. This additive projection is not
+the platform's complete lifecycle-envelope/cascade consumer qualification.
+
 The independent module path is
 `github.com/faustbrian/go-transactional-outbox/postgres/identity`. It depends on
 the `/v2` outbox engine; the engine's major suffix is not part of this module's
