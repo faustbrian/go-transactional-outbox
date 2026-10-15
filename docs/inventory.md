@@ -30,10 +30,11 @@ and payload version 1 when omitted.
 |---|---|
 | Migration source | `Migrations`, returning canonical `000001_create_outbox.sql` |
 | Writer configuration | `WriterConfig` with schema, table, limits, and maximum batch size |
-| Writer | `Writer`; `NewWriter`; `Insert`; `InsertBatch` |
-| Writer errors | `ErrEmptyBatch`, `ErrBatchTooLarge`, `ErrInvalidBatchLimit`, `ErrTransactionRequired`, plus core envelope errors and `ErrValueOutsideBounds` |
+| Writer | `Writer`; `NewWriter`; `Insert`; `InsertBatch`; `PrepareInsert`; `PreparedInsert.Statement` |
+| Writer errors | `ErrEmptyBatch`, `ErrBatchTooLarge`, `ErrInvalidBatchLimit`, `ErrTransactionRequired`, `ErrWriterRequired`, plus core envelope errors and `ErrValueOutsideBounds` |
 
-The writer accepts only caller-owned `pgx.Tx`. It never begins, commits, or
+Writer execution accepts only caller-owned `pgx.Tx`; pure preparation grants no
+execution authority. It never begins, commits, or
 rolls back. Default insert batches are 100 and the absolute parameter-derived
 maximum is 6553 envelopes.
 

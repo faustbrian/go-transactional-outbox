@@ -20,6 +20,12 @@ summarizes ownership and side effects that are easy to misuse.
 
 ## PostgreSQL writer
 
+- `Writer.PrepareInsert`: validates the same envelope and schema limits without
+  IO. `PreparedInsert.Statement` returns SQL and independently owned scalar
+  arguments, including JSONB metadata casts, for a restricted transaction owner.
+  Preparation grants no execution or commit authority; the owner must execute
+  through the same transaction as its protected mutation and handle rollback.
+  Zero/nil writers return `ErrWriterRequired`; zero plans have no statement.
 - `NewWriter`: selects a quoted schema/table, envelope limits, and insert batch
   bound, defaulting to `public.outbox_messages`, `DefaultLimits`, and 100.
 - `Insert` and `InsertBatch`: execute through the supplied `pgx.Tx`; batch

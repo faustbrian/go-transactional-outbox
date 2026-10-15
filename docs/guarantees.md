@@ -5,10 +5,15 @@
 
 ## Transaction boundary
 
-`postgres.Writer` accepts only a caller-owned `pgx.Tx`. Atomic persistence is
+`postgres.Writer` execution accepts only a caller-owned `pgx.Tx`. Atomic persistence is
 promised only if the application mutation and every outbox insert execute on
 that exact transaction and its commit succeeds. The writer does not begin,
 commit, roll back, or hide a second transaction.
+
+`Writer.PrepareInsert` performs no IO and returns an immutable statement plan,
+not a transaction or durable result. A restricted owner may execute its SQL and
+scalar arguments instead of exposing a driver handle. The same single-
+transaction and successful-commit requirement still applies.
 
 Any writer error requires the caller to roll back the complete transaction.
 PostgreSQL evidence covers an already-aborted transaction, canceled writer

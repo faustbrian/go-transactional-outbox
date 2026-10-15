@@ -1,5 +1,5 @@
 // Package postgres provides pgx-backed transactional persistence for outbox
-// envelopes. Writer methods only accept pgx.Tx so callers cannot accidentally
+// envelopes. Writer execution methods require pgx.Tx so callers cannot accidentally
 // use a pool or connection and lose application-write atomicity. The caller
 // owns that exact transaction and must commit/rollback it; this package does
 // neither and does not install migrations.
@@ -149,6 +149,10 @@ func validateEnvelopeForSchema(envelope outbox.Envelope) error {
 }
 
 func (w *Writer) insertQuery(envelopes []outbox.Envelope) (string, []any) {
+	return w.buildInsertQuery(envelopes, false)
+}
+
+func (w *Writer) buildInsertQuery(envelopes []outbox.Envelope, typedMetadata bool) (string, []any) {
 	const columns = "(id, topic, payload, payload_version, metadata, ordering_key, " +
 		"idempotency_key, attempts, available_at, created_at)"
 
@@ -187,6 +191,9 @@ func (w *Writer) insertQuery(envelopes []outbox.Envelope) (string, []any) {
 			}
 			query.WriteByte('$')
 			query.WriteString(strconv.Itoa(len(arguments) + 1))
+			if typedMetadata && column == 4 {
+				query.WriteString("::jsonb")
+			}
 			arguments = append(arguments, value)
 		}
 		query.WriteByte(')')

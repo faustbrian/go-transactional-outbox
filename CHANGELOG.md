@@ -23,6 +23,14 @@ publisher contracts are public compatibility surfaces.
 
 ## [Unreleased]
 
+### Added
+
+- Add `postgres.Writer.PrepareInsert` for bounded, validated SQL preparation
+  without driver or transaction authority. Prepared statements own payload
+  storage, return independent scalar arguments and explicitly type JSONB
+  metadata for restricted transaction owners. Existing writer execution and
+  database migrations are unchanged.
+
 ### Changed
 
 - Clarify mutable envelope ownership, claim-attempt counts, lease fencing,
