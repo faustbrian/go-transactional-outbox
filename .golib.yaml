@@ -56,10 +56,10 @@ operations:
   steps:
   - type: go-test
     packages: ["."]
-    run: '^Test(LifecyclePersistenceIntegration|PublicIdentityComposition)$'
+    run: '^Test(IdentityTestPostgresConfig|LifecyclePersistenceIntegration|PublicIdentityComposition)$'
     race: true
     count: 1
-    timeout: 2m
+    timeout: 1m
 - module: postgres/identity
   gate: fuzz
   steps:

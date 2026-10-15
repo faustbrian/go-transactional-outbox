@@ -1022,6 +1022,55 @@
       "kind": "public library",
       "releasable": true,
       "family": "persistence-and-durability",
+      "family_label": "Persistence And Durability",
+      "family_description": "Durable state, delivery, coordination, recovery, and operational lifecycle.",
+      "family_order": 4,
+      "cohesion": {
+        "family": "persistence-and-durability",
+        "secondary_capabilities": ["identity-and-access"],
+        "responsibility": "Stage identity lifecycle events and immutable replay bindings inside the original coordinator-owned PostgreSQL transaction, with read-only participant recovery.",
+        "non_goals": [
+          "Own or commit transactions, issue command receipts, or authorize identity workflows.",
+          "Run a relay, deliver messages, or replace the generic outbox engine."
+        ],
+        "public_package_identifier": "identityoutbox",
+        "primary_entry_packages": ["github.com/faustbrian/go-transactional-outbox/postgres/identity"],
+        "package_selection": {
+          "github.com/faustbrian/go-transactional-outbox/postgres/identity": "Experimental optional native identity lifecycle contributor; generic outbox consumers do not need this module."
+        },
+        "lifecycle_status": "active",
+        "maturity": "experimental",
+        "construction_styles": ["new-config", "plain-function"],
+        "lifecycle_styles": ["stateless"],
+        "ownership": {
+          "configuration": "caller",
+          "mutable_inputs": ["borrow", "copy"],
+          "runtime_resources": "caller",
+          "background_work": "none"
+        },
+        "optional_owned_dependencies": [],
+        "adapters": [],
+        "companions": [],
+        "supported_go": {"minimum": "1.27.0", "tested": ["1.27.2"]},
+        "supported_platforms": ["portable-go"],
+        "supported_backends": ["postgresql"],
+        "supported_protocols": [],
+        "documentation": {
+          "readme": "postgres/identity/README.md",
+          "api": "postgres/identity/README.md",
+          "adoption": "postgres/identity/README.md",
+          "security": "postgres/identity/README.md",
+          "compatibility": "postgres/identity/README.md",
+          "performance": null,
+          "examples": "postgres/identity/README.md",
+          "faq": null,
+          "changelog": "postgres/identity/CHANGELOG.md",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/postgres/identity",
+          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v2.5.1/docs/ecosystem/README.md"
+        },
+        "known_good_compatibility_sets": [],
+        "delivery": {"implementation": "in-progress", "hardening": "in-progress", "release": "in-progress"}
+      },
       "version": "0.1.0",
       "tag_prefix": "postgres/identity/v",
       "owned_dependencies": [
