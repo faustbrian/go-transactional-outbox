@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [main, chore/identity-outbox-ci]
+    branches: [main, chore/identity-outbox-source-ci]
   schedule:
     - cron: '17 3 * * *'
   workflow_dispatch:
