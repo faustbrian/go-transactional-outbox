@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Persist closed invitation/member and OAuth grant/consent lifecycle pairs in
+  the original protected transaction, with distinct deterministic event indices
+  and actual independent aggregate versions. Reuse existing immutable outbox
+  bindings and migrations; any event failure requires complete rollback.
+
 - Preserve pending identifier-removal cascade ID and generation in the
   transactional lifecycle payload. Non-cascade payload bytes and replay
   bindings remain unchanged; publication does not acknowledge consumer cleanup.

@@ -21,6 +21,23 @@ explicit task-owned loopback test DSN is supplied.
 
 ## Adoption and API
 
+Native invitation acceptance additionally requires
+`OrganizationInvitationLifecycleContributor`; `PersistOrganizationInvitation`
+persists primary invitation index0 and the kernel's distinct membership index1.
+Membership versions are the actual retained predecessor/successor, including
+rejoining a removed member, never invitation versions.
+
+OAuth explicit consent approval additionally requires
+`OAuthConsentLifecycleContributor`; `PersistOAuthConsent` persists primary grant
+index0 and independent consent index1. New consent emits `consent.created.v1`;
+repeat approval emits `consent.reconfirmed.v1` with its own retained ID/version.
+The native owner must first record its actual successful mutation in the same
+Work. Both projections require complete successful primary audit/lifecycle.
+An ordinary single-event contributor cannot substitute for either profile.
+Every failure aborts the original transaction; no partial pair may commit.
+These prerequisite methods alone do not prove a complete invitation or OAuth
+consumer. The native end-to-end composition and qualification remain separate.
+
 ```go
 contributor, err := identityoutbox.NewContributor()
 if err != nil {
