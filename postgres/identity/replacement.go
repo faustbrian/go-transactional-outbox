@@ -69,7 +69,12 @@ func replacementEnvelope(r kernel.StagedLifecycle, s kernel.CredentialReplacemen
 }
 
 func resetEnvelope(r kernel.StagedLifecycle, s kernel.CredentialReplacementReceipt) (outbox.Envelope, error) {
-	return credentialEffectEnvelope(r, s, "identity.password.reset-complete", "password.reset.v1")
+	switch r.OperationID {
+	case "identity.password.reset-complete", "identity.phone.password-reset-complete":
+		return credentialEffectEnvelope(r, s, r.OperationID, "password.reset.v1")
+	default:
+		return outbox.Envelope{}, invalid()
+	}
 }
 
 func credentialEffectEnvelope(r kernel.StagedLifecycle, s kernel.CredentialReplacementReceipt, operation, event string) (outbox.Envelope, error) {

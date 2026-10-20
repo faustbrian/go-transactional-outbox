@@ -66,7 +66,11 @@ evidence, secrets or consumer acknowledgement is minted. Existing generic
 lifecycle bytes and schema remain unchanged; no new migration is required.
 
 `PersistCredentialReset(ctx, work)` implements the distinct kernel reset
-contract for `identity.password.reset-complete` / `password.reset.v1`.
+contract for `identity.password.reset-complete` / `password.reset.v1`. Its
+closed formatter also accepts `identity.phone.password-reset-complete` with
+the same event type when staged by a native phone-reset coordinator profile;
+unknown operations remain rejected. This formatter support does not establish
+the complete phone-reset transaction or its consumed kernel source pin.
 It retains the same credential-replacement envelope shape and independent
 successors without accepting password-change events through the reset method
 or reset events through the change method. Native proof/current recovery

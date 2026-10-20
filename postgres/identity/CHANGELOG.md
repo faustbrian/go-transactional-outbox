@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Accept the canonical phone password-reset completion event through the
+  existing credential-reset lifecycle formatter. Preserve email-reset and
+  password-change payload bytes, exact successor checks, immutable outbox
+  bindings and schema. Native phone-reset composition remains a separate
+  consumer requirement; no second writer or transaction is introduced.
+
 - Persist closed invitation/member and OAuth grant/consent lifecycle pairs in
   the original protected transaction, with distinct deterministic event indices
   and actual independent aggregate versions. Reuse existing immutable outbox
