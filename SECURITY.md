@@ -7,8 +7,9 @@ patch release of its latest published major. Until a new major is published,
 the existing published major remains current; preparing v2 on `main` does not
 end v1 support. Older majors require migration to the supported major.
 
-Deprecated adapter names follow the [adapter support interval](docs/adapter-migration.md).
-Path deprecation does not change the supported-major policy. Root and adapter
+The removed `adapters/gokafka` and `adapters/gorabbitstream` modules are the
+exception: their last releases receive security fixes only through the
+[announced interval](docs/adapter-migration.md#support-for-the-removed-modules). Root and adapter
 major versions are independent; publishing root v2 does not end adapter v1
 support while v1 is still an adapter's latest published major.
 

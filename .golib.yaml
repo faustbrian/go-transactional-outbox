@@ -31,7 +31,7 @@ api:
     path: adapters/otel/api/v2-baseline.txt
   - module: adapters/queue
     mode: apidiff
-    path: adapters/queue/api/v2-baseline.txt
+    path: adapters/queue/api/v3-baseline.txt
   - module: adapters/rabbitstream
     mode: apidiff
     path: adapters/rabbitstream/api/v2-baseline.txt

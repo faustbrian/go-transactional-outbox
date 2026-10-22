@@ -9,9 +9,8 @@ certify every current main revision or a deployed application.
 
 ## Module boundaries
 
-Import only the modules needed by your application. A deprecated facade,
-preview adapter, or internal harness is not interchangeable with a stable
-root API; follow its own README and migration guidance before composing it.
+Import only the modules needed by your application. A preview adapter or
+internal harness is not interchangeable with a stable root API; follow its own README and migration guidance before composing it.
 
 | Module | Status | Owner detail |
 | --- | --- | --- |

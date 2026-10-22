@@ -38,6 +38,17 @@ publisher contracts are public compatibility surfaces.
 
 ## [Unreleased]
 
+### Removed
+
+- Remove the deprecated `adapters/gokafka` and `adapters/gorabbitstream`
+  modules and the untagged `postgres/identity` module. Import
+  `adapters/kafka/v2` and `adapters/rabbitstream/v2`; their last releases
+  receive security fixes through the announced interval.
+
+### Changed
+
+- Release the queue adapter as `adapters/queue/v3` on `go-queue/v2`.
+
 ### Added
 
 - Add `postgres.Writer.PrepareInsert` for bounded, validated SQL preparation

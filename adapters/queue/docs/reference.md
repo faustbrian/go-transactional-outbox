@@ -162,8 +162,11 @@ during a rolling migration; the adapter does not add a dual-write mode.
 
 The module follows the repository Go compatibility policy and publishes under
 directory-prefixed semantic-version tags. Public API changes are checked
-against `api/v2-baseline.txt`. The former `api/baseline.txt` remains the
-historical v1 projection.
+against `api/v3-baseline.txt`. The former `api/v2-baseline.txt` and
+`api/baseline.txt` remain the historical v2 and v1 projections.
+
+Moving from v2 to v3 changes the import to `adapters/queue/v3` and requires
+`go-queue/v2`: implement `Queue` with go-queue v2 `core` and `job` types.
 
 ## Security notes
 

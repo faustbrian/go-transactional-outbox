@@ -12,7 +12,7 @@ lifecycle.
 ## Install
 
 ```sh
-go get github.com/faustbrian/go-transactional-outbox/adapters/queue/v3@v2.0.0
+go get github.com/faustbrian/go-transactional-outbox/adapters/queue/v3@v3.0.0
 ```
 
 ## Quick start

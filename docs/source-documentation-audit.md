@@ -3,6 +3,10 @@
 [Documentation map](index.md) · [Repository README](../README.md)
 [Next: API Reference](api.md)
 
+This is a historical audit at the base below. Its `adapters/gokafka`,
+`adapters/gorabbitstream` and `postgres/identity` rows describe modules that
+have since been removed.
+
 ## Pre-edit scope and plan
 
 Base `af8e3c19e1760d2cdb49ce45aea279e0d319b5ab`, detached main-source worktree;

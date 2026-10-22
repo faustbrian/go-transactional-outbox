@@ -23,51 +23,38 @@ database migrations, publisher semantics, and error categories are unchanged
 by this module identity change; no database migration is required solely to
 change imports.
 
-All six adapter v2.0.0 releases are public and consume root v2, including
-the deprecated GoRabbitStream facade. Change each application's root, relay
-and adapter imports
-together. Existing adapter v1 releases still accept only root-v1 types and
-cannot satisfy v2 relay interfaces. A development workspace is not
-public-consumer proof. Deprecated names are retained, not removed by the
-root major upgrade.
+The adapter v2 releases consume root v2. Change each application's root, relay
+and adapter imports together. Existing adapter v1 releases still accept only
+root-v1 types and cannot satisfy v2 relay interfaces. The queue adapter moved to
+`adapters/queue/v3` on `go-queue/v2`; its `Queue` interface takes go-queue v2
+`core` and `job` types.
 
 For integrations in CloudEvents, Event Sourcing, Idempotency, Service,
 Webhook, or library-tools, select a release or maintained composition that
 explicitly consumes root v2. An older v1 integration does not certify root v2
 compatibility merely because this repository has published a new major.
 
-### Target-oriented adapter migration within v1
+### Moving from the removed modules
 
 Change only the module import path. To avoid changing existing selectors,
-alias the preferred import:
+alias the successor import:
 
 ```go
-import gokafka "github.com/faustbrian/go-transactional-outbox/adapters/kafka"
-import gorabbitstream "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream"
+import gokafka "github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2"
+import gorabbitstream "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2"
 ```
 
 Constructors, configuration, mapping, classification, cancellation,
 ownership, concurrency, and at-least-once delivery behavior are preserved.
-The successor modules also preserve the established `outbox/gokafka` and
+The successors keep the established `outbox/gokafka` and
 `outbox/gorabbitstream` diagnostic strings so dashboards and alert routing do
 not change merely because an import path changes.
 
-The RabbitMQ Streams legacy module is a compatibility facade over the
-target-oriented successor. It retains distinct public types and sentinel
-errors so applications may import both paths during migration, while runtime
-mapping and publication delegate to the successor. The Kafka modules remain
-independent implementations with path-specific sentinel and concrete-type
-identities. Migrate each application boundary as one coherent dependency
-change.
+## Support for the removed modules
 
-## Compatibility and release order
-
-The preferred adapter releases are public. The RabbitMQ Streams compatibility
-facade depends on the public successor release and the canonical
-`go-rabbitmq-streams/adapters/rabbitmq` transport adapter. Release it only after
-those dependencies resolve through the public proxy and checksum database.
-
-Legacy modules remain supported for the longer of 180 days and two stable
-minor releases. Removal requires an explicitly authorized future major and evidence that
-owned consumers and a clean public-consumer search no longer depend on the
-legacy paths.
+The removed `adapters/gokafka/v2` and `adapters/gorabbitstream/v2` modules
+remain available at their last published releases. They receive security fixes
+only through the interval their deprecation notices announced: the longer of
+180 days after the successors were published and two later stable minor
+releases. Migrate to the successors; no new features ship for the removed
+paths.

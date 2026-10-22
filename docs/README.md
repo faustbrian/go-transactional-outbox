@@ -20,7 +20,7 @@
 - [RabbitMQ Streams adapter](../adapters/rabbitstream/docs/README.md)
 - [OpenTelemetry adapter](../adapters/otel/docs/README.md)
 - [Queue adapter](../adapters/queue/docs/README.md)
-- [Adapter migration](adapter-migration.md), including deprecated path support
+- [Adapter migration](adapter-migration.md), including the removed adapter modules
 
 Read the guarantees and crash matrix before adopting the package. Operational
 guides do not turn at-least-once delivery into exactly-once delivery.
