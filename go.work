@@ -2,11 +2,8 @@ go 1.27.3
 
 use (
 	.
-	./adapters/gokafka
-	./adapters/gorabbitstream
 	./adapters/kafka
 	./adapters/otel
 	./adapters/queue
 	./adapters/rabbitstream
-	./postgres/identity
 )

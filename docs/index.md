@@ -16,8 +16,6 @@ root API; follow its own README and migration guidance before composing it.
 | Module | Status | Owner detail |
 | --- | --- | --- |
 | `github.com/faustbrian/go-transactional-outbox/v2` | stable | [README](../README.md) |
-| `github.com/faustbrian/go-transactional-outbox/adapters/gokafka/v2` | deprecated | [README](../adapters/gokafka/README.md) |
-| `github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream/v2` | deprecated | [README](../adapters/gorabbitstream/README.md) |
 | `github.com/faustbrian/go-transactional-outbox/adapters/otel/v2` | stable | [README](../adapters/otel/README.md) |
 | `github.com/faustbrian/go-transactional-outbox/adapters/queue/v2` | stable | [README](../adapters/queue/README.md) |
 | `github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2` | preview | [README](../adapters/kafka/README.md) |
@@ -47,10 +45,6 @@ root API; follow its own README and migration guidance before composing it.
 
 ## Owned adapters, examples, and harnesses
 
-- [Outbox Kafka adapter](../adapters/gokafka/README.md).
-- [Documentation](../adapters/gokafka/docs/README.md).
-- [Outbox RabbitMQ Streams adapter](../adapters/gorabbitstream/README.md).
-- [Documentation](../adapters/gorabbitstream/docs/README.md).
 - [Outbox Kafka adapter](../adapters/kafka/README.md).
 - [Documentation](../adapters/kafka/docs/README.md).
 - [Outbox OpenTelemetry adapter](../adapters/otel/README.md).

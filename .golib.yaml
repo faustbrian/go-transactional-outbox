@@ -12,12 +12,6 @@ mutation:
   - module: "."
     archive: ".verification/mutation/bootstrap/root.zip"
     ledger: ".verification/mutation/migration-ledger.json"
-  - module: adapters/gokafka
-    archive: ".verification/mutation/bootstrap/adapters-gokafka.zip"
-    ledger: ".verification/mutation/migration-ledger.json"
-  - module: adapters/gorabbitstream
-    archive: ".verification/mutation/bootstrap/adapters-gorabbitstream.zip"
-    ledger: ".verification/mutation/migration-ledger.json"
   - module: adapters/otel
     archive: ".verification/mutation/bootstrap/adapters-otel.zip"
     ledger: ".verification/mutation/migration-ledger.json"
@@ -26,18 +20,9 @@ mutation:
     ledger: ".verification/mutation/migration-ledger.json"
 api:
   baselines:
-  - module: postgres/identity
-    mode: apidiff
-    path: postgres/identity/api/baseline.txt
   - module: "."
     mode: apidiff
     path: api/v2-baseline.txt
-  - module: adapters/gokafka
-    mode: apidiff
-    path: adapters/gokafka/api/v2-baseline.txt
-  - module: adapters/gorabbitstream
-    mode: apidiff
-    path: adapters/gorabbitstream/api/v2-baseline.txt
   - module: adapters/kafka
     mode: apidiff
     path: adapters/kafka/api/v2-baseline.txt
@@ -51,31 +36,6 @@ api:
     mode: apidiff
     path: adapters/rabbitstream/api/v2-baseline.txt
 operations:
-- module: postgres/identity
-  gate: local-test
-  steps:
-  - type: go-test
-    packages: ["."]
-    run: '^Test(IdentityTestPostgresConfig|LifecyclePersistenceIntegration|PublicIdentityComposition)$'
-    race: true
-    count: 1
-    timeout: 1m
-- module: postgres/identity
-  gate: fuzz
-  steps:
-  - type: go-test
-    packages: ["."]
-    fuzz: '^FuzzLifecycleCommandAdmission$'
-    budget: 10000x
-    timeout: 2m
-- module: postgres/identity
-  gate: benchmark
-  steps:
-  - type: go-test
-    packages: ["."]
-    benchmark: '^BenchmarkLifecycleEnvelope$'
-    budget: 100ms
-    timeout: 2m
 - module: "."
   gate: local-test
   steps:
@@ -121,24 +81,6 @@ operations:
     benchmark: "."
     budget: 100ms
     timeout: 20m
-- module: adapters/gokafka
-  gate: fuzz
-  steps:
-  - type: go-test
-    packages:
-    - "."
-    fuzz: '^FuzzPublisherEnvelopeMapping$'
-    budget: 100x
-    timeout: 5m
-- module: adapters/gokafka
-  gate: benchmark
-  steps:
-  - type: go-test
-    packages:
-    - "./..."
-    benchmark: "."
-    budget: 100ms
-    timeout: 20m
 - module: adapters/kafka
   gate: fuzz
   steps:
@@ -149,24 +91,6 @@ operations:
     budget: 100x
     timeout: 5m
 - module: adapters/kafka
-  gate: benchmark
-  steps:
-  - type: go-test
-    packages:
-    - "./..."
-    benchmark: "."
-    budget: 100ms
-    timeout: 20m
-- module: adapters/gorabbitstream
-  gate: fuzz
-  steps:
-  - type: go-test
-    packages:
-    - "."
-    fuzz: '^FuzzPublisherEnvelopeOwnershipAndFailureClassification$'
-    budget: 100x
-    timeout: 2m
-- module: adapters/gorabbitstream
   gate: benchmark
   steps:
   - type: go-test

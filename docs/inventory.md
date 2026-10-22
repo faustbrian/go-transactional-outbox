@@ -85,8 +85,6 @@ zero time and never changes a relay transition.
 | `adapters/rabbitstream` | `Client`; `Config`; `Publisher`; `New`; `Publish`; `ClassifyError`; bounded validation and confirmation sentinels |
 | `adapters/queue` | `Queue`; `Publisher`; `New`; `Publish`; `ErrQueueRequired` |
 | `adapters/otel` | `Runtime`; `Publisher`; `Telemetry`; `New`; `Inject`; `Observe`; `RecordBacklog`; `WrapPublisher`; `ErrRuntimeRequired`; `ErrPublisherRequired` |
-| `adapters/gokafka` | Deprecated compatibility copy of the Kafka surface; identities remain path-specific |
-| `adapters/gorabbitstream` | Deprecated compatibility copy of the RabbitMQ Streams surface; identities remain path-specific |
 
 Telemetry instruments `outbox.operations`, `outbox.operation.duration`,
 `outbox.backlog.depth`, and `outbox.backlog.oldest_pending_age`. Metric

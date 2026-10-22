@@ -15,30 +15,6 @@
       "build_tags": []
     },
     {
-      "module_directory": "adapters/gokafka",
-      "directory": ".",
-      "name": "gokafka",
-      "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/gokafka/v2",
-      "kind": "public",
-      "production": true,
-      "executable": true,
-      "coverage_required": true,
-      "build_required": true,
-      "build_tags": []
-    },
-    {
-      "module_directory": "adapters/gorabbitstream",
-      "directory": ".",
-      "name": "gorabbitstream",
-      "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream/v2",
-      "kind": "public",
-      "production": true,
-      "executable": true,
-      "coverage_required": true,
-      "build_required": true,
-      "build_tags": []
-    },
-    {
       "module_directory": "adapters/otel",
       "directory": ".",
       "name": "outboxotel",
@@ -103,18 +79,6 @@
       "directory": ".",
       "name": "outboxrabbitstream",
       "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2",
-      "kind": "public",
-      "production": true,
-      "executable": true,
-      "coverage_required": true,
-      "build_required": true,
-      "build_tags": []
-    },
-    {
-      "module_directory": "postgres/identity",
-      "directory": ".",
-      "name": "identityoutbox",
-      "import_path": "github.com/faustbrian/go-transactional-outbox/postgres/identity",
       "kind": "public",
       "production": true,
       "executable": true,

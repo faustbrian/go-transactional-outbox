@@ -16,7 +16,6 @@
 
 ## Optional modules
 
-- [Identity lifecycle contributor](../postgres/identity/README.md) (experimental)
 - [Kafka adapter](../adapters/kafka/docs/README.md)
 - [RabbitMQ Streams adapter](../adapters/rabbitstream/docs/README.md)
 - [OpenTelemetry adapter](../adapters/otel/docs/README.md)

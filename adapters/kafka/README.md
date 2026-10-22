@@ -63,7 +63,7 @@ additional guarantees beyond the documented module boundary.
 
 This release-candidate module requires Go 1.27.0 and will follow Semantic
 Versioning after publication. It is
-the target-oriented successor to `adapters/gokafka`. Existing callers can
+the target-oriented successor to the removed `adapters/gokafka`. Callers can
 change only the import path and either use the default `outboxkafka` qualifier
 or preserve the old qualifier with an explicit import alias. The modules are
 independent copies: exported sentinels and concrete/reflection identities do

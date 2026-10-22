@@ -50,8 +50,6 @@ transactions or exactly-once delivery.
 - `github.com/faustbrian/go-transactional-outbox/v2/postgres`: migrations, transactional writer,
   claims, leases, retries, dead letters, replay, and retention.
 - `github.com/faustbrian/go-transactional-outbox/v2/relay`: bounded embedded relay.
-- [Identity lifecycle contributor](postgres/identity/README.md): experimental,
-  independently versioned module; not part of the root-v2 dependency graph.
 - `github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2`: preferred,
   separately versioned Kafka publisher adapter.
 - `github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2`: preferred,
@@ -61,9 +59,10 @@ transactions or exactly-once delivery.
 - `github.com/faustbrian/go-transactional-outbox/adapters/otel/v2`: separately versioned
   metrics and trace-linkage integration compatible with `telemetry`.
 
-All six adapter v2.0.0 releases are public and accept root-v2 contracts,
-including deprecated `adapters/gokafka/v2` and the deprecated
-`adapters/gorabbitstream/v2` facade. Existing v1 releases remain separate
+The adapter v2 releases accept root-v2 contracts. The former
+`adapters/gokafka/v2` and `adapters/gorabbitstream/v2` compatibility modules
+are no longer maintained; use `adapters/kafka/v2` and `adapters/rabbitstream/v2`.
+Existing v1 releases remain separate
 and cannot accept root-v2 envelopes. See the
 [adapter migration guide](docs/adapter-migration.md).
 

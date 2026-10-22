@@ -3,11 +3,11 @@
 [Documentation map](index.md) · [Repository README](../README.md)
 [Next: Quickstart](quickstart.md)
 
-The Kafka and RabbitMQ Streams adapters now use target-oriented module paths.
-The published legacy modules remain available during a compatibility interval;
-new adoption should use the successors.
+The Kafka and RabbitMQ Streams adapters use target-oriented module paths. The
+former legacy modules are no longer maintained and their sources are removed
+from this repository; migrate to the successors.
 
-| Target | Preferred module | Default package | Deprecated module | Legacy package |
+| Target | Module | Default package | Removed module | Legacy package |
 |---|---|---|---|---|
 | Kafka | `github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2` | `outboxkafka` | `github.com/faustbrian/go-transactional-outbox/adapters/gokafka/v2` | `gokafka` |
 | RabbitMQ Streams | `github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2` | `outboxrabbitstream` | `github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream/v2` | `gorabbitstream` |

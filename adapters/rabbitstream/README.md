@@ -164,8 +164,8 @@ Shared adapter, ownership, and lifecycle expectations are in the versioned
 [Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.8.4/docs/ecosystem/README.md)
 and its [Persistence and durability family](https://github.com/faustbrian/go-library-tools/blob/v1.8.4/docs/ecosystem/design-language.md#package-families-and-selection).
 
-This module is the target-oriented successor to `adapters/gorabbitstream`.
-Existing callers can change only the import path and either use the default
+This module is the target-oriented successor to the removed
+`adapters/gorabbitstream`. Callers can change only the import path and either use the default
 `outboxrabbitstream` qualifier or preserve the old qualifier with an explicit
 import alias. The modules are independent copies: exported sentinels and
 concrete/reflection identities do not compare equal across the two paths. See
