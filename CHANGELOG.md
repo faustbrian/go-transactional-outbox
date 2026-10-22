@@ -6,6 +6,19 @@ format follows Keep a Changelog, and releases follow Semantic Versioning.
 Schema, envelope encoding, delivery semantics, exported errors, metrics, and
 publisher contracts are public compatibility surfaces.
 
+## 2.1.0 - 2026-10-22
+
+### Changed
+
+- Publish the current source and documentation with a fresh immutable tag.
+- Publish independently versioned modules from the same source snapshot:
+  - `adapters/gokafka/v2.1.0`.
+  - `adapters/gorabbitstream/v2.1.0`.
+  - `adapters/otel/v2.1.0`.
+  - `adapters/queue/v2.1.0`.
+  - `adapters/kafka/v2.1.0`.
+  - `adapters/rabbitstream/v2.1.0`.
+
 ## [2.0.1] - 2026-10-09
 
 ### Changed
