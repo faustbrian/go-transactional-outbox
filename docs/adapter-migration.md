@@ -37,7 +37,9 @@ compatibility merely because this repository has published a new major.
 
 ### Moving from the removed modules
 
-Change only the module import path. To avoid changing existing selectors,
+Change the module import path. The Kafka successor is `adapters/kafka/v3`,
+which takes `go-kafka/v2` types, so move go-kafka to `/v2` in the same change
+(see the go-kafka migration guide). To avoid changing existing selectors,
 alias the successor import:
 
 ```go

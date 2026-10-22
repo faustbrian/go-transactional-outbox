@@ -60,10 +60,10 @@ additional guarantees beyond the documented module boundary.
 
 ## Compatibility and support
 
-This release-candidate module requires Go 1.27.0 and will follow Semantic
-Versioning after publication. It is
-the target-oriented successor to the removed `adapters/gokafka`. Callers can
-change only the import path and either use the default `outboxkafka` qualifier
+This module requires Go 1.27.0 and follows Semantic Versioning. It is the
+target-oriented successor to the removed `adapters/gokafka`. Callers change the
+import path, move go-kafka to `/v2` (the v3 `Client` and `Limits` take go-kafka
+v2 types), and either use the default `outboxkafka` qualifier
 or preserve the old qualifier with an explicit import alias. The modules are
 independent copies: exported sentinels and concrete/reflection identities do
 not compare equal across the two paths. See the
