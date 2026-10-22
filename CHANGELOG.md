@@ -11,6 +11,8 @@ publisher contracts are public compatibility surfaces.
 ### Changed
 
 - Publish the current source and documentation with a fresh immutable tag.
+- Build with Go 1.27.3 to address GO-2026-6809 in `crypto/x509`.
+  Consumers should use Go 1.27.3 or newer.
 - Publish independently versioned modules from the same source snapshot:
   - `adapters/gokafka/v2.1.0`.
   - `adapters/gorabbitstream/v2.1.0`.
