@@ -10,8 +10,7 @@ It owns no worker, retry loop, transaction, topic, or producer lifecycle.
 
 ## Install
 
-The v1 successor is public. The v2 cohort is being prepared; after
-`adapters/kafka/v2.0.0` is published, install the exact version:
+Install the v3 module, built on `go-kafka/v2`:
 
 ```sh
 go get github.com/faustbrian/go-transactional-outbox/adapters/kafka/v3@v3.0.0

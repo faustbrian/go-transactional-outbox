@@ -61,7 +61,7 @@ transactions or exactly-once delivery.
 
 The adapter v2 releases accept root-v2 contracts. The former
 `adapters/gokafka/v2` and `adapters/gorabbitstream/v2` compatibility modules
-are no longer maintained; use `adapters/kafka/v2` and `adapters/rabbitstream/v2`.
+are no longer maintained; use `adapters/kafka/v3` and `adapters/rabbitstream/v2`.
 Existing v1 releases remain separate
 and cannot accept root-v2 envelopes. See the
 [adapter migration guide](docs/adapter-migration.md).
