@@ -30,7 +30,7 @@
       "module_directory": "adapters/queue",
       "directory": ".",
       "name": "outboxqueue",
-      "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/queue/v2",
+      "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/queue/v3",
       "kind": "public",
       "production": true,
       "executable": true,

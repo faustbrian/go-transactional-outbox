@@ -54,7 +54,7 @@ transactions or exactly-once delivery.
   separately versioned Kafka publisher adapter.
 - `github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2`: preferred,
   separately versioned RabbitMQ Streams publisher adapter.
-- `github.com/faustbrian/go-transactional-outbox/adapters/queue/v2`: separately versioned
+- `github.com/faustbrian/go-transactional-outbox/adapters/queue/v3`: separately versioned
   `queue` publisher adapter; importing core does not add `queue`.
 - `github.com/faustbrian/go-transactional-outbox/adapters/otel/v2`: separately versioned
   metrics and trace-linkage integration compatible with `telemetry`.

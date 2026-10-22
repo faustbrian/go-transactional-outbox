@@ -15,10 +15,10 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	firstpartyqueue "github.com/faustbrian/go-queue"
-	"github.com/faustbrian/go-queue/core"
-	"github.com/faustbrian/go-queue/job"
-	"github.com/faustbrian/go-queue/management"
+	firstpartyqueue "github.com/faustbrian/go-queue/v2"
+	"github.com/faustbrian/go-queue/v2/core"
+	"github.com/faustbrian/go-queue/v2/job"
+	"github.com/faustbrian/go-queue/v2/management"
 	"github.com/faustbrian/go-transactional-outbox/v2"
 	"github.com/faustbrian/go-transactional-outbox/v2/relay"
 )

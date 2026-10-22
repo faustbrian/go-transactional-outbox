@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/faustbrian/go-transactional-outbox/adapters/queue/v2"
+	"github.com/faustbrian/go-transactional-outbox/adapters/queue/v3"
 	"github.com/faustbrian/go-transactional-outbox/v2"
 )
 

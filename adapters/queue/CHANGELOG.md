@@ -2,6 +2,15 @@
 
 All notable changes to this module are documented here.
 
+## [3.0.0] - 2026-10-22
+
+### Changed
+
+- Move to `github.com/faustbrian/go-transactional-outbox/adapters/queue/v3`
+  and build on `github.com/faustbrian/go-queue/v2`. The `Queue` interface now
+  takes go-queue v2 `core` and `job` types; envelope encoding, task identity
+  and publish outcome classification are unchanged.
+
 ## [2.0.1] - 2026-10-09
 
 ### Changed

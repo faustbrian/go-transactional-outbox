@@ -17,7 +17,7 @@ root API; follow its own README and migration guidance before composing it.
 | --- | --- | --- |
 | `github.com/faustbrian/go-transactional-outbox/v2` | stable | [README](../README.md) |
 | `github.com/faustbrian/go-transactional-outbox/adapters/otel/v2` | stable | [README](../adapters/otel/README.md) |
-| `github.com/faustbrian/go-transactional-outbox/adapters/queue/v2` | stable | [README](../adapters/queue/README.md) |
+| `github.com/faustbrian/go-transactional-outbox/adapters/queue/v3` | stable | [README](../adapters/queue/README.md) |
 | `github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2` | preview | [README](../adapters/kafka/README.md) |
 | `github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2` | stable | [README](../adapters/rabbitstream/README.md) |
 

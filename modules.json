@@ -304,14 +304,14 @@
     },
     {
       "directory": "adapters/queue",
-      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/queue/v2",
+      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/queue/v3",
       "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": "adapters/queue",
           "directory": ".",
           "name": "outboxqueue",
-          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/queue/v2",
+          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/queue/v3",
           "kind": "public",
           "production": true,
           "executable": true,
@@ -341,7 +341,7 @@
         ],
         "public_package_identifier": "outboxqueue",
         "primary_entry_packages": [
-          "github.com/faustbrian/go-transactional-outbox/adapters/queue/v2"
+          "github.com/faustbrian/go-transactional-outbox/adapters/queue/v3"
         ],
         "package_selection": {},
         "lifecycle_status": "active",
@@ -388,7 +388,7 @@
           "examples": "adapters/queue/example_test.go",
           "faq": "adapters/queue/docs/reference.md",
           "changelog": "adapters/queue/CHANGELOG.md",
-          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/queue/v2",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/queue/v3",
           "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.8.4/docs/ecosystem/README.md"
         },
         "known_good_compatibility_sets": [],
@@ -398,11 +398,11 @@
           "release": "not-started"
         }
       },
-      "version": "2.1.0",
+      "version": "3.0.0",
       "tag_prefix": "adapters/queue/v",
       "owned_dependencies": [
-        "github.com/faustbrian/go-transactional-outbox/v2",
-        "github.com/faustbrian/go-queue"
+        "github.com/faustbrian/go-queue/v2",
+        "github.com/faustbrian/go-transactional-outbox/v2"
       ],
       "reverse_owned_dependencies": [],
       "external_runtime_dependencies": [
