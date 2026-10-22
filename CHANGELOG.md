@@ -48,6 +48,7 @@ publisher contracts are public compatibility surfaces.
 ### Changed
 
 - Release the queue adapter as `adapters/queue/v3` on `go-queue/v2`.
+- Release the Kafka adapter as `adapters/kafka/v3` on `go-kafka/v2`.
 
 ### Added
 

@@ -50,7 +50,7 @@ transactions or exactly-once delivery.
 - `github.com/faustbrian/go-transactional-outbox/v2/postgres`: migrations, transactional writer,
   claims, leases, retries, dead letters, replay, and retention.
 - `github.com/faustbrian/go-transactional-outbox/v2/relay`: bounded embedded relay.
-- `github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2`: preferred,
+- `github.com/faustbrian/go-transactional-outbox/adapters/kafka/v3`: preferred,
   separately versioned Kafka publisher adapter.
 - `github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2`: preferred,
   separately versioned RabbitMQ Streams publisher adapter.

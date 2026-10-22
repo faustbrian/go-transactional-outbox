@@ -9,7 +9,7 @@ from this repository; migrate to the successors.
 
 | Target | Module | Default package | Removed module | Legacy package |
 |---|---|---|---|---|
-| Kafka | `github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2` | `outboxkafka` | `github.com/faustbrian/go-transactional-outbox/adapters/gokafka/v2` | `gokafka` |
+| Kafka | `github.com/faustbrian/go-transactional-outbox/adapters/kafka/v3` | `outboxkafka` | `github.com/faustbrian/go-transactional-outbox/adapters/gokafka/v2` | `gokafka` |
 | RabbitMQ Streams | `github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2` | `outboxrabbitstream` | `github.com/faustbrian/go-transactional-outbox/adapters/gorabbitstream/v2` | `gorabbitstream` |
 
 ## Source migration
@@ -27,7 +27,8 @@ The adapter v2 releases consume root v2. Change each application's root, relay
 and adapter imports together. Existing adapter v1 releases still accept only
 root-v1 types and cannot satisfy v2 relay interfaces. The queue adapter moved to
 `adapters/queue/v3` on `go-queue/v2`; its `Queue` interface takes go-queue v2
-`core` and `job` types.
+`core` and `job` types. The Kafka adapter moved to `adapters/kafka/v3`
+on `go-kafka/v2`; its `Client` and `Limits` take go-kafka v2 types.
 
 For integrations in CloudEvents, Event Sourcing, Idempotency, Service,
 Webhook, or library-tools, select a release or maintained composition that
@@ -40,7 +41,7 @@ Change only the module import path. To avoid changing existing selectors,
 alias the successor import:
 
 ```go
-import gokafka "github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2"
+import gokafka "github.com/faustbrian/go-transactional-outbox/adapters/kafka/v3"
 import gorabbitstream "github.com/faustbrian/go-transactional-outbox/adapters/rabbitstream/v2"
 ```
 

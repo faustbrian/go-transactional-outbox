@@ -25,7 +25,7 @@ api:
     path: api/v2-baseline.txt
   - module: adapters/kafka
     mode: apidiff
-    path: adapters/kafka/api/v2-baseline.txt
+    path: adapters/kafka/api/v3-baseline.txt
   - module: adapters/otel
     mode: apidiff
     path: adapters/otel/api/v2-baseline.txt

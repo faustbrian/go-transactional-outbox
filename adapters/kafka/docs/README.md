@@ -10,7 +10,7 @@
 
 ## API reference
 
-- [Go package documentation](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2)
+- [Go package documentation](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/kafka/v3)
 
 ## Security and compatibility
 

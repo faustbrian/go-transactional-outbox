@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2"
+	"github.com/faustbrian/go-transactional-outbox/adapters/kafka/v3"
 	"github.com/faustbrian/go-transactional-outbox/v2"
 )
 

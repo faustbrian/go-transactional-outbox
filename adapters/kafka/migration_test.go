@@ -3,8 +3,8 @@ package outboxkafka_test
 import (
 	"context"
 
-	kafkacontract "github.com/faustbrian/go-kafka"
-	gokafka "github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2"
+	kafkacontract "github.com/faustbrian/go-kafka/v2"
+	gokafka "github.com/faustbrian/go-transactional-outbox/adapters/kafka/v3"
 	"github.com/faustbrian/go-transactional-outbox/v2"
 )
 

@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/faustbrian/go-kafka"
+	"github.com/faustbrian/go-kafka/v2"
 	"github.com/faustbrian/go-transactional-outbox/v2"
 	"github.com/faustbrian/go-transactional-outbox/v2/relay"
 )

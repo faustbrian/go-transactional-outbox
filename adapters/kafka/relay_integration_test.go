@@ -13,8 +13,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/faustbrian/go-kafka"
-	"github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2"
+	"github.com/faustbrian/go-kafka/v2"
+	"github.com/faustbrian/go-transactional-outbox/adapters/kafka/v3"
 	"github.com/faustbrian/go-transactional-outbox/v2"
 	outboxpostgres "github.com/faustbrian/go-transactional-outbox/v2/postgres"
 	outboxrelay "github.com/faustbrian/go-transactional-outbox/v2/relay"

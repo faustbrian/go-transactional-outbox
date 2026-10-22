@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	kafkacontract "github.com/faustbrian/go-kafka"
+	kafkacontract "github.com/faustbrian/go-kafka/v2"
 	"github.com/faustbrian/go-transactional-outbox/v2"
 	"github.com/faustbrian/go-transactional-outbox/v2/relay"
 )

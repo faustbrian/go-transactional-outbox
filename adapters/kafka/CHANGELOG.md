@@ -2,6 +2,15 @@
 
 All notable changes to this module are documented here.
 
+## [3.0.0] - 2026-10-22
+
+### Changed
+
+- Move to `github.com/faustbrian/go-transactional-outbox/adapters/kafka/v3`
+  and build on `github.com/faustbrian/go-kafka/v2`. `Client` and `Limits` now
+  use go-kafka v2 types; message mapping, headers, error classification and
+  the `outbox/gokafka:` diagnostic prefix are unchanged.
+
 ## [2.0.1] - 2026-10-09
 
 ### Changed

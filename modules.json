@@ -440,14 +440,14 @@
     },
     {
       "directory": "adapters/kafka",
-      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2",
+      "module_path": "github.com/faustbrian/go-transactional-outbox/adapters/kafka/v3",
       "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": "adapters/kafka",
           "directory": ".",
           "name": "outboxkafka",
-          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2",
+          "import_path": "github.com/faustbrian/go-transactional-outbox/adapters/kafka/v3",
           "kind": "public",
           "production": true,
           "executable": true,
@@ -477,7 +477,7 @@
         ],
         "public_package_identifier": "outboxkafka",
         "primary_entry_packages": [
-          "github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2"
+          "github.com/faustbrian/go-transactional-outbox/adapters/kafka/v3"
         ],
         "package_selection": {},
         "lifecycle_status": "active",
@@ -525,7 +525,7 @@
           "examples": "adapters/kafka/example_test.go",
           "faq": "adapters/kafka/docs/reference.md",
           "changelog": "adapters/kafka/CHANGELOG.md",
-          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/kafka/v3",
           "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.8.4/docs/ecosystem/README.md"
         },
         "known_good_compatibility_sets": [],
@@ -535,10 +535,10 @@
           "release": "in-progress"
         }
       },
-      "version": "2.1.0",
+      "version": "3.0.0",
       "tag_prefix": "adapters/kafka/v",
       "owned_dependencies": [
-        "github.com/faustbrian/go-kafka",
+        "github.com/faustbrian/go-kafka/v2",
         "github.com/faustbrian/go-transactional-outbox/v2"
       ],
       "reverse_owned_dependencies": [],

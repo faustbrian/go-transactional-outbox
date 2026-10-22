@@ -14,7 +14,7 @@ The v1 successor is public. The v2 cohort is being prepared; after
 `adapters/kafka/v2.0.0` is published, install the exact version:
 
 ```sh
-go get github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2@v2.0.0
+go get github.com/faustbrian/go-transactional-outbox/adapters/kafka/v3@v3.0.0
 ```
 
 ## Quick start
@@ -52,7 +52,7 @@ additional guarantees beyond the documented module boundary.
 
 - [Documentation index](docs/README.md)
 - [Complete technical guide](docs/reference.md)
-- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/kafka/v2)
+- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-transactional-outbox/adapters/kafka/v3)
 - [Compiled example](example_test.go)
 - [Troubleshooting](../../docs/troubleshooting.md)
 - [Parent package documentation](../../docs/README.md)
