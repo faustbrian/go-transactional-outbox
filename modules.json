@@ -775,9 +775,7 @@
         },
         "optional_owned_dependencies": [],
         "adapters": [],
-        "companions": [
-          "github.com/faustbrian/go-identity/postgres"
-        ],
+        "companions": [],
         "supported_go": {
           "minimum": "1.27.0",
           "tested": [
