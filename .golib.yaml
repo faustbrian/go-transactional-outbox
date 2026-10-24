@@ -35,6 +35,9 @@ api:
   - module: adapters/rabbitstream
     mode: apidiff
     path: adapters/rabbitstream/api/v2-baseline.txt
+  - module: postgres/identity
+    mode: apidiff
+    path: postgres/identity/api/baseline.txt
 operations:
 - module: "."
   gate: local-test
