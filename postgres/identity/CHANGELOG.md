@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Persist an explicitly staged original passkey-signup session lifecycle with
+  account and credential creation in the same transaction. The distinct typed
+  phase requires session staging and retains immutable event bindings; the
+  existing two-event phase and migration bytes remain unchanged. Adopt the
+  matching public kernel session-staging contract before composition.
+
 - Persist canonical passkey-credential and distinct account-creation lifecycle
   events in the original signup transaction using retained command/index/digest
   bindings. Adopt the public kernel passkey-registration contract and current

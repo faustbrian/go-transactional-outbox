@@ -73,6 +73,15 @@ authority and performs no WebAuthn validation. The native signup owner must
 compose those actual owners before committing. Existing lifecycle APIs, payload
 profiles and migration bytes remain unchanged; no adapter migration is added.
 
+`PersistPasskeySignupSession(ctx, work)` is the distinct three-event phase when
+the real session owner explicitly stages an original signup session. It persists
+the credential, account and `session.created.v1` lifecycles using the same Work
+and existing immutable bindings. Missing session staging denies rather than
+falling back to two events. The unchanged `PersistPasskeyRegistration` phase
+continues to write only credential and account events. The session event contains
+only the original session ID and lifecycle metadata, not bearer or CSRF material;
+staging and outbox persistence do not themselves prove actual session issuance.
+
 The same instance implements `RecoveryContributor`. Only the Coordinator calls
 `RecoverParticipant(ctx, recoveryWork)`, with the frozen lifecycle declaration
 and an invocation-bound primary read capability. One bounded indexed lookup
@@ -162,8 +171,8 @@ delivery state may change without changing the original replay binding.
 Instances are immutable and safe for independent Work invocations concurrently;
 each Work itself is serial-use and must not be retained. Execution is bounded
 by the earlier caller/Work deadline. Each event prepares one bounded envelope
-and uses at most four database statements; paired signup phases process exactly
-two events in order, with no unbounded loops.
+and uses at most four database statements; selected signup phases process exactly
+two or three events in order, with no unbounded loops.
 It delegates insert validation, SQL and schema ownership to root
 `Writer.PrepareInsert`. Default schema/table only; custom schemas are not
 silently approximated. Payloads are safe projections but IDs may still be
@@ -184,7 +193,8 @@ The [public composition test](composition_integration_test.go) checks actual
 success/failure audit payloads and lifecycle metadata, not only binding counts.
 The [passkey composition test](passkey_integration_test.go) uses the real
 coordinator, kernel creation domain, audit and outbox contributors to prove
-paired canonical events, primary/secondary SQL failure atomicity, late rejection,
+paired canonical events and explicitly selected third session events, immutable
+digests, SQL failure atomicity at every event, rollback after all three writes,
 original retry and metadata recovery. Its synthetic native participant is an
 explicit seam, not proof of real WebAuthn signup, MFA or session issuance.
 
