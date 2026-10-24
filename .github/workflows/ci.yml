@@ -3,7 +3,9 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [main]
+    # Rulesets do not accept workflow_dispatch checks. This pre-main carrier
+    # runs the identical required gates before an ordinary protected-main push.
+    branches: [main, chore/identity-passkey-signup-ci]
   schedule:
     - cron: '17 3 * * *'
   workflow_dispatch:
