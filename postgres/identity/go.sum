@@ -57,8 +57,6 @@ github.com/faustbrian/go-identifier v1.0.0 h1:5lXZbS2wK4NelWv4ekRocwOwjkWt1ch/nh
 github.com/faustbrian/go-identifier v1.0.0/go.mod h1:Q2yS7Hk4N4i9Wd3OmPQGh657SHtA1IjvtT4PllphNlY=
 github.com/faustbrian/go-identity v0.0.0-20261021021214-46ae60703809 h1:JuPdLhQODjreTV/MF2JR1W6ApR6HTrHz9aub9F0rOuI=
 github.com/faustbrian/go-identity v0.0.0-20261021021214-46ae60703809/go.mod h1:CaT22sYyoJNiv7Dk9qMNHsDon97tytbbpjMq7/2ztcM=
-github.com/faustbrian/go-identity/postgres v0.0.0-20261024010057-b3bfb734f205 h1:4dpV3DLJ58b0eK6HivbqjzRZNSdCUO65P1HM33NLGN0=
-github.com/faustbrian/go-identity/postgres v0.0.0-20261024010057-b3bfb734f205/go.mod h1:m//LlYNUNgr+jJP2YDW0FQPdX8TOJkAsLTCIUYRtE60=
 github.com/faustbrian/go-identity/postgres v0.0.0-20261025193805-9ccf9a606602 h1:StXq1Y3WoBNWiTUvuBoYzdzqVxPglNLvk4Z0xCCu6+8=
 github.com/faustbrian/go-identity/postgres v0.0.0-20261025193805-9ccf9a606602/go.mod h1:m//LlYNUNgr+jJP2YDW0FQPdX8TOJkAsLTCIUYRtE60=
 github.com/faustbrian/go-jsonrpc v1.1.1 h1:vxUzoj5o2CvlXtQDRKbyb8aP9FXvE+j937jEWMARORc=
