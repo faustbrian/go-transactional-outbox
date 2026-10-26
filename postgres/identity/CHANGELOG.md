@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Persist paired invitation/membership and OAuth grant/consent lifecycle events
+  through the original protected transaction. Preserve both event indices and
+  immutable replay bindings alongside the existing passkey/account/session
+  phases; unstaged secondary events fail closed. No migration is added.
+
 - Persist an explicitly staged original passkey-signup session lifecycle with
   account and credential creation in the same transaction. The distinct typed
   phase requires session staging and retains immutable event bindings; the

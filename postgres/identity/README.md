@@ -82,6 +82,16 @@ continues to write only credential and account events. The session event contain
 only the original session ID and lifecycle metadata, not bearer or CSRF material;
 staging and outbox persistence do not themselves prove actual session issuance.
 
+`PersistOrganizationInvitation(ctx, work)` persists the original invitation
+acceptance and the distinct actual `membership.created.v1` event atomically.
+`PersistOAuthConsent(ctx, work)` likewise persists the grant transition and its
+separately staged consent creation/reconfirmation. Both use the kernel's closed
+secondary-event projections, not a caller payload or callback. Missing staging
+fails before either event is persisted; a later persistence failure must abort
+the original Work. Existing immutable command/index bindings, generic lifecycle,
+passkey/account/session phases and migration bytes remain unchanged. Persistence
+grants no membership, consent, credential or downstream acknowledgement.
+
 The same instance implements `RecoveryContributor`. Only the Coordinator calls
 `RecoverParticipant(ctx, recoveryWork)`, with the frozen lifecycle declaration
 and an invocation-bound primary read capability. One bounded indexed lookup
