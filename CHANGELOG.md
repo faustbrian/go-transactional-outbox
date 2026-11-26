@@ -38,6 +38,11 @@ publisher contracts are public compatibility surfaces.
 
 ## [Unreleased]
 
+### Security
+
+- Require klauspost/compress v1.20.2 in the `kafka` adapter to address
+  GO-2026-6865.
+
 ### Removed
 
 - Remove the deprecated `adapters/gokafka` and `adapters/gorabbitstream`
