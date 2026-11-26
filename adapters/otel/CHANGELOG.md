@@ -2,6 +2,17 @@
 
 All notable changes to this module are documented here.
 
+## Unreleased
+
+## [2.1.1] - 2026-11-26
+
+### Security
+
+- Require `github.com/klauspost/compress` v1.20.2 (from v1.19.1; GO-2026-6865),
+  `golang.org/x/crypto` v0.59.0 (from v0.55.0; GO-2026-5932, GO-2026-6354 and
+  GO-2026-6355) and OpenTelemetry v1.47.0 (from v1.45.0; GO-2026-6974). The
+  vulnerable versions were reachable only from tests.
+
 ## [2.0.1] - 2026-10-09
 
 ### Changed
@@ -22,11 +33,6 @@ All notable changes to this module are documented here.
   The advisory concerns verbose internal SDK logging of sensitive exporter
   configuration; application-owned provider and exporter controls remain
   separate from this adapter's telemetry privacy guarantees.
-
-- Require `github.com/klauspost/compress` v1.20.2 (from v1.19.1; GO-2026-6865),
-  `golang.org/x/crypto` v0.59.0 (from v0.55.0; GO-2026-5932, GO-2026-6354 and
-  GO-2026-6355) and OpenTelemetry v1.47.0 (from v1.45.0; GO-2026-6974). The
-  vulnerable versions were reachable only from tests.
 
 ### Changed
 
