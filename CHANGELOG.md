@@ -6,6 +6,28 @@ format follows Keep a Changelog, and releases follow Semantic Versioning.
 Schema, envelope encoding, delivery semantics, exported errors, metrics, and
 publisher contracts are public compatibility surfaces.
 
+## 2.1.1 - 2026-11-26
+
+### Security
+
+- Require `github.com/klauspost/compress` v1.20.2 (from v1.19.1; GO-2026-6865),
+  `golang.org/x/crypto` v0.59.0 (from v0.55.0; GO-2026-5932, GO-2026-6354 and
+  GO-2026-6355), `golang.org/x/net` v0.62.0 (from v0.57.0; GO-2026-6603,
+  GO-2026-6610, GO-2026-6611, GO-2026-6612, GO-2026-6617, GO-2026-6860 and
+  GO-2026-6866) and OpenTelemetry v1.47.0 (from v1.45.0; GO-2026-6974). The
+  vulnerable versions were reachable only from tests.
+
+### Changed
+
+- Release the queue adapter as `adapters/queue/v3` on `go-queue/v2`.
+- Release the Kafka adapter as `adapters/kafka/v3` on `go-kafka/v2`.
+
+### Removed
+
+- Remove the deprecated `adapters/gokafka` and `adapters/gorabbitstream`
+  modules. Import `adapters/kafka/v3` and `adapters/rabbitstream/v2`; their
+  last releases receive security fixes through the announced interval.
+
 ## 2.1.0 - 2026-10-22
 
 ### Changed
@@ -38,13 +60,6 @@ publisher contracts are public compatibility surfaces.
 
 ## [Unreleased]
 
-### Removed
-
-- Remove the deprecated `adapters/gokafka` and `adapters/gorabbitstream`
-  modules and the untagged `postgres/identity` module. Import
-  `adapters/kafka/v3` and `adapters/rabbitstream/v2`; their last releases
-  receive security fixes through the announced interval.
-
 ### Added
 
 - Add `postgres.Writer.PrepareInsert` for bounded, validated SQL preparation
@@ -55,8 +70,6 @@ publisher contracts are public compatibility surfaces.
 
 ### Changed
 
-- Release the queue adapter as `adapters/queue/v3` on `go-queue/v2`.
-- Release the Kafka adapter as `adapters/kafka/v3` on `go-kafka/v2`.
 - Clarify mutable envelope ownership, claim-attempt counts, lease fencing,
   ambiguous database outcomes and cooperative per-cycle relay lifecycle.
 - Prepare the root as `/v2` with Go 1.27 as its minimum toolchain. Envelope
@@ -108,15 +121,6 @@ publisher contracts are public compatibility surfaces.
   including leases that expire while an update waits for another transaction.
 - Preserve all application metadata when transport metadata is present during
   RabbitMQ Streams publication.
-
-### Security
-
-- Require `github.com/klauspost/compress` v1.20.2 (from v1.19.1; GO-2026-6865),
-  `golang.org/x/crypto` v0.59.0 (from v0.55.0; GO-2026-5932, GO-2026-6354 and
-  GO-2026-6355), `golang.org/x/net` v0.62.0 (from v0.57.0; GO-2026-6603,
-  GO-2026-6610, GO-2026-6611, GO-2026-6612, GO-2026-6617, GO-2026-6860 and
-  GO-2026-6866) and OpenTelemetry v1.47.0 (from v1.45.0; GO-2026-6974). The
-  vulnerable versions were reachable only from tests.
 
 ## [1.0.0] - 2026-08-25
 
@@ -247,5 +251,5 @@ publisher contracts are public compatibility surfaces.
 - Relay and store diagnostic clock panics degrade to zero-time metrics without
   interrupting durable operations.
 
-[Unreleased]: https://github.com/faustbrian/go-transactional-outbox/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/faustbrian/go-transactional-outbox/compare/v2.1.1...HEAD
 [1.0.0]: https://github.com/faustbrian/go-transactional-outbox/releases/tag/v1.0.0
