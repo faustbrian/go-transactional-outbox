@@ -23,6 +23,11 @@ All notable changes to this module are documented here.
   configuration; application-owned provider and exporter controls remain
   separate from this adapter's telemetry privacy guarantees.
 
+- Require `github.com/klauspost/compress` v1.20.2 (from v1.19.1; GO-2026-6865),
+  `golang.org/x/crypto` v0.59.0 (from v0.55.0; GO-2026-5932, GO-2026-6354 and
+  GO-2026-6355) and OpenTelemetry v1.47.0 (from v1.45.0; GO-2026-6974). The
+  vulnerable versions were reachable only from tests.
+
 ### Changed
 
 - Clarify borrowed provider lifecycle and traceparent-only propagation;
