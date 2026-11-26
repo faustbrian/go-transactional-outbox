@@ -6,8 +6,6 @@ format follows Keep a Changelog, and releases follow Semantic Versioning.
 Schema, envelope encoding, delivery semantics, exported errors, metrics, and
 publisher contracts are public compatibility surfaces.
 
-## [Unreleased]
-
 ## 2.1.1 - 2026-11-26
 
 ### Security

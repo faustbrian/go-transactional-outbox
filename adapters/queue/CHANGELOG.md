@@ -2,8 +2,6 @@
 
 All notable changes to this module are documented here.
 
-## Unreleased
-
 ## [3.0.1] - 2026-11-26
 
 ### Security
