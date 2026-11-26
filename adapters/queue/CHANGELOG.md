@@ -44,6 +44,15 @@ All notable changes to this module are documented here.
 - Publish schema-v2 cohesion metadata and versioned Golib ecosystem
   navigation for the queue adapter.
 - Move detailed module guidance behind a concise README and documentation index.
+
+### Security
+
+- Require `github.com/klauspost/compress` v1.20.2 (from v1.20.0; GO-2026-6865),
+  `golang.org/x/crypto` v0.59.0 (from v0.57.0; GO-2026-5932),
+  `golang.org/x/net` v0.62.0 (from v0.58.0; GO-2026-6603, GO-2026-6610,
+  GO-2026-6611, GO-2026-6612, GO-2026-6617, GO-2026-6860 and GO-2026-6866) and
+  OpenTelemetry v1.47.0 (from v1.45.0; GO-2026-6974). The vulnerable versions
+  were reachable only from tests.
 ## 1.0.0 - 2026-08-25
 
 ### Documentation
