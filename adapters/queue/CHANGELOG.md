@@ -53,6 +53,7 @@ All notable changes to this module are documented here.
   GO-2026-6611, GO-2026-6612, GO-2026-6617, GO-2026-6860 and GO-2026-6866) and
   OpenTelemetry v1.47.0 (from v1.45.0; GO-2026-6974). The vulnerable versions
   were reachable only from tests.
+
 ## 1.0.0 - 2026-08-25
 
 ### Documentation
