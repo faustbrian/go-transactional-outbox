@@ -23,6 +23,10 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+### Security
+
+- Require klauspost/compress v1.20.2 to address GO-2026-6865.
+
 ### Changed
 
 - Clarify borrowed producer lifetime, mapped-copy ownership, partition-key
